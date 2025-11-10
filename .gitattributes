@@ -3,3 +3,6 @@ assets/
 *.gpkg
 *geojson
 *.csv
+roads_diy.graphml filter=lfs diff=lfs merge=lfs -text
+roads_diy_edges.gpkg filter=lfs diff=lfs merge=lfs -text
+roads_diy_nodes.gpkg filter=lfs diff=lfs merge=lfs -text
