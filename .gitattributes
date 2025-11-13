@@ -6,3 +6,4 @@ assets/
 roads_diy.graphml filter=lfs diff=lfs merge=lfs -text
 roads_diy_edges.gpkg filter=lfs diff=lfs merge=lfs -text
 roads_diy_nodes.gpkg filter=lfs diff=lfs merge=lfs -text
+diy_polygon.gpkg filter=lfs diff=lfs merge=lfs -text

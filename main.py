@@ -10,17 +10,22 @@ class main() :
     def run(self) : 
         print("Running main class")
         PLACES_POLY = [
-            "Daerah Istimewa Yogyakarta, Indonesia",   # provinsi DIY
-            "Kabupaten Sleman, DI Yogyakarta, Indonesia",
-            "Kabupaten Bantul, DI Yogyakarta, Indonesia",
-            "Kabupaten Kulon Progo, DI Yogyakarta, Indonesia",
-            "Kabupaten Gunungkidul, DI Yogyakarta, Indonesia",
-            "Kota Magelang, Jawa Tengah, Indonesia",
-            "Kabupaten Magelang, Jawa Tengah, Indonesia",
-            "Kabupaten Klaten, Jawa Tengah, Indonesia"
+            "Sukabumi, West Java, Java, Indonesia"   # Nusantara
         ]
-        # self.map_downloader.download_map(PLACES_POLY)
-        self.simulate_agent.run_simulation()
+        self.map_downloader.download_map(PLACES_POLY)
+        return
+        polygon = self.map_downloader.get_polygon()
+        
+        # Print key properties
+        print(f"Polygon Type: {polygon.geom_type}")
+        print(f"Is Valid: {polygon.is_valid}")
+        print(f"Area: {polygon.area}")
+        print(f"Perimeter: {polygon.length}")
+        print(f"Centroid: {polygon.centroid}")
+        print(f"Bounds: {polygon.bounds}")
+        # print(f"Exterior Coordinates Count: {len(polygon.exterior.coords)}")
+        print("=" * 50)
+        # self.simulate_agent.run_simulation()
 
 
 if __name__ == "__main__" :

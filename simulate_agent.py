@@ -8,29 +8,14 @@ from folium.plugins import MarkerCluster, TimestampedGeoJson
 
 class simulate_agent():
     def __init__(self):
+        self.ambulance_agents = {}
         self.hospital_dataframe = {}
         self.map_nodes = {}
         pass
     def run_simulation(self):
-        self.load_map_data()
         self.define_ambulance_agents(self.hospital_dataframe, self.map_nodes)
-        pass
-    def load_map_data(self):
-        # Define OUT_DIR as it was defined in the previous cell to ensure paths are correct
-        load_directory = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "ambulance_nav_data")
-
-        # 1. Load the roads_diy.graphml file
-        graphml_path = os.path.join(load_directory, "roads_diy.graphml")
-        self.map_nodes = ox.load_graphml(graphml_path)
-        print(f"[OK] Graph loaded from: {graphml_path}")
-
-        # 2. Load the hospitals_diy_ext.csv file
-        hosp_csv_path = os.path.join(load_directory, "hospitals_diy_ext.csv")
-        self.hospital_dataframe = pd.read_csv(hosp_csv_path)
-        print(f"[OK] Hospitals data loaded from: {hosp_csv_path}")
-
-        print("\nFirst 5 rows of hospital:")
-        print(self.hospital_dataframe.head())
+        self.simulate_ambulance_travel(self.hospital_dataframe, self.map_nodes)
+        self.visualize_simulation
         pass
     
     def define_ambulance_agents(self, hospitals, map_nodes):
@@ -38,7 +23,7 @@ class simulate_agent():
         num_ambulances = 10
         print(f"Number of ambulances to simulate: {num_ambulances}")
 
-        # 2. Extract all node IDs from the loaded graph G
+        # 2. Extract all node IDs from the loaded map_nodes
         all_graph_nodes = list(map_nodes.nodes())
         print(f"Total nodes in graph: {len(all_graph_nodes)}")
 

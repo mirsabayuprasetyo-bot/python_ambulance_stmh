@@ -1,0 +1,11 @@
+name,addr:full,addr:city,phone,emergency,healthcare,amenity,lon,lat
+,,,,,hospital,hospital,106.9235059,-6.9221417
+,,,,,,hospital,106.9169318,-6.9190866
+,,,+62266229207,,hospital,hospital,106.9225985,-6.9120589
+,,,,,hospital,hospital,106.9223035,-6.9124144
+"RSUD R. Syamsudin, SH.","Jalan Rumah Sakit Nomor 1, Kota Sukabumi - Jawa Barat 43113",Kota Sukabumi,,yes,hospital,hospital,106.934461509438,-6.916110582837662
+RS Kartika Kasih,"Jalan Jendral A. Yani Nomor 18 A, Nyomplong, Kec. Warudoyong, Kota Sukabumi, Jawa Barat 43131",,+62266233315,yes,,hospital,106.92376891729802,-6.922039494301925
+Rumah Sakit Rido Galih,,,,yes,,hospital,106.93445833324823,-6.921761530817802
+Puskesmas Selabatu,,,,yes,,hospital,106.93131354472293,-6.915470693956974
+Rumah Sakit Islam Assyifa,,,,,hospital,hospital,106.91688611513169,-6.9189760940104925
+klinik gigi,,,,,hospital,hospital,106.93604291055094,-6.919583780694904
