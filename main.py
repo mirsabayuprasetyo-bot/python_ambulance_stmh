@@ -8,24 +8,8 @@ class main() :
         self.simulate_agent = sim.simulate_agent()
 
     def run(self) : 
-        print("Running main class")
-        PLACES_POLY = [
-            "Sukabumi, West Java, Java, Indonesia"   # Nusantara
-        ]
-        self.map_downloader.download_map(PLACES_POLY)
+        self.simulate_agent.run_simulation()
         return
-        polygon = self.map_downloader.get_polygon()
-        
-        # Print key properties
-        print(f"Polygon Type: {polygon.geom_type}")
-        print(f"Is Valid: {polygon.is_valid}")
-        print(f"Area: {polygon.area}")
-        print(f"Perimeter: {polygon.length}")
-        print(f"Centroid: {polygon.centroid}")
-        print(f"Bounds: {polygon.bounds}")
-        # print(f"Exterior Coordinates Count: {len(polygon.exterior.coords)}")
-        print("=" * 50)
-        # self.simulate_agent.run_simulation()
 
 
 if __name__ == "__main__" :

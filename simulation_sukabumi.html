@@ -1,0 +1,1596 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_527e0e0b6d36ab170bb3d7c97c71758c {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_527e0e0b6d36ab170bb3d7c97c71758c" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_527e0e0b6d36ab170bb3d7c97c71758c = L.map(
+                "map_527e0e0b6d36ab170bb3d7c97c71758c",
+                {
+                    center: [-6.936778416495286, 106.92661925213794],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_a30414b1bc13b2a167e9b2263aed0cf9 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_a30414b1bc13b2a167e9b2263aed0cf9.addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+        
+    
+            var feature_group_87f18127fec4cd966e6386bb4a949c4f = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_61719e3b19994212221b74b5f6e343f9 = L.marker(
+                [-6.918664, 106.957745],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_2c0adb908afd6bee75766457ada712f1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_0aef38f5b626d1d95a82823c07eb5ea7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_74f46249e77c2ce7359926126b4ba1c4 = $(`<div id="html_74f46249e77c2ce7359926126b4ba1c4" style="width: 100.0%; height: 100.0%;">Primaya Hospital Sukabumi</div>`)[0];
+                popup_0aef38f5b626d1d95a82823c07eb5ea7.setContent(html_74f46249e77c2ce7359926126b4ba1c4);
+            
+        
+
+        marker_61719e3b19994212221b74b5f6e343f9.bindPopup(popup_0aef38f5b626d1d95a82823c07eb5ea7)
+        ;
+
+        
+    
+    
+            marker_61719e3b19994212221b74b5f6e343f9.bindTooltip(
+                `<div>
+                     Jl. RA Kosasih No. 45 Kel. Sukaraja Kec. Sukaraja
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_61719e3b19994212221b74b5f6e343f9.setIcon(icon_2c0adb908afd6bee75766457ada712f1);
+            
+    
+            var marker_c0a1e81982b01e8d31e528c7386f50ff = L.marker(
+                [-6.915487, 106.930987],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_6580ddd163d6954bf47d23a43b810d5d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_63f14307117c1644b7967a5afd78a0a4 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_596325cbf6bd4099f5547882b63c4a64 = $(`<div id="html_596325cbf6bd4099f5547882b63c4a64" style="width: 100.0%; height: 100.0%;">Puskesmas Selabatu</div>`)[0];
+                popup_63f14307117c1644b7967a5afd78a0a4.setContent(html_596325cbf6bd4099f5547882b63c4a64);
+            
+        
+
+        marker_c0a1e81982b01e8d31e528c7386f50ff.bindPopup(popup_63f14307117c1644b7967a5afd78a0a4)
+        ;
+
+        
+    
+    
+            marker_c0a1e81982b01e8d31e528c7386f50ff.bindTooltip(
+                `<div>
+                     Jl. Siliwangi No.139 -Kp. Sekarwangi RT 03/17 Kelurahan Cibadak Kecamatan Cibadak Kabupaten Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c0a1e81982b01e8d31e528c7386f50ff.setIcon(icon_6580ddd163d6954bf47d23a43b810d5d);
+            
+    
+            var marker_497388bad3de5b2f22dc880466b5831a = L.marker(
+                [-6.917681, 106.961439],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_470dcd4e07044bf5721bdda0342c52cc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_03ee55e35919cbce20fc8680533683a5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e20f49a80a10237f9b010125308adb37 = $(`<div id="html_e20f49a80a10237f9b010125308adb37" style="width: 100.0%; height: 100.0%;">RS Hermina Sukabumi</div>`)[0];
+                popup_03ee55e35919cbce20fc8680533683a5.setContent(html_e20f49a80a10237f9b010125308adb37);
+            
+        
+
+        marker_497388bad3de5b2f22dc880466b5831a.bindPopup(popup_03ee55e35919cbce20fc8680533683a5)
+        ;
+
+        
+    
+    
+            marker_497388bad3de5b2f22dc880466b5831a.bindTooltip(
+                `<div>
+                     Jl. Raya Sukaraja, Kabupaten Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_497388bad3de5b2f22dc880466b5831a.setIcon(icon_470dcd4e07044bf5721bdda0342c52cc);
+            
+    
+            var marker_4f858712c8d63d7bfa48a158d4fc66ad = L.marker(
+                [-6.9124144, 106.9223035],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_3b7c264ae9f3bd012b69904ac812b8db = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1da6636cadc75ffac528399e02c42177 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_204274aef80ef8941963d777a229076c = $(`<div id="html_204274aef80ef8941963d777a229076c" style="width: 100.0%; height: 100.0%;">RS Umum Daerah Al-Mulk</div>`)[0];
+                popup_1da6636cadc75ffac528399e02c42177.setContent(html_204274aef80ef8941963d777a229076c);
+            
+        
+
+        marker_4f858712c8d63d7bfa48a158d4fc66ad.bindPopup(popup_1da6636cadc75ffac528399e02c42177)
+        ;
+
+        
+    
+    
+            marker_4f858712c8d63d7bfa48a158d4fc66ad.bindTooltip(
+                `<div>
+                     Jl. Pelabuhan 2 KM 6 Lembursitu, Kecamatan Lembursitu, Kota Sukabumi Provinsi Jawa Barat
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4f858712c8d63d7bfa48a158d4fc66ad.setIcon(icon_3b7c264ae9f3bd012b69904ac812b8db);
+            
+    
+            var marker_036c27e6fae20a092fda08c8bd805085 = L.marker(
+                [-6.916110582837662, 106.934461509438],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_0168fb48c8b39045aadd1b661886e3b3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_9089e609157a99ce0d3e661e128b93ae = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5a960d2af0f15ed11506d71772fe80ec = $(`<div id="html_5a960d2af0f15ed11506d71772fe80ec" style="width: 100.0%; height: 100.0%;">RSUD R. Syamsudin, SH.</div>`)[0];
+                popup_9089e609157a99ce0d3e661e128b93ae.setContent(html_5a960d2af0f15ed11506d71772fe80ec);
+            
+        
+
+        marker_036c27e6fae20a092fda08c8bd805085.bindPopup(popup_9089e609157a99ce0d3e661e128b93ae)
+        ;
+
+        
+    
+    
+            marker_036c27e6fae20a092fda08c8bd805085.bindTooltip(
+                `<div>
+                     Jalan Rumah Sakit Nomor 1, Kota Sukabumi - Jawa Barat 43113
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_036c27e6fae20a092fda08c8bd805085.setIcon(icon_0168fb48c8b39045aadd1b661886e3b3);
+            
+    
+            var marker_92e0ba08098931c3dfb6d88419f1f8c1 = L.marker(
+                [-6.922039494301925, 106.92376891729802],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_5d4cdc27ba2a0a52b2780a90afd7bb18 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_7f3b13e364126fd7b5f02d068226f9ed = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ade54941aba09f63f53d8386579f3bb4 = $(`<div id="html_ade54941aba09f63f53d8386579f3bb4" style="width: 100.0%; height: 100.0%;">RS Kartika Kasih</div>`)[0];
+                popup_7f3b13e364126fd7b5f02d068226f9ed.setContent(html_ade54941aba09f63f53d8386579f3bb4);
+            
+        
+
+        marker_92e0ba08098931c3dfb6d88419f1f8c1.bindPopup(popup_7f3b13e364126fd7b5f02d068226f9ed)
+        ;
+
+        
+    
+    
+            marker_92e0ba08098931c3dfb6d88419f1f8c1.bindTooltip(
+                `<div>
+                     Jalan Jendral A. Yani Nomor 18 A, Nyomplong, Kec. Warudoyong, Kota Sukabumi, Jawa Barat 43131
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_92e0ba08098931c3dfb6d88419f1f8c1.setIcon(icon_5d4cdc27ba2a0a52b2780a90afd7bb18);
+            
+    
+            var marker_48cd80e216c78df3cb37d57afdf38b87 = L.marker(
+                [-6.921761530817802, 106.93445833324824],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_596949be1898a250c40a0303947054db = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_04ae5950abaa2e14f354dceda07f60c3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_76067256e9b21d25a0c7a3eb66053dec = $(`<div id="html_76067256e9b21d25a0c7a3eb66053dec" style="width: 100.0%; height: 100.0%;">Rumah Sakit Rido Galih</div>`)[0];
+                popup_04ae5950abaa2e14f354dceda07f60c3.setContent(html_76067256e9b21d25a0c7a3eb66053dec);
+            
+        
+
+        marker_48cd80e216c78df3cb37d57afdf38b87.bindPopup(popup_04ae5950abaa2e14f354dceda07f60c3)
+        ;
+
+        
+    
+    
+            marker_48cd80e216c78df3cb37d57afdf38b87.bindTooltip(
+                `<div>
+                     Jl. Gudang No. 24 Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_48cd80e216c78df3cb37d57afdf38b87.setIcon(icon_596949be1898a250c40a0303947054db);
+            
+    
+            var marker_3699244d6b15a7b246fb2f3a3d346901 = L.marker(
+                [-6.9189760940104925, 106.91688611513167],
+                {
+}
+            ).addTo(feature_group_87f18127fec4cd966e6386bb4a949c4f);
+        
+    
+            var icon_af6c0dbb0c85707b0009c1cff7e8bd67 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5f2fec75336bb974c82f805e47e4fa5c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28846fb60624360612b3b780da476c7c = $(`<div id="html_28846fb60624360612b3b780da476c7c" style="width: 100.0%; height: 100.0%;">Rumah Sakit Islam Assyifa</div>`)[0];
+                popup_5f2fec75336bb974c82f805e47e4fa5c.setContent(html_28846fb60624360612b3b780da476c7c);
+            
+        
+
+        marker_3699244d6b15a7b246fb2f3a3d346901.bindPopup(popup_5f2fec75336bb974c82f805e47e4fa5c)
+        ;
+
+        
+    
+    
+            marker_3699244d6b15a7b246fb2f3a3d346901.bindTooltip(
+                `<div>
+                     Jl. Jend Sudirman No. 3 Kel. Gunungpuyuh Kec. Gunungpuyuh Kota Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3699244d6b15a7b246fb2f3a3d346901.setIcon(icon_af6c0dbb0c85707b0009c1cff7e8bd67);
+            
+    
+            feature_group_87f18127fec4cd966e6386bb4a949c4f.addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+        
+    
+            var feature_group_d4b0b717c1ccf6631679183af4f50301 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_484e9aca36741036733840d7fc4245f3 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_39a0ad8d9b5b45d9625b01518a9bf855 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_19e32e99de1493bf012f8306cc3395af = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9c2070b07048b7c24f7ca9b39738d299 = $(`<div id="html_9c2070b07048b7c24f7ca9b39738d299" style="width: 100.0%; height: 100.0%;">ambulance_3202014_0.868569574029636</div>`)[0];
+                popup_19e32e99de1493bf012f8306cc3395af.setContent(html_9c2070b07048b7c24f7ca9b39738d299);
+            
+        
+
+        marker_484e9aca36741036733840d7fc4245f3.bindPopup(popup_19e32e99de1493bf012f8306cc3395af)
+        ;
+
+        
+    
+    
+            marker_484e9aca36741036733840d7fc4245f3.bindTooltip(
+                `<div>
+                     Primaya Hospital Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_484e9aca36741036733840d7fc4245f3.setIcon(icon_39a0ad8d9b5b45d9625b01518a9bf855);
+            
+    
+            var marker_d80bdfa76d3a3a775d1b74798a127893 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_5d19861e13b055d0631ac0e43bdddd3c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3083da11e8856bc620c60c30d3fb2562 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_313b601fabaaebe2effc7f0fdd9fdcdf = $(`<div id="html_313b601fabaaebe2effc7f0fdd9fdcdf" style="width: 100.0%; height: 100.0%;">ambulance_3202014_0.1750438722604334</div>`)[0];
+                popup_3083da11e8856bc620c60c30d3fb2562.setContent(html_313b601fabaaebe2effc7f0fdd9fdcdf);
+            
+        
+
+        marker_d80bdfa76d3a3a775d1b74798a127893.bindPopup(popup_3083da11e8856bc620c60c30d3fb2562)
+        ;
+
+        
+    
+    
+            marker_d80bdfa76d3a3a775d1b74798a127893.bindTooltip(
+                `<div>
+                     Primaya Hospital Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d80bdfa76d3a3a775d1b74798a127893.setIcon(icon_5d19861e13b055d0631ac0e43bdddd3c);
+            
+    
+            var marker_b603313594cdd34b0800a42781c90927 = L.marker(
+                [-6.9153728, 106.9303823],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_23cdd58533f8e67679a48ce81f985275 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c03c87b20fc2a52b65c7d5d8f2f7614b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e9666eb207cd147209d38eae1ae8a689 = $(`<div id="html_e9666eb207cd147209d38eae1ae8a689" style="width: 100.0%; height: 100.0%;">ambulance_3202086_0.46533474053095636</div>`)[0];
+                popup_c03c87b20fc2a52b65c7d5d8f2f7614b.setContent(html_e9666eb207cd147209d38eae1ae8a689);
+            
+        
+
+        marker_b603313594cdd34b0800a42781c90927.bindPopup(popup_c03c87b20fc2a52b65c7d5d8f2f7614b)
+        ;
+
+        
+    
+    
+            marker_b603313594cdd34b0800a42781c90927.bindTooltip(
+                `<div>
+                     Puskesmas Selabatu
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b603313594cdd34b0800a42781c90927.setIcon(icon_23cdd58533f8e67679a48ce81f985275);
+            
+    
+            var marker_82a1c1f4b25482fa054888955c1ac470 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_b2ff38453a38463714f1449a444d84eb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_db9263eb8af9cd7b50878fdfa93340a7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_6810455359d62d2eac021ed21f5671ee = $(`<div id="html_6810455359d62d2eac021ed21f5671ee" style="width: 100.0%; height: 100.0%;">ambulance_3202084_0.8888011878780899</div>`)[0];
+                popup_db9263eb8af9cd7b50878fdfa93340a7.setContent(html_6810455359d62d2eac021ed21f5671ee);
+            
+        
+
+        marker_82a1c1f4b25482fa054888955c1ac470.bindPopup(popup_db9263eb8af9cd7b50878fdfa93340a7)
+        ;
+
+        
+    
+    
+            marker_82a1c1f4b25482fa054888955c1ac470.bindTooltip(
+                `<div>
+                     RS Hermina Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_82a1c1f4b25482fa054888955c1ac470.setIcon(icon_b2ff38453a38463714f1449a444d84eb);
+            
+    
+            var marker_34c4c0503c54391d7fda7cedf94887c3 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_201c29543df898aca19f10dce54cb2b1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5cd4e1961d4138a0ba3b0fc3e4a54bf3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_fd457510cd2e8bbf3b5aec5e523ec3a1 = $(`<div id="html_fd457510cd2e8bbf3b5aec5e523ec3a1" style="width: 100.0%; height: 100.0%;">ambulance_3202084_0.14085965284853064</div>`)[0];
+                popup_5cd4e1961d4138a0ba3b0fc3e4a54bf3.setContent(html_fd457510cd2e8bbf3b5aec5e523ec3a1);
+            
+        
+
+        marker_34c4c0503c54391d7fda7cedf94887c3.bindPopup(popup_5cd4e1961d4138a0ba3b0fc3e4a54bf3)
+        ;
+
+        
+    
+    
+            marker_34c4c0503c54391d7fda7cedf94887c3.bindTooltip(
+                `<div>
+                     RS Hermina Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_34c4c0503c54391d7fda7cedf94887c3.setIcon(icon_201c29543df898aca19f10dce54cb2b1);
+            
+    
+            var marker_84321783a0155af5f8952e47011d7136 = L.marker(
+                [-6.9118314, 106.9220044],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_fd11b80a641e56c0a16e8f369708cad9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_01dca0b77c3a66389eb924616257427f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_831b2dd35fa44f15372251b024b388d3 = $(`<div id="html_831b2dd35fa44f15372251b024b388d3" style="width: 100.0%; height: 100.0%;">ambulance_3272075_0.8072563452366256</div>`)[0];
+                popup_01dca0b77c3a66389eb924616257427f.setContent(html_831b2dd35fa44f15372251b024b388d3);
+            
+        
+
+        marker_84321783a0155af5f8952e47011d7136.bindPopup(popup_01dca0b77c3a66389eb924616257427f)
+        ;
+
+        
+    
+    
+            marker_84321783a0155af5f8952e47011d7136.bindTooltip(
+                `<div>
+                     RS Umum Daerah Al-Mulk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_84321783a0155af5f8952e47011d7136.setIcon(icon_fd11b80a641e56c0a16e8f369708cad9);
+            
+    
+            var marker_a1558e292d512c7bff3e8faf27b5b253 = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_9138b04633427a4b9aabca844bc77e41 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dc27bcddf15a7a21d4bf1fbf30137f8b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_8c1b96ef7abedfa5d4bf4553fc0e4bb3 = $(`<div id="html_8c1b96ef7abedfa5d4bf4553fc0e4bb3" style="width: 100.0%; height: 100.0%;">ambulance_3272014_0.7395264942351023</div>`)[0];
+                popup_dc27bcddf15a7a21d4bf1fbf30137f8b.setContent(html_8c1b96ef7abedfa5d4bf4553fc0e4bb3);
+            
+        
+
+        marker_a1558e292d512c7bff3e8faf27b5b253.bindPopup(popup_dc27bcddf15a7a21d4bf1fbf30137f8b)
+        ;
+
+        
+    
+    
+            marker_a1558e292d512c7bff3e8faf27b5b253.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a1558e292d512c7bff3e8faf27b5b253.setIcon(icon_9138b04633427a4b9aabca844bc77e41);
+            
+    
+            var marker_84a7e38292c5b369c62f3b93e0ef28c7 = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_4111d1417246e23925d057ad71ce6ee6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_56889419ba4fe9cea83954991f835e89 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_da244536d5f40d5e411d528f59dc2d57 = $(`<div id="html_da244536d5f40d5e411d528f59dc2d57" style="width: 100.0%; height: 100.0%;">ambulance_3272014_0.4482026839266541</div>`)[0];
+                popup_56889419ba4fe9cea83954991f835e89.setContent(html_da244536d5f40d5e411d528f59dc2d57);
+            
+        
+
+        marker_84a7e38292c5b369c62f3b93e0ef28c7.bindPopup(popup_56889419ba4fe9cea83954991f835e89)
+        ;
+
+        
+    
+    
+            marker_84a7e38292c5b369c62f3b93e0ef28c7.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_84a7e38292c5b369c62f3b93e0ef28c7.setIcon(icon_4111d1417246e23925d057ad71ce6ee6);
+            
+    
+            var marker_0fc2f7f94e8287ebdcb056fb6c77eb1d = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_0a0a0e06fe8be4c06eea71237771ad5a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_a035acf8257aea6c699c76816813b0f1 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_dcc426aa1ccacf7809c761003390da94 = $(`<div id="html_dcc426aa1ccacf7809c761003390da94" style="width: 100.0%; height: 100.0%;">ambulance_3272014_0.41313003868269216</div>`)[0];
+                popup_a035acf8257aea6c699c76816813b0f1.setContent(html_dcc426aa1ccacf7809c761003390da94);
+            
+        
+
+        marker_0fc2f7f94e8287ebdcb056fb6c77eb1d.bindPopup(popup_a035acf8257aea6c699c76816813b0f1)
+        ;
+
+        
+    
+    
+            marker_0fc2f7f94e8287ebdcb056fb6c77eb1d.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0fc2f7f94e8287ebdcb056fb6c77eb1d.setIcon(icon_0a0a0e06fe8be4c06eea71237771ad5a);
+            
+    
+            var marker_333912c8f453858af7b4aa2938e7d09d = L.marker(
+                [-6.9223091, 106.9235346],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_6f90d0640d0251d80360d76fb2a98108 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f1fff0d31fec760dde5e821d2f04d141 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_b34184581b8efcc04486b874f43f9177 = $(`<div id="html_b34184581b8efcc04486b874f43f9177" style="width: 100.0%; height: 100.0%;">ambulance_3272062_0.5914617173748586</div>`)[0];
+                popup_f1fff0d31fec760dde5e821d2f04d141.setContent(html_b34184581b8efcc04486b874f43f9177);
+            
+        
+
+        marker_333912c8f453858af7b4aa2938e7d09d.bindPopup(popup_f1fff0d31fec760dde5e821d2f04d141)
+        ;
+
+        
+    
+    
+            marker_333912c8f453858af7b4aa2938e7d09d.bindTooltip(
+                `<div>
+                     RS Kartika Kasih
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_333912c8f453858af7b4aa2938e7d09d.setIcon(icon_6f90d0640d0251d80360d76fb2a98108);
+            
+    
+            var marker_690ff7c2d81f6a949161fa1d997c7af2 = L.marker(
+                [-6.9220184, 106.9341499],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_f49edead2d4fcda0ee2bab1595824b8a = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_3466f8c88dea9f84962dc5229f9a0c75 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c0a45c9581e13d219e4e3782e26e3bdf = $(`<div id="html_c0a45c9581e13d219e4e3782e26e3bdf" style="width: 100.0%; height: 100.0%;">ambulance_3272036_0.6020942489791179</div>`)[0];
+                popup_3466f8c88dea9f84962dc5229f9a0c75.setContent(html_c0a45c9581e13d219e4e3782e26e3bdf);
+            
+        
+
+        marker_690ff7c2d81f6a949161fa1d997c7af2.bindPopup(popup_3466f8c88dea9f84962dc5229f9a0c75)
+        ;
+
+        
+    
+    
+            marker_690ff7c2d81f6a949161fa1d997c7af2.bindTooltip(
+                `<div>
+                     Rumah Sakit Rido Galih
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_690ff7c2d81f6a949161fa1d997c7af2.setIcon(icon_f49edead2d4fcda0ee2bab1595824b8a);
+            
+    
+            var marker_b4e0e574c45c13deb93049d60555452d = L.marker(
+                [-6.9193023, 106.9166399],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_bbd71efac885ccf8d348ce0dde33ca28 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_ad466571f5766773259b3e5f27409120 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5a957d3e170e407355735ba8f60a4588 = $(`<div id="html_5a957d3e170e407355735ba8f60a4588" style="width: 100.0%; height: 100.0%;">ambulance_3272051_0.17458178061374718</div>`)[0];
+                popup_ad466571f5766773259b3e5f27409120.setContent(html_5a957d3e170e407355735ba8f60a4588);
+            
+        
+
+        marker_b4e0e574c45c13deb93049d60555452d.bindPopup(popup_ad466571f5766773259b3e5f27409120)
+        ;
+
+        
+    
+    
+            marker_b4e0e574c45c13deb93049d60555452d.bindTooltip(
+                `<div>
+                     Rumah Sakit Islam Assyifa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_b4e0e574c45c13deb93049d60555452d.setIcon(icon_bbd71efac885ccf8d348ce0dde33ca28);
+            
+    
+            var marker_454067dae2a1ff8a42e35d5d4245e4ff = L.marker(
+                [-6.9193023, 106.9166399],
+                {
+}
+            ).addTo(feature_group_d4b0b717c1ccf6631679183af4f50301);
+        
+    
+            var icon_cb9f7ecc75edb58325912da6d0bd0145 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b8fb6a61dd8dfd6d7b4539f8b717cd1c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_9c78eee9945ad05fe5da7af0f7c23c6d = $(`<div id="html_9c78eee9945ad05fe5da7af0f7c23c6d" style="width: 100.0%; height: 100.0%;">ambulance_3272051_0.16472959714619695</div>`)[0];
+                popup_b8fb6a61dd8dfd6d7b4539f8b717cd1c.setContent(html_9c78eee9945ad05fe5da7af0f7c23c6d);
+            
+        
+
+        marker_454067dae2a1ff8a42e35d5d4245e4ff.bindPopup(popup_b8fb6a61dd8dfd6d7b4539f8b717cd1c)
+        ;
+
+        
+    
+    
+            marker_454067dae2a1ff8a42e35d5d4245e4ff.bindTooltip(
+                `<div>
+                     Rumah Sakit Islam Assyifa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_454067dae2a1ff8a42e35d5d4245e4ff.setIcon(icon_cb9f7ecc75edb58325912da6d0bd0145);
+            
+    
+            feature_group_d4b0b717c1ccf6631679183af4f50301.addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+        
+    
+            var feature_group_1623d90c233975885e466150b71e8254 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_441fdcba440e97e322bc994b461a652f = L.marker(
+                [-6.9596074, 106.8904908],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_b9a0762b045cd17b7604945bc772d793 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_802a5989aa001dfa264e492fe8e7bb8e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_99bee4a110130cb30a3ab8eb494e703c = $(`<div id="html_99bee4a110130cb30a3ab8eb494e703c" style="width: 100.0%; height: 100.0%;">patient_150</div>`)[0];
+                popup_802a5989aa001dfa264e492fe8e7bb8e.setContent(html_99bee4a110130cb30a3ab8eb494e703c);
+            
+        
+
+        marker_441fdcba440e97e322bc994b461a652f.bindPopup(popup_802a5989aa001dfa264e492fe8e7bb8e)
+        ;
+
+        
+    
+    
+            marker_441fdcba440e97e322bc994b461a652f.bindTooltip(
+                `<div>
+                     high
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_441fdcba440e97e322bc994b461a652f.setIcon(icon_b9a0762b045cd17b7604945bc772d793);
+            
+    
+            var marker_99db5da698406536fed0a2ee626f0f33 = L.marker(
+                [-6.970043, 106.9186199],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_76fff822b62c609a3cecb85b035a954d = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c2c9211e1b8fb9a80aae611b8a8bbd89 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d6c14036ecdb2bede8de8bd2cf421624 = $(`<div id="html_d6c14036ecdb2bede8de8bd2cf421624" style="width: 100.0%; height: 100.0%;">patient_801</div>`)[0];
+                popup_c2c9211e1b8fb9a80aae611b8a8bbd89.setContent(html_d6c14036ecdb2bede8de8bd2cf421624);
+            
+        
+
+        marker_99db5da698406536fed0a2ee626f0f33.bindPopup(popup_c2c9211e1b8fb9a80aae611b8a8bbd89)
+        ;
+
+        
+    
+    
+            marker_99db5da698406536fed0a2ee626f0f33.bindTooltip(
+                `<div>
+                     medium
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_99db5da698406536fed0a2ee626f0f33.setIcon(icon_76fff822b62c609a3cecb85b035a954d);
+            
+    
+            var marker_024c8ad54bd286d35fe0a7a673a8c1f7 = L.marker(
+                [-6.9528727, 106.9518064],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_5e07ad37484da0d6526d7eedb429c221 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b215b8e8fc330fc54b90b76584e6ee9e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7e63281e6179b8c82dec9001a2eccd9d = $(`<div id="html_7e63281e6179b8c82dec9001a2eccd9d" style="width: 100.0%; height: 100.0%;">patient_584</div>`)[0];
+                popup_b215b8e8fc330fc54b90b76584e6ee9e.setContent(html_7e63281e6179b8c82dec9001a2eccd9d);
+            
+        
+
+        marker_024c8ad54bd286d35fe0a7a673a8c1f7.bindPopup(popup_b215b8e8fc330fc54b90b76584e6ee9e)
+        ;
+
+        
+    
+    
+            marker_024c8ad54bd286d35fe0a7a673a8c1f7.bindTooltip(
+                `<div>
+                     medium
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_024c8ad54bd286d35fe0a7a673a8c1f7.setIcon(icon_5e07ad37484da0d6526d7eedb429c221);
+            
+    
+            var marker_a4dcb94bcb59686d4fe3fbac3af169d3 = L.marker(
+                [-6.9319127, 106.9207232],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_a89eebac4a7d4af9a774f5787eb45745 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_dcd3d17452f618b7165b11edc4d79ac0 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_7c96b0a32be2e7197ad5c43fc44799be = $(`<div id="html_7c96b0a32be2e7197ad5c43fc44799be" style="width: 100.0%; height: 100.0%;">patient_798</div>`)[0];
+                popup_dcd3d17452f618b7165b11edc4d79ac0.setContent(html_7c96b0a32be2e7197ad5c43fc44799be);
+            
+        
+
+        marker_a4dcb94bcb59686d4fe3fbac3af169d3.bindPopup(popup_dcd3d17452f618b7165b11edc4d79ac0)
+        ;
+
+        
+    
+    
+            marker_a4dcb94bcb59686d4fe3fbac3af169d3.bindTooltip(
+                `<div>
+                     high
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a4dcb94bcb59686d4fe3fbac3af169d3.setIcon(icon_a89eebac4a7d4af9a774f5787eb45745);
+            
+    
+            var marker_772f1905a23aa0082f7cdebb9f177f46 = L.marker(
+                [-6.9385165, 106.9379391],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_822e3fd7df74f06c0d072b72e1d85bf9 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1af5b539a30839e0858e9c6602b0b535 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1a2419b7d791375938b7f9f1157245e6 = $(`<div id="html_1a2419b7d791375938b7f9f1157245e6" style="width: 100.0%; height: 100.0%;">patient_68</div>`)[0];
+                popup_1af5b539a30839e0858e9c6602b0b535.setContent(html_1a2419b7d791375938b7f9f1157245e6);
+            
+        
+
+        marker_772f1905a23aa0082f7cdebb9f177f46.bindPopup(popup_1af5b539a30839e0858e9c6602b0b535)
+        ;
+
+        
+    
+    
+            marker_772f1905a23aa0082f7cdebb9f177f46.bindTooltip(
+                `<div>
+                     high
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_772f1905a23aa0082f7cdebb9f177f46.setIcon(icon_822e3fd7df74f06c0d072b72e1d85bf9);
+            
+    
+            var marker_1109aec8d182248daf368b80ffa8bef8 = L.marker(
+                [-6.9635189, 106.9438541],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_4f87cc54d2598fc25f6ba324aabb0905 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c7b55210e660519096e6b5c27f4db046 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f39c7fcfecda64f1f239cebf345144a8 = $(`<div id="html_f39c7fcfecda64f1f239cebf345144a8" style="width: 100.0%; height: 100.0%;">patient_677</div>`)[0];
+                popup_c7b55210e660519096e6b5c27f4db046.setContent(html_f39c7fcfecda64f1f239cebf345144a8);
+            
+        
+
+        marker_1109aec8d182248daf368b80ffa8bef8.bindPopup(popup_c7b55210e660519096e6b5c27f4db046)
+        ;
+
+        
+    
+    
+            marker_1109aec8d182248daf368b80ffa8bef8.bindTooltip(
+                `<div>
+                     medium
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_1109aec8d182248daf368b80ffa8bef8.setIcon(icon_4f87cc54d2598fc25f6ba324aabb0905);
+            
+    
+            var marker_45dea1dc4cb1c528a37bb59f9cd98db7 = L.marker(
+                [-6.945072, 106.9094339],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_b67424cd619b6382a94ca1b38f810585 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "beige",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fe065d5f794959ee239971d0531fff86 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d453d7e3461a7cacde3098cdbdf21fa9 = $(`<div id="html_d453d7e3461a7cacde3098cdbdf21fa9" style="width: 100.0%; height: 100.0%;">patient_863</div>`)[0];
+                popup_fe065d5f794959ee239971d0531fff86.setContent(html_d453d7e3461a7cacde3098cdbdf21fa9);
+            
+        
+
+        marker_45dea1dc4cb1c528a37bb59f9cd98db7.bindPopup(popup_fe065d5f794959ee239971d0531fff86)
+        ;
+
+        
+    
+    
+            marker_45dea1dc4cb1c528a37bb59f9cd98db7.bindTooltip(
+                `<div>
+                     medium
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_45dea1dc4cb1c528a37bb59f9cd98db7.setIcon(icon_b67424cd619b6382a94ca1b38f810585);
+            
+    
+            var marker_60f0a666c3462de94260b025bfa24854 = L.marker(
+                [-6.9506549, 106.9525293],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_173ff04b73ec453cd56d81c67b4f628f = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6b0aa8aa147c7a5e23324e77dcd1936b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_55539b760ebaa1525546d3ff1e30fb92 = $(`<div id="html_55539b760ebaa1525546d3ff1e30fb92" style="width: 100.0%; height: 100.0%;">patient_782</div>`)[0];
+                popup_6b0aa8aa147c7a5e23324e77dcd1936b.setContent(html_55539b760ebaa1525546d3ff1e30fb92);
+            
+        
+
+        marker_60f0a666c3462de94260b025bfa24854.bindPopup(popup_6b0aa8aa147c7a5e23324e77dcd1936b)
+        ;
+
+        
+    
+    
+            marker_60f0a666c3462de94260b025bfa24854.bindTooltip(
+                `<div>
+                     high
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_60f0a666c3462de94260b025bfa24854.setIcon(icon_173ff04b73ec453cd56d81c67b4f628f);
+            
+    
+            var marker_86c1daf23a1fdb4603de9779d9b84930 = L.marker(
+                [-6.9138697, 106.9244559],
+                {
+}
+            ).addTo(feature_group_1623d90c233975885e466150b71e8254);
+        
+    
+            var icon_f080c55e038a4d0b2df2ddaf94a55465 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightgreen",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_23aa761b9135fac77026bacd1c87f068 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e2ce83e55c7b4229581c8e39c0a0a218 = $(`<div id="html_e2ce83e55c7b4229581c8e39c0a0a218" style="width: 100.0%; height: 100.0%;">patient_11</div>`)[0];
+                popup_23aa761b9135fac77026bacd1c87f068.setContent(html_e2ce83e55c7b4229581c8e39c0a0a218);
+            
+        
+
+        marker_86c1daf23a1fdb4603de9779d9b84930.bindPopup(popup_23aa761b9135fac77026bacd1c87f068)
+        ;
+
+        
+    
+    
+            marker_86c1daf23a1fdb4603de9779d9b84930.bindTooltip(
+                `<div>
+                     low
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_86c1daf23a1fdb4603de9779d9b84930.setIcon(icon_f080c55e038a4d0b2df2ddaf94a55465);
+            
+    
+            feature_group_1623d90c233975885e466150b71e8254.addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+        
+    
+            var poly_line_c1885bb78b9e92c8a080e15e4517e31e = L.polyline(
+                [[-6.9216102, 106.9576791], [-6.922614, 106.9575787], [-6.9255401, 106.9577032], [-6.925973, 106.9577215], [-6.9263, 106.9576813], [-6.926514, 106.9576704], [-6.9272236, 106.9577294], [-6.927872, 106.9578065], [-6.9286967, 106.9579795], [-6.9295504, 106.9580428], [-6.9305992, 106.9578776], [-6.934389, 106.9574169], [-6.9356689, 106.9563922], [-6.9356549, 106.9562038], [-6.935013, 106.9553602], [-6.9348743, 106.955004], [-6.9357763, 106.953878], [-6.936765, 106.9528115], [-6.9368976, 106.9526587], [-6.9373205, 106.9521189], [-6.939409, 106.9496264], [-6.942029, 106.9467424], [-6.9424823, 106.9461758], [-6.943319, 106.9450399], [-6.9439467, 106.9442392], [-6.9452014, 106.9427717], [-6.9453468, 106.9426172], [-6.9462029, 106.9416127], [-6.9482945, 106.9387816], [-6.9490614, 106.9372044], [-6.9495997, 106.9357868], [-6.9496331, 106.935675], [-6.9500884, 106.9341039], [-6.9503008, 106.9333775], [-6.9508972, 106.931309], [-6.9511537, 106.930424], [-6.9515057, 106.9289899], [-6.951632, 106.9282647], [-6.951447, 106.9251144], [-6.9511361, 106.9233481], [-6.9513342, 106.9233651], [-6.9520272, 106.9226111], [-6.9522492, 106.9221028], [-6.9527516, 106.9200799], [-6.9528966, 106.9192638], [-6.9529206, 106.9176599], [-6.9527596, 106.9168257], [-6.9527198, 106.9145087], [-6.9525803, 106.911905], [-6.9549603, 106.9104951], [-6.9558245, 106.9096246], [-6.9559361, 106.9091045], [-6.9561532, 106.907562], [-6.9562332, 106.9070361], [-6.9564126, 106.9058889], [-6.9580053, 106.9020742], [-6.9588779, 106.899382], [-6.9589466, 106.896719], [-6.9589947, 106.8956684], [-6.9590024, 106.8952467], [-6.959024, 106.8940358], [-6.9590503, 106.8933034], [-6.9590623, 106.8925731], [-6.9593425, 106.8913537], [-6.9596, 106.8905185], [-6.9596074, 106.8904908]],
+                {"bubblingMouseEvents": true, "color": "green", "dashArray": null, "dashOffset": null, "fill": false, "fillColor": "green", "fillOpacity": 0.2, "fillRule": "evenodd", "lineCap": "round", "lineJoin": "round", "noClip": false, "opacity": 1, "smoothFactor": 1.0, "stroke": true, "weight": 2.5}
+            ).addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+        
+    
+            var layer_control_de6071141a40b36805ba2d85c6306d13_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_a30414b1bc13b2a167e9b2263aed0cf9,
+                },
+                overlays :  {
+                    "Rumah Sakit" : feature_group_87f18127fec4cd966e6386bb4a949c4f,
+                    "ambulans" : feature_group_d4b0b717c1ccf6631679183af4f50301,
+                    "pasien" : feature_group_1623d90c233975885e466150b71e8254,
+                },
+            };
+            let layer_control_de6071141a40b36805ba2d85c6306d13 = L.control.layers(
+                layer_control_de6071141a40b36805ba2d85c6306d13_layers.base_layers,
+                layer_control_de6071141a40b36805ba2d85c6306d13_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_527e0e0b6d36ab170bb3d7c97c71758c);
+
+        
+</script>
+</html>

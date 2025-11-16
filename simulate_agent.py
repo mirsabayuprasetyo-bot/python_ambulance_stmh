@@ -5,17 +5,179 @@ import os
 from datetime import datetime
 import folium
 from folium.plugins import MarkerCluster, TimestampedGeoJson
+from folium.map import Popup, Icon
+import map_downloader as map
+import hospital as hosp
+import ambulance as amb
+import patient_caller as patient
+
 
 class simulate_agent():
     def __init__(self):
-        self.ambulance_agents = {}
-        self.hospital_dataframe = {}
         self.map_nodes = {}
+        self.downloader = map.map_downloader()
+        self.caller_nodes = []
+        self.hospital_nodes = []
         pass
     def run_simulation(self):
-        self.define_ambulance_agents(self.hospital_dataframe, self.map_nodes)
-        self.simulate_ambulance_travel(self.hospital_dataframe, self.map_nodes)
-        self.visualize_simulation
+        self.__define_hospital_and_ambulance_agents("sukabumi")
+        self.__define_caller_agents("sukabumi",10)
+        self.__visualize_simulation("sukabumi")
+
+        return
+        self.__define_ambulance_agents()
+        self.__simulate_road_condition()
+        self.__visualize_map()
+        for idx in range(max_iteration):
+            print("simulate road congestien")
+            print("simulate ambulance driving")
+        
+        pass
+
+    def __define_hospital_and_ambulance_agents(self, location_name):
+        map_nodes = self.downloader.get_map_nodes(location_name)  # Use self.downloader
+        hospital_df = self.downloader.get_hospital_location_dataframe(location_name)  # Use self.downloader
+        hospital_nodes = []
+        for idx, row in hospital_df.iterrows():
+            hospital_id = row.get('id')
+            hospital_lat = row.get('lat')
+            hospital_lon = row.get('lon')
+            hospital_name = row.get('name')
+            hospital_address = row.get('address')
+            hospital_type = row.get('type')
+            hospital_class = row.get('kelas')
+            hospital_ambulance = row.get('ambulance')
+            nearest_node = ox.nearest_nodes(map_nodes, hospital_lon, hospital_lat)
+            hospital_node = hosp.hospital()
+            hospital_node.setup_hospital(hospital_id, hospital_name, hospital_address, hospital_type,
+                                         hospital_class, hospital_lat, hospital_lon, nearest_node)
+            
+            for i in range (hospital_ambulance):
+                ambulance_node = amb.ambulance()
+                ambulance_id = "ambulance_"+str(hospital_id)+"_"+str(random.random())
+                ambulance_node.setup_ambulance(ambulance_id, hospital_id, nearest_node)
+                hospital_node.add_ambulance(ambulance_node)
+
+            hospital_nodes.append(hospital_node)
+        
+        self.hospital_nodes = hospital_nodes
+        pass
+
+    def __define_caller_agents(self, location_name, max_caller):
+        map_graph = self.downloader.get_map_nodes(location_name)
+        all_nodes = list(map_graph.nodes())
+        total_caller = random.randrange(1, max_caller)
+        caller_nodes = []
+        for i in range(total_caller):
+            caller_id = "patient_"+str(random.randint(0,1000))
+            severity = ["low", "medium", "high"]
+            severity_caller = random.choice(severity)
+            idx_nodes = random.choice(all_nodes)
+            caller_lat = map_graph.nodes[idx_nodes]["y"]
+            caller_lon = map_graph.nodes[idx_nodes]["x"]
+            caller_inst = patient.patient_caller(caller_id, idx_nodes, caller_lat,
+                                                 caller_lon, severity_caller)
+            caller_nodes.append(caller_inst)
+        self.caller_nodes = caller_nodes
+
+    def __visualize_simulation(self, location_name):
+        map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
+        map_graph = self.downloader.get_map_nodes(location_name)
+        centroid = map_edge.unary_union.centroid
+        print(centroid)
+        
+        folium_map = folium.Map(location=[centroid.y, centroid.x], zoom_start = 15)
+
+        feature_group_hospital = folium.FeatureGroup(name="Rumah Sakit", show=True).add_to(folium_map)
+        feature_group_ambulance = folium.FeatureGroup(name="ambulans", show=True).add_to(folium_map)
+        feature_group_caller = folium.FeatureGroup(name="pasien", show=True).add_to(folium_map)
+        for hospital in self.hospital_nodes:
+            folium.Marker(
+                location=[hospital.get_latitude(), hospital.get_longitude()], 
+                popup=Popup(hospital.get_hospital_name()), 
+                tooltip=hospital.get_address(),
+                icon=Icon(color="red", icon_color="black", icon="hospital", prefix="fa")
+                ).add_to(feature_group_hospital)
+            for ambulance in hospital.get_ambulance_agents():
+                amb_lat = map_graph.nodes[ambulance.get_current_location_node()]["y"] 
+                amb_lon = map_graph.nodes[ambulance.get_current_location_node()]["x"]
+                folium.Marker(
+                    location=[amb_lat, amb_lon], 
+                    popup=Popup(ambulance.get_ambulance_id()), 
+                    tooltip=hospital.get_hospital_name(),
+                    icon=Icon(color="blue",icon_color="black", icon="truck-medical", prefix="fa")
+                    ).add_to(feature_group_ambulance)
+                
+        for caller in self.caller_nodes:
+            folium.Marker(
+                location=[caller.get_latitude(), caller.get_longitude()], 
+                popup=Popup(caller.get_caller_id()), 
+                tooltip=caller.get_severity_level(),
+                icon=Icon(color=caller.get_severity_color(), icon="person-falling-burst", prefix="fa")
+                ).add_to(feature_group_caller)
+            
+        locations = self.draw_polyline_to_map(map_graph,self.hospital_nodes[0].get_ambulance_agents()[0],self.caller_nodes[0])
+        
+        folium.PolyLine(locations=locations, color="green", weight=2.5, opacity=1).add_to(folium_map)
+            
+
+        folium.LayerControl().add_to(folium_map)        
+
+        folium_map.save("simulation_"+location_name+".html")
+        
+        # nearest_hospital_nodes = []
+        # for hospital in self.hospital_nodes :
+        #     nearest_node = hospital.get_osmnx_node()
+        #     nearest_hospital_nodes.append(nearest_node)
+
+        # node_colors = []
+        # for node in map_nodes.nodes():
+        #     if node in nearest_hospital_nodes:
+        #         node_colors.append('red')
+        #     else:
+        #         node_colors.append('blue')
+
+        # node_sizes = []
+        # for node in map_nodes.nodes():
+        #     if node in nearest_hospital_nodes:
+        #         node_sizes.append(100)
+        #     else:
+        #         node_sizes.append(10)
+
+        # fig,ax = ox.plot_graph(
+        #     map_nodes, 
+        #     node_color=node_colors, 
+        #     node_size=node_sizes, 
+        #     node_zorder=1, 
+        #     edge_color='gray', 
+        #     edge_linewidth=0.5
+        #     )
+        
+        # fig.show()
+
+
+
+        # ox.plot_graph(map_nodes)
+        pass
+
+    def draw_polyline_to_map(self, map_graph, ambulance_agent, caller_agent):
+        start_node = ambulance_agent.get_current_location_node()
+        end_node = caller_agent.get_node()
+        path = ox.shortest_path(map_graph, start_node, end_node, weight='length')
+        locations = []
+        for node in path:
+            node_lat = map_graph.nodes[node]["y"]
+            node_lon = map_graph.nodes[node]["x"]
+            locations.append((node_lat, node_lon))
+        return locations
+
+    def __simulate_road_condition(self):
+        map_nodes = self.downloader.get_map_nodes("sukabumi")  # Use self.downloader
+
+        pass
+
+    def __visualize_map(self):
+        map_nodes = self.downloader.get_map_nodes("sukabumi")  # Use self.downloader
         pass
     
     def define_ambulance_agents(self, hospitals, map_nodes):

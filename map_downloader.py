@@ -57,10 +57,6 @@ class map_downloader():
 
         print("\nSelesai. Data siap untuk modul GA (kromosom=rute; fitness=total time_s).")
     
-    def get_polygon(self):
-        polygon = gpd.read_file(os.path.join(self.DIRECTORY, "diy_polygon.gpkg"))
-        return polygon
-    
     def __download_and_save_to_file_polygon_from_location(self, location_list, location_name):
         print("download polygon from location {location_list}")
         multi_gdf = ox.geocode_to_gdf(location_list)  # setiap place → polygon
@@ -139,8 +135,6 @@ class map_downloader():
         hosp_pts_wgs.drop(columns="geometry").to_csv(hosp_csv, index=False)
         print(f"[OK] RS CSV: {hosp_csv}")
 
-
-
     def __estimate_speed(self, row):
           # default kasar (km/h) per kelas jalan
         DEFAULT_SPEEDS = {
@@ -177,29 +171,20 @@ class map_downloader():
             return None
         return float(m[0])
 
-    #if called, and no files found, it would download the map first
-    def load_map(self):
-
-        # 1. Load the roads_diy.graphml file
-        graphml_path = os.path.join(self.DIRECTORY, "roads_diy.graphml")
+    def get_map_nodes(self, location_name):
+        graphml_path = os.path.join(self.DIRECTORY, "roads_"+location_name+".graphml")
         self.map_nodes = ox.load_graphml(graphml_path)
-        if(self.map_nodes is None):
-            print("Map data not found. Downloading map data...")
-            self.download_map("DIY, Indonesia")
-            self.map_nodes = ox.load_graphml(graphml_path)
         print(f"[OK] Graph loaded from: {graphml_path}")
-
-        # 2. Load the hospitals_diy_ext.csv file
-        hosp_csv_path = os.path.join(self.DIRECTORY, "hospitals_diy_ext.csv")
-        self.hospital_dataframe = pd.read_csv(hosp_csv_path)
-        print(f"[OK] Hospitals data loaded from: {hosp_csv_path}")
-
-        print("\nFirst 5 rows of hospital:")
-        print(self.hospital_dataframe.head())
-
-    def get_map_nodes(self):
         return self.map_nodes
     
-    def get_hospital_location_dataframe(self):
+    def get_hospital_location_dataframe(self, location_name):
+        hosp_csv_path = os.path.join(self.DIRECTORY, "hospitals_"+location_name+".csv")
+        self.hospital_dataframe = pd.read_csv(hosp_csv_path)
+        print(f"[OK] Hospitals data loaded from: {hosp_csv_path}")
         return self.hospital_dataframe
+    
+    def get_gdf_edge(self, location_name):
+        gdf_path = os.path.join(self.DIRECTORY, "roads_"+location_name+"_edges.gpkg")
+        gdf_edge = gpd.read_file(gdf_path)
+        return gdf_edge
     
