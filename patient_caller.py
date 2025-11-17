@@ -5,6 +5,7 @@ class patient_caller:
         self.latitude = latitude
         self.longitude = longitude
         self.severity_level = severity_level  # e.g., 'low', 'medium', 'high'
+        self.responded = False
 
     def get_caller_id(self):
         return self.caller_id
@@ -28,4 +29,10 @@ class patient_caller:
             return "beige"
         else :
             return "lightred"
+        
+    def is_responded(self):
+        return self.responded
+        
+    def set_responded(self, responded_status):
+        self.responded = responded_status
 
