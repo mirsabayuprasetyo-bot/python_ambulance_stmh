@@ -25,9 +25,9 @@ class simulate_agent():
         pass
     def run_simulation(self):
         self.__define_hospital_and_ambulance_agents("sukabumi")
-        self.__define_caller_agents("sukabumi",10)
+        self.__define_caller_agents("sukabumi",5)
         self.__define_traffic_condition("sukabumi")
-        self.__simulate_ambulance_movement("sukabumi", simulation_time_in_minute=2)
+        self.__simulate_ambulance_movement("sukabumi", simulation_time_in_minute=5)
         self.__visualize_simulation("sukabumi")
         return
         self.__define_ambulance_agents()
@@ -172,7 +172,8 @@ class simulate_agent():
                     if not ambulance.is_available():
                         destination = ambulance.get_destination_node()
 
-                        path = ga_routing.ga_shortest_path(map_graph, current_node, destination, weight='time_s')
+                        path = ox.shortest_path(map_graph, current_node, destination, weight='time_s')
+                        # path = ga_routing.ga_shortest_path(map_graph, current_node, destination, weight='time_s', population_size=10,generations=10)
                         if path is None:
                             continue
                         if len(path) > 1 :
@@ -186,7 +187,6 @@ class simulate_agent():
                             ambulance.set_current_location_node(destination)
                             ambulance.set_destination_node(ambulance.get_origin_node())
                             ambulance.set_take_patient_to_hospital()
-                            print(f"set new origin and destination node of ambulance : origin : {destination}, destination : {ambulance.get_origin_node()} in timestamp {simulation_elapsed_time}")
 
                         current_positions_snapshot[ambulance.get_ambulance_id()] = {
                                     'lat': map_graph.nodes[current_node]['y'],
@@ -213,7 +213,7 @@ class simulate_agent():
                                 # Check if reached destination
             
             
-            print("-------------------------------------------")
+            print("simulation_elapsed_time:", simulation_elapsed_time)
         
         self.simulation_records = simulation_records
        
@@ -254,9 +254,6 @@ class simulate_agent():
                 icon=Icon(color=caller.get_severity_color(), icon="person-falling-burst", prefix="fa")
                 ).add_to(feature_group_caller)
             
-        locations = self.draw_polyline_to_map(map_graph,self.hospital_nodes[0].get_ambulance_agents()[0],self.caller_nodes[0])
-
-        folium.PolyLine(locations=locations, color="green", weight=2.5, opacity=1).add_to(folium_map)
         folium.LayerControl().add_to(folium_map)        
 
         # Create timeline and timeslider using simulation records
@@ -311,7 +308,7 @@ class simulate_agent():
             TimestampedGeoJson(
                 geojson_data,
                 period='PT1S',  # 2 second intervals matching your time_step_s
-                duration='PT120S',
+                duration='PT10M',
                 auto_play=False,
                 loop=False,
                 max_speed=5,
