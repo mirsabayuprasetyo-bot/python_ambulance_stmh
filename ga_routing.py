@@ -1,377 +1,463 @@
-from typing import List, Optional, Dict, Any, Tuple
+from __future__ import annotations
 import random
-import math
+import time
+from functools import lru_cache
+from typing import Any, Callable, Iterable, List, Optional, Sequence, Tuple, Union
+import networkx as nx
+import pygad
 
-# ga_routing.py
-# Genetic algorithm based path finder with a similar interface to osmnx.shortest_path
-# Requires: networkx graph (e.g., an OSMnx MultiDiGraph)
+"""
+Genetic algorithm based routing using pygad with a NetworkX/OSMnx-like interface.
+
+- Accepts a NetworkX graph (e.g., OSMnx MultiDiGraph), start node, end node.
+- Returns a list of node IDs forming the path, similar to osmnx.shortest_path.
+- Uses a GA to pick intermediate waypoints; segments between waypoints are connected
+    via NetworkX shortest paths to ensure feasibility.
+"""
 
 
-try:
-    import networkx as nx  # type: ignore
-except Exception:  # keep import optional in signature
-    nx = None  # type: ignore
+WeightType = Union[str, Callable[[Any, Any, dict], float], None]
 
 
-class GAShortestPath:
-    """
-    Genetic algorithm path finder.
-    Usage:
-        finder = GAShortestPath(population_size=80, generations=200, seed=42)
-        path = finder.shortest_path(G, orig, dest, weight='length')
-    Returns a list of node ids (like osmnx.shortest_path).
-    """
+def _edge_weight(
+        G: nx.Graph, u: Any, v: Any, weight: WeightType, default: float = 1.0
+) -> float:
+        """Return the weight of the lightest edge between u and v."""
+        if isinstance(G, (nx.MultiDiGraph, nx.MultiGraph)):
+                data_dict = G.get_edge_data(u, v, default={})
+                if not data_dict:
+                        # No edge between u and v.
+                        return float("inf")
+                best = float("inf")
+                for _, edata in data_dict.items():
+                        if callable(weight):
+                                w = float(weight(u, v, edata))
+                        elif isinstance(weight, str):
+                                w = float(edata.get(weight, default))
+                        elif weight is None:
+                                w = default
+                        else:
+                                w = default
+                        if w < best:
+                                best = w
+                return best
+        else:
+                edata = G.get_edge_data(u, v, default=None)
+                if edata is None:
+                        return float("inf")
+                if callable(weight):
+                        return float(weight(u, v, edata))
+                elif isinstance(weight, str):
+                        return float(edata.get(weight, default))
+                elif weight is None:
+                        return default
+                return default
 
-    def __init__(
-        self,
-        population_size: int = 80,
-        generations: int = 200,
-        mutation_rate: float = 0.2,
-        tournament_size: int = 4,
-        elitism: int = 4,
-        max_steps_factor: float = 4.0,
-        heuristic_bias: float = 0.3,
-        no_improve_limit: int = 50,
-        seed: Optional[int] = None,
-    ) -> None:
-        self.population_size = max(10, population_size)
-        self.generations = max(1, generations)
-        self.mutation_rate = min(1.0, max(0.0, mutation_rate))
-        self.tournament_size = max(2, tournament_size)
-        self.elitism = max(0, elitism)
-        self.max_steps_factor = max(1.0, float(max_steps_factor))
-        self.heuristic_bias = max(0.0, float(heuristic_bias))
-        self.no_improve_limit = max(5, int(no_improve_limit))
-        self.rng = random.Random(seed)
 
-    def shortest_path(
-        self,
-        G: "nx.Graph",
-        orig: Any,
-        dest: Any,
-        weight: str = "length",
-    ) -> Optional[List[Any]]:
-        if orig == dest:
-            return [orig]
-        if not (G.has_node(orig) and G.has_node(dest)):
-            return None
-
-        directed = G.is_directed() if hasattr(G, "is_directed") else True
-        successors = (lambda n: G.successors(n)) if directed and hasattr(G, "successors") else (lambda n: G.neighbors(n))
-
-        # Precompute node coords if available for heuristic
-        coords = self._collect_coords(G)
-        def heuristic(n: Any) -> float:
-            if coords is None:
+def _path_length(G: nx.Graph, path: Sequence[Any], weight: WeightType) -> float:
+        """Sum of edge weights along a path (choose min parallel edge weight if multigraph)."""
+        if path is None or len(path) < 2:
                 return 0.0
-            x1, y1 = coords.get(n, (None, None))
-            x2, y2 = coords.get(dest, (None, None))
-            if x1 is None or y1 is None or x2 is None or y2 is None:
-                return 0.0
-            dx, dy = x1 - x2, y1 - y2
-            return math.hypot(dx, dy)
-
-        # Max steps: proportional to graph size but bounded
-        max_steps = int(self.max_steps_factor * max(10, int(G.number_of_nodes() ** 0.5)))
-        max_steps = max(max_steps, 32)
-
-        # Initialize population
-        population: List[List[Any]] = []
-        tries = 0
-        target_init = self.population_size
-        while len(population) < target_init and tries < target_init * 50:
-            tries += 1
-            path = self._random_path(G, successors, orig, dest, weight, heuristic, max_steps)
-            if path is not None:
-                population.append(path)
-
-        if not population:
-            return None
-
-        best = min(population, key=lambda p: self._path_cost(G, p, weight))
-        best_cost = self._path_cost(G, best, weight)
-        stagnation = 0
-
-        for gen in range(self.generations):
-            # Evaluate fitness (lower is better)
-            population.sort(key=lambda p: self._path_cost(G, p, weight))
-            if self._path_cost(G, population[0], weight) + 1e-9 < best_cost:
-                best = population[0]
-                best_cost = self._path_cost(G, best, weight)
-                stagnation = 0
-            else:
-                stagnation += 1
-                if stagnation >= self.no_improve_limit:
-                    break
-
-            # Elitism
-            new_pop: List[List[Any]] = population[: self.elitism]
-
-            # Fill rest via selection, crossover, mutation
-            while len(new_pop) < self.population_size:
-                p1 = self._tournament_select(G, population, weight)
-                p2 = self._tournament_select(G, population, weight)
-                child = self._crossover(G, successors, p1, p2, orig, dest, weight, heuristic, max_steps)
-                if self.rng.random() < self.mutation_rate:
-                    child = self._mutate(G, successors, child, dest, weight, heuristic, max_steps)
-                if child is not None:
-                    new_pop.append(child)
-                else:
-                    # fallback random if crossover/mutation failed
-                    rnd = self._random_path(G, successors, orig, dest, weight, heuristic, max_steps)
-                    if rnd is not None:
-                        new_pop.append(rnd)
-
-            population = new_pop
-
-        # Final best
-        population.sort(key=lambda p: self._path_cost(G, p, weight))
-        candidate = population[0]
-        cand_cost = self._path_cost(G, candidate, weight)
-        return candidate if math.isfinite(cand_cost) else None
-
-    # ---------- GA components ----------
-
-    def _path_cost(self, G: "nx.Graph", path: List[Any], weight: str) -> float:
         total = 0.0
-        for u, v in zip(path, path[1:]):
-            w = self._edge_weight(G, u, v, weight)
-            if w is None or w == float("inf"):
-                return float("inf")
-            total += w
-        # mild preference for shorter node count as tie-breaker
-        return total + 1e-6 * len(path)
+        for u, v in zip(path[:-1], path[1:]):
+                w = _edge_weight(G, u, v, weight)
+                if w == float("inf"):
+                        return float("inf")
+                total += w
+        return total
 
-    def _tournament_select(self, G: "nx.Graph", population: List[List[Any]], weight: str) -> List[Any]:
-        k = min(self.tournament_size, len(population))
-        contenders = self.rng.sample(population, k)
-        contenders.sort(key=lambda p: self._path_cost(G, p, weight))
-        return contenders[0]
 
-    def _crossover(
-        self,
-        G: "nx.Graph",
-        successors,
-        p1: List[Any],
-        p2: List[Any],
-        orig: Any,
-        dest: Any,
-        weight: str,
-        heuristic,
-        max_steps: int,
-    ) -> Optional[List[Any]]:
-        # Edge-recombination guided by parents; defaults to random path repair if stuck
-        next1 = {u: v for u, v in zip(p1, p1[1:])}
-        next2 = {u: v for u, v in zip(p2, p2[1:])}
-        child = [orig]
-        visited = {orig}
-        current = orig
-        steps = 0
+class GeneticRouter:
+        """
+        GA-based router that mimics osmnx.shortest_path behavior.
 
-        while current != dest and steps < max_steps:
-            steps += 1
-            candidates = []
-            if current in next1:
-                candidates.append(next1[current])
-            if current in next2:
-                candidates.append(next2[current])
-            # Keep unique and not yet visited
-            candidates = [n for i, n in enumerate(candidates) if n not in candidates[:i] and n not in visited]
+        Basic usage:
+                router = GeneticRouter(G, start, end, weight="length")
+                path = router.solve()  # returns list of nodes
+        """
 
-            chosen = None
-            if candidates:
-                # Prefer candidate with lower local cost + heuristic
-                def cand_score(n):
-                    ew = self._edge_weight(G, current, n, weight) or float("inf")
-                    return ew + self.heuristic_bias * heuristic(n)
-                candidates.sort(key=cand_score)
-                chosen = candidates[0]
-
-            if chosen is None:
-                # fallback to heuristic-biased random neighbor
-                neigh = list(successors(current))
-                neigh = [n for n in neigh if n not in visited] or list(successors(current))
-                if not neigh:
-                    break
-                scores = []
-                for n in neigh:
-                    ew = self._edge_weight(G, current, n, weight)
-                    ew = ew if ew is not None and ew > 0 else 1e6
-                    h = heuristic(n)
-                    score = 1.0 / (1e-9 + ew) * math.exp(-self.heuristic_bias * h)
-                    scores.append(max(1e-12, score))
-                chosen = self._weighted_choice(neigh, scores)
-
-            if chosen is None:
-                break
-
-            child.append(chosen)
-            visited.add(chosen)
-            current = chosen
-
-        if current != dest:
-            # Try to repair the tail
-            tail = self._random_path(G, successors, current, dest, weight, heuristic, max_steps)
-            if tail is None or len(tail) < 2:
-                return None
-            child.extend(tail[1:])
-
-        return child
-
-    def _mutate(
-        self,
-        G: "nx.Graph",
-        successors,
-        path: List[Any],
-        dest: Any,
-        weight: str,
-        heuristic,
-        max_steps: int,
-    ) -> Optional[List[Any]]:
-        if path is None:
-            return None
-        if len(path) <= 2:
-            return path
-        # Pick a splice point and reroute from there
-        i = self.rng.randrange(0, len(path) - 1)
-        prefix = path[: i + 1]
-        start = prefix[-1]
-        tail = self._random_path(G, successors, start, dest, weight, heuristic, max_steps)
-        if tail is None:
-            return path
-        return prefix + tail[1:]
-
-    # ---------- Path generation ----------
-
-    def _random_path(
-        self,
-        G: "nx.Graph",
-        successors,
-        orig: Any,
-        dest: Any,
-        weight: str,
-        heuristic,
-        max_steps: int,
-    ) -> Optional[List[Any]]:
-        for attempt in range(6):
-            path = [orig]
-            visited = {orig}
-            current = orig
-            steps = 0
-            while current != dest and steps < max_steps:
-                steps += 1
-                neigh = list(successors(current))
-                if not neigh:
-                    break
-                # Prefer unvisited, but allow visited if stuck
-                unvisited = [n for n in neigh if n not in visited]
-                cand = unvisited or neigh
-                # Weighted choice inversely proportional to edge weight and biased by heuristic
-                weights = []
-                for n in cand:
-                    ew = self._edge_weight(G, current, n, weight)
-                    if ew is None or ew <= 0:
-                        ew = 1e6
-                    h = heuristic(n)
-                    score = 1.0 / (1e-9 + ew) * math.exp(-self.heuristic_bias * h)
-                    weights.append(max(1e-12, score))
-                nxt = self._weighted_choice(cand, weights)
-                if nxt is None:
-                    break
-                path.append(nxt)
-                visited.add(nxt)
-                current = nxt
-            if current == dest:
-                return path
-            # else try again with same parameters
-        return None
-
-    # ---------- Utilities ----------
-
-    def _edge_weight(self, G: "nx.Graph", u: Any, v: Any, weight: str) -> Optional[float]:
-        # Handles Graph/Multi(Di)Graph: pick min weight across parallel edges
-        try:
-            data = G.get_edge_data(u, v, default=None)
-        except Exception:
-            data = None
-        if data is None:
-            return None
-        if isinstance(data, dict) and any(isinstance(k, (int, str)) for k in data.keys()) and any(
-            isinstance(vv, dict) for vv in data.values()
+        def __init__(
+                self,
+                G: nx.Graph,
+                start: Any,
+                end: Any,
+                weight: WeightType = "length",
+                # GA topology and budget
+                population_size: int = 40,
+                num_generations: int = 80,
+                num_parents_mating: int = 12,
+                mutation_probability: float = 0.15,
+                crossover_type: str = "single_point",
+                selection_type: str = "sss",
+                # Waypoint model
+                num_waypoints: int = 6,
+                candidate_pool_size: int = 1200,
+                include_start_end_neighbors: bool = True,
+                allow_revisit: bool = False,
+                # Termination/penalties
+                time_limit: Optional[float] = None,  # seconds
+                penalty_no_path: float = 1e9,
+                random_seed: Optional[int] = None,
+                # Seeding with NX path
+                seed_with_nx: bool = True,
         ):
-            # Multi-edge dict
-            best = float("inf")
-            found = False
-            for _, attrs in data.items():
-                w = attrs.get(weight, None)
-                if w is None:
-                    continue
-                found = True
-                if w < best:
-                    best = w
-            return best if found else 1.0  # default if missing
-        elif isinstance(data, dict):
-            w = data.get(weight, None)
-            return float(w) if w is not None else 1.0
-        return None
+                if start not in G or end not in G:
+                        raise nx.NetworkXError("Start or end node not in graph.")
 
-    def _weighted_choice(self, items: List[Any], weights: List[float]) -> Optional[Any]:
-        total = sum(weights)
-        if total <= 0:
-            return self.rng.choice(items) if items else None
-        r = self.rng.random() * total
-        upto = 0.0
-        for item, w in zip(items, weights):
-            upto += w
-            if upto >= r:
-                return item
-        return items[-1] if items else None
+                self.G = G
+                self.start = start
+                self.end = end
+                self.weight = weight
+                self.population_size = int(population_size)
+                self.num_generations = int(num_generations)
+                self.num_parents_mating = int(num_parents_mating)
+                self.mutation_probability = float(mutation_probability)
+                self.crossover_type = crossover_type
+                self.selection_type = selection_type
+                self.num_waypoints = int(num_waypoints)
+                self.candidate_pool_size = int(candidate_pool_size)
+                self.include_start_end_neighbors = include_start_end_neighbors
+                self.allow_revisit = bool(allow_revisit)
+                self.time_limit = time_limit
+                self.penalty_no_path = float(penalty_no_path)
+                self.random_seed = random_seed
+                self.seed_with_nx = bool(seed_with_nx)
 
-    def _collect_coords(self, G: "nx.Graph") -> Optional[Dict[Any, Tuple[float, float]]]:
-        # OSMnx usually has node attributes 'x' (lon) and 'y' (lat)
-        sample = next(iter(G.nodes), None)
-        if sample is None:
-            return None
-        node_attrs = G.nodes[sample]
-        if not isinstance(node_attrs, dict):
-            return None
-        has_xy = ("x" in node_attrs) and ("y" in node_attrs)
-        if not has_xy:
-            return None
-        coords: Dict[Any, Tuple[float, float]] = {}
-        for n, d in G.nodes(data=True):
-            try:
-                coords[n] = (float(d.get("x")), float(d.get("y")))
-            except Exception:
-                coords[n] = (None, None)  # type: ignore
-        return coords
+                if self.random_seed is not None:
+                        random.seed(self.random_seed)
+
+                # Undirected view ensures checking weak connectivity on directed graphs.
+                self._G_undirected = G.to_undirected(as_view=True)
+
+                if not nx.has_path(self._G_undirected, start, end):
+                        raise nx.NetworkXNoPath("Start and end are disconnected.")
+
+                # Build candidate waypoint pool from the connected component of start/end.
+                self._candidates = self._build_candidate_pool()
+
+                # Gene space includes None to allow variable-length waypoint lists.
+                self._gene_space = list(self._candidates) + [None]
+
+                # Cache for segment shortest paths to speed up fitness evaluation.
+                self._segment_cache_size = 200_000
+                self._setup_segment_cache()
+
+                # Precompute a baseline NX shortest path to optionally seed and to gauge progress.
+                self._nx_baseline_path: Optional[List[Any]] = None
+                self._nx_baseline_cost: Optional[float] = None
+                try:
+                        self._nx_baseline_path = nx.shortest_path(
+                                self.G, self.start, self.end, weight=self.weight
+                        )
+                        self._nx_baseline_cost = _path_length(self.G, self._nx_baseline_path, self.weight)
+                except Exception:
+                        # Graph may be large or weight weird; it's fine to proceed without baseline.
+                        self._nx_baseline_path = None
+                        self._nx_baseline_cost = None
+
+                self._best_solution: Optional[List[Any]] = None
+                self._best_cost: float = float("inf")
+
+        def _setup_segment_cache(self) -> None:
+                @lru_cache(maxsize=self._segment_cache_size)
+                def _seg(u: Any, v: Any) -> Tuple[Tuple[Any, ...], float]:
+                        # Always use weighted shortest path between two nodes, return tuple for cache.
+                        p = nx.shortest_path(self.G, u, v, weight=self.weight)
+                        cost = _path_length(self.G, p, self.weight)
+                        return tuple(p), float(cost)
+
+                self._segment_path_cached = _seg
+
+        def _build_candidate_pool(self) -> List[Any]:
+                # Restrict to nodes in the weakly-connected component containing start/end.
+                comp_nodes = nx.node_connected_component(self._G_undirected, self.start)
+                pool: List[Any] = list(comp_nodes)
+
+                # Avoid start and end in the candidate pool (we add via genes as None or existing step).
+                pool = [n for n in pool if n != self.start and n != self.end]
+
+                # Optionally bias by including neighbors of start/end first.
+                biased: List[Any] = []
+                if self.include_start_end_neighbors:
+                        for node in (self.start, self.end):
+                                try:
+                                        neighbors = list(self._G_undirected.neighbors(node))
+                                except Exception:
+                                        neighbors = []
+                                for nb in neighbors:
+                                        if nb != self.start and nb != self.end:
+                                                biased.append(nb)
+
+                # Deduplicate while preserving bias order.
+                seen = set()
+                ordered: List[Any] = []
+                for n in biased + pool:
+                        if n not in seen:
+                                seen.add(n)
+                                ordered.append(n)
+
+                if self.candidate_pool_size and len(ordered) > self.candidate_pool_size:
+                        # Keep a biased head + random sample of the tail.
+                        head = ordered[: min(200, len(ordered))]
+                        tail = ordered[len(head) :]
+                        k = max(0, self.candidate_pool_size - len(head))
+                        sampled = random.sample(tail, k) if k > 0 and len(tail) > 0 else []
+                        ordered = head + sampled
+
+                if not ordered:
+                        # As a fallback, include immediate neighbors or leave empty and rely on None genes.
+                        ordered = list(self._G_undirected.neighbors(self.start))
+
+                return ordered
+
+        def _make_initial_population(self) -> Optional[List[List[Any]]]:
+                if not self.seed_with_nx or self._nx_baseline_path is None:
+                        return None
+
+                # Split baseline path into waypoints to seed a strong chromosome.
+                path = self._nx_baseline_path
+                if len(path) <= 2 or self.num_waypoints <= 0:
+                        # Only start/end; no waypoints to seed.
+                        # Use -1 instead of None as placeholder
+                        seed = [-1] * self.num_waypoints
+                        # Create multiple random variations to fill population
+                        initial_pop = [seed]
+                        
+                        # Add random variations if we have candidates
+                        if self._candidates and len(self._candidates) > 0:
+                            for _ in range(min(self.population_size - 1, 9)):  # Add up to 9 more variations
+                                random_chromosome = []
+                                for _ in range(self.num_waypoints):
+                                    # 50% chance of no waypoint (-1), 50% chance of random candidate
+                                    if random.random() < 0.5:
+                                        random_chromosome.append(-1)
+                                    else:
+                                        random_chromosome.append(random.randint(0, len(self._candidates) - 1))
+                                initial_pop.append(random_chromosome)
+                        
+                        return initial_pop
+
+                # Evenly spaced intermediate nodes as waypoints (avoid start/end).
+                internal = path[1:-1]
+                if len(internal) <= self.num_waypoints:
+                        # Convert waypoints to indices in candidate list
+                        waypoint_indices = []
+                        for wp in internal:
+                                try:
+                                        idx = self._candidates.index(wp)
+                                        waypoint_indices.append(idx)
+                                except ValueError:
+                                        # If waypoint not in candidates, use -1 as placeholder
+                                        waypoint_indices.append(-1)
+                        
+                        # Pad with -1 if needed
+                        waypoint_indices += [-1] * (self.num_waypoints - len(waypoint_indices))
+                else:
+                        # Sample indices evenly
+                        idxs = [int(round(i * (len(internal) - 1) / (self.num_waypoints - 1))) for i in range(self.num_waypoints)]
+                        waypoint_indices = []
+                        for i in idxs:
+                                wp = internal[i]
+                                try:
+                                        idx = self._candidates.index(wp)
+                                        waypoint_indices.append(idx)
+                                except ValueError:
+                                        waypoint_indices.append(-1)
+
+                # Create initial population with the seed plus random variations
+                initial_pop = [waypoint_indices]
+                
+                # Add random variations
+                if self._candidates and len(self._candidates) > 0:
+                    for _ in range(min(self.population_size - 1, 9)):
+                        random_chromosome = []
+                        for _ in range(self.num_waypoints):
+                            if random.random() < 0.3:  # 30% chance of no waypoint
+                                random_chromosome.append(-1)
+                            else:
+                                random_chromosome.append(random.randint(0, len(self._candidates) - 1))
+                        initial_pop.append(random_chromosome)
+                
+                return initial_pop
+
+        def _decode_solution(self, genes: Sequence[Any]) -> Tuple[List[Any], float, bool]:
+                """Return (full_path_nodes, total_cost, feasible) for a chromosome."""
+                current = self.start
+                full_path: List[Any] = [self.start]
+                feasible = True
+                total_cost = 0.0
+
+                for g in genes:
+                        # Convert gene to actual waypoint
+                        if isinstance(g, (int, float)):
+                                g_int = int(g)
+                        else:
+                                g_int = g
+                        
+                        if g_int == -1 or g_int < 0:  # No waypoint
+                                continue
+                        
+                        if g_int >= len(self._candidates):  # Invalid index
+                                continue
+                        
+                        waypoint = self._candidates[g_int]
+                        
+                        if waypoint == current:
+                                continue
+                        
+                        try:
+                                seg_nodes_tuple, seg_cost = self._segment_path_cached(current, waypoint)
+                        except nx.NetworkXNoPath:
+                                total_cost += self.penalty_no_path
+                                feasible = False
+                                return full_path, total_cost, feasible
+                        # Append segment except the first node to avoid duplicates.
+                        full_path.extend(list(seg_nodes_tuple)[1:])
+                        total_cost += seg_cost
+                        current = waypoint
+
+                # Connect the last point to the end
+                try:
+                        seg_nodes_tuple, seg_cost = self._segment_path_cached(current, self.end)
+                except nx.NetworkXNoPath:
+                        total_cost += self.penalty_no_path
+                        feasible = False
+                        return full_path, total_cost, feasible
+
+                full_path.extend(list(seg_nodes_tuple)[1:])
+                total_cost += seg_cost
+
+                if not self.allow_revisit:
+                        dup_count = len(full_path) - len(set(full_path))
+                        if dup_count > 0:
+                                # Mild penalty for loops/revisits
+                                total_cost *= (1.0 + 0.05 * dup_count)
+
+                return full_path, total_cost, feasible
+
+        
+        def _fitness_func(self, ga_inst: "pygad.GA", solution: Sequence[Any], solution_idx: int) -> float:
+                # solution is a numpy array possibly with dtype=object.
+                genes = [g.item() if hasattr(g, "item") else g for g in solution]
+                path, cost, feasible = self._decode_solution(genes)
+                # Track the best encountered.
+                if cost < self._best_cost:
+                        self._best_cost = cost
+                        self._best_solution = path
+                # Convert cost to fitness (maximize).
+                if not feasible:
+                        return 1.0 / (1.0 + cost)
+                return 1.0 / (1.0 + max(cost, 0.0))
+
+        def solve(self) -> List[Any]:
+                """Run the GA and return the best path as a list of node IDs."""
+                start_time = time.time()
+                initial_population = self._make_initial_population()
+
+                # Build per-gene gene_space to allow -1 (no waypoint) at any position.
+                if self.num_waypoints <= 0:
+                        # No intermediate waypoints: just return NX shortest path for consistency.
+                        path = nx.shortest_path(self.G, self.start, self.end, weight=self.weight)
+                        return list(path)
+
+                # Use indices instead of None values
+                # -1 represents "no waypoint", 0 to len(candidates)-1 are valid waypoints
+                gene_space = list(range(-1, len(self._candidates))) if self._candidates else [-1]
+                gene_space_per_gene = [gene_space for _ in range(self.num_waypoints)]
+
+                # Ensure num_parents_mating is valid
+                effective_population_size = self.population_size
+                if initial_population:
+                    effective_population_size = max(self.population_size, len(initial_population))
+                
+                # Adjust num_parents_mating to be at most population_size
+                effective_parents_mating = min(self.num_parents_mating, effective_population_size)
+                
+                # Ensure minimum viable GA parameters
+                if effective_parents_mating < 2:
+                    effective_parents_mating = min(2, effective_population_size)
+                
+                ga = pygad.GA(
+                        num_generations=self.num_generations,
+                        num_parents_mating=effective_parents_mating,
+                        fitness_func=self._fitness_func,
+                        sol_per_pop=effective_population_size,
+                        num_genes=self.num_waypoints,
+                        gene_space=gene_space_per_gene,
+                        gene_type=int,  # Ensure integer genes
+                        mutation_type="random",
+                        mutation_probability=self.mutation_probability,
+                        crossover_type=self.crossover_type,
+                        parent_selection_type=self.selection_type,
+                        initial_population=initial_population,
+                        random_seed=self.random_seed,
+                        keep_parents=2,
+                )
+
+                def _on_generation(ga_inst: "pygad.GA"):
+                        # Early termination by time
+                        if self.time_limit is not None and (time.time() - start_time) >= self.time_limit:
+                                ga_inst.stop_generation = True
+                                return
+                        # If we have a known NX baseline and we've matched (or beaten) it, we can stop.
+                        if self._nx_baseline_cost is not None and self._best_cost <= self._nx_baseline_cost:
+                                ga_inst.stop_generation = True
+
+                ga.on_generation = _on_generation
+
+                ga.run()
+
+                # If GA found something, return it; else fall back to NX shortest path.
+                if self._best_solution is not None and len(self._best_solution) >= 2:
+                        return list(self._best_solution)
+
+                # Fallback
+                path = nx.shortest_path(self.G, self.start, self.end, weight=self.weight)
+                return list(path)
 
 
-# Convenience function mirroring osmnx.shortest_path signature
 def ga_shortest_path(
-    G: "nx.Graph",
-    orig: Any,
-    dest: Any,
-    weight: str = "length",
-    population_size: int = 80,
-    generations: int = 200,
-    mutation_rate: float = 0.2,
-    tournament_size: int = 4,
-    elitism: int = 4,
-    max_steps_factor: float = 4.0,
-    heuristic_bias: float = 0.3,
-    no_improve_limit: int = 50,
-    seed: Optional[int] = None,
-) -> Optional[List[Any]]:
-    finder = GAShortestPath(
-        population_size=population_size,
-        generations=generations,
-        mutation_rate=mutation_rate,
-        tournament_size=tournament_size,
-        elitism=elitism,
-        max_steps_factor=max_steps_factor,
-        heuristic_bias=heuristic_bias,
-        no_improve_limit=no_improve_limit,
-        seed=seed,
-    )
-    return finder.shortest_path(G, orig, dest, weight=weight)
+        G: nx.Graph,
+        orig: Any,
+        dest: Any,
+        weight: WeightType = "length",
+        population_size: int = 40,
+        num_generations: int = 80,
+        num_parents_mating: int = 4,
+        mutation_probability: float = 0.15,
+        num_waypoints: int = 6,
+        candidate_pool_size: int = 1200,
+        include_start_end_neighbors: bool = True,
+        allow_revisit: bool = False,
+        time_limit: Optional[float] = None,
+        random_seed: Optional[int] = None,
+        seed_with_nx: bool = True,
+) -> List[Any]:
+        """
+        Convenience function mirroring osmnx.shortest_path(G, orig, dest, weight=...).
+
+        Returns a list of node IDs representing the path from orig to dest.
+        """
+        router = GeneticRouter(
+                G=G,
+                start=orig,
+                end=dest,
+                weight=weight,
+                population_size=population_size,
+                num_generations=num_generations,
+                num_parents_mating=num_parents_mating,
+                mutation_probability=mutation_probability,
+                num_waypoints=num_waypoints,
+                candidate_pool_size=candidate_pool_size,
+                include_start_end_neighbors=include_start_end_neighbors,
+                allow_revisit=allow_revisit,
+                time_limit=time_limit,
+                random_seed=random_seed,
+                seed_with_nx=seed_with_nx,
+        )
+        return router.solve()
+
+
+# Alias similar to osmnx.shortest_path for drop-in familiarity.
+def shortest_path(G: nx.Graph, orig: Any, dest: Any, weight: WeightType = "length", **kwargs) -> List[Any]:
+        return ga_shortest_path(G, orig, dest, weight=weight, **kwargs)

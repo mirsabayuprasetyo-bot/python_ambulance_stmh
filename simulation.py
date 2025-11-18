@@ -29,6 +29,7 @@ class simulation():
         self.hospital_nodes = []
         self.map_graph_with_traffic = {}
         pass
+
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
         self.__define_caller_agents(location_name,10)
@@ -61,6 +62,7 @@ class simulation():
         mean_response_time_astar = self.__calculate_mean_ambulance_response_time(simulation_records_astar)
         mean_response_time_ox = self.__calculate_mean_ambulance_response_time(simulation_records_ox)
         mean_response_time_ga = self.__calculate_mean_ambulance_response_time(simulation_records_ga)
+
 
         self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
 
@@ -125,9 +127,9 @@ class simulation():
             traffic_factor = random.uniform(0.1, 1.5)
             # Update the edge in map_graph with traffic factor
             if map_graph.has_edge(u, v, k):
+                map_graph[u][v][k]['maxspeed'] = 50  # assuming default speed 50 m/s
                 map_graph[u][v][k]['traffic_factor'] = traffic_factor
                 map_graph[u][v][k]['time_s'] = map_graph[u][v][k]['length'] / 50  # assuming default speed 50 m/s
-                map_graph[u][v][k]['maxspeed'] = 50  # assuming default speed 50 m/s
                 map_graph[u][v][k]['time_per_edge'] = map_graph[u][v][k]['time_s'] * traffic_factor 
 
         self.map_graph_with_traffic = map_graph
@@ -206,7 +208,7 @@ class simulation():
 
                         path = None
                         if algorithm == "ga":
-                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_per_edge', population_size=10,generations=10)
+                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_per_edge', population_size=10, num_generations=10)
                         elif algorithm == "ox":
                             path = ox.shortest_path(map_graph, current_node, destination, weight='time_per_edge')
                         elif algorithm == "astar":
