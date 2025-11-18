@@ -228,14 +228,13 @@ class simulation():
                             current_node = destination
 
                         if current_node == destination:
-                            
                             if current_node == ambulance.get_origin_node() and not ambulance.is_available():
                                 current_positions_snapshot[ambulance.get_ambulance_id()] = {
                                     'lat': map_graph.nodes[current_node]['y'],
                                     'lon': map_graph.nodes[current_node]['x'],
                                     'hospital_id': ambulance.get_ambulance_id(),
                                     'status': ambulance.is_returned(),
-                                    'response_time': simulation_elapsed_time
+                                    'response_time': simulation_elapsed_time/2
                                     }
                                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
                                 ambulance.set_available(True)
