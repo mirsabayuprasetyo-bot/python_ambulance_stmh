@@ -1,4 +1,5 @@
 import random
+import webbrowser
 import osmnx as ox
 import pandas as pd
 import os
@@ -11,7 +12,10 @@ import hospital as hosp
 import ambulance as amb
 import patient_caller as patient
 from folium.plugins import Timeline, TimelineSlider
-import ga_routing
+import ga_routing as genetics
+import djikstra_routing as djikstra
+import astar_routing as astar
+import copy
 
 
 class simulation():
@@ -21,15 +25,97 @@ class simulation():
         self.caller_nodes = []
         self.hospital_nodes = []
         self.map_graph_with_traffic = {}
-        self.simulation_records = []
         pass
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
         self.__define_caller_agents(location_name,5)
         self.__define_traffic_condition(location_name)
-        self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5)
-        return self.__visualize_simulation(location_name)
         
+        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="djikstra")
+        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="astar")
+        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ox")
+        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ga")
+        
+        folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
+        folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
+        folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar)
+        folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga)
+        
+        # # Create a single HTML page that shows the three folium maps as subplots (side-by-side)
+
+        out_dir = os.path.abspath(f"simulation_{location_name}")
+        os.makedirs(out_dir, exist_ok=True)
+
+        m1_path = os.path.join(out_dir, f"map_ox_{location_name}.html")
+        m2_path = os.path.join(out_dir, f"map_dijkstra_{location_name}.html")
+        m3_path = os.path.join(out_dir, f"map_astar_{location_name}.html")
+        m4_path = os.path.join(out_dir, f"map_ga_{location_name}.html")
+
+        folium_map_ox.save(m1_path)
+        folium_map_djikstra.save(m2_path)
+        folium_map_astar.save(m3_path)
+        folium_map_ga.save(m4_path)
+
+        wrapper_path = os.path.join(out_dir, f"subplot_{location_name}.html")
+        with open(wrapper_path, "w", encoding="utf-8") as f:
+            f.write(f"""<!DOCTYPE html>
+            <html>
+            <head>
+            <meta charset="utf-8">
+            <title>Ambulance Simulation - {location_name}</title>
+            <style>
+            body {{ margin: 0; font-family: Arial, sans-serif; }}
+            .grid {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 50vh;
+                gap: 8px;
+                padding: 8px;
+                box-sizing: border-box;
+            }}
+            .cell {{ position: relative; border: 1px solid #ddd; }}
+            .cell h3 {{
+                position: absolute;
+                top: 6px;
+                left: 8px;
+                margin: 0;
+                z-index: 2;
+                background: rgba(255, 255, 255, 0.85);
+                padding: 2px 6px;
+                font-size: 14px;
+                border-radius: 4px;
+            }}
+            .cell iframe {{ width: 100%; height: 100%; border: 0; }}
+            @media (max-width: 1200px) {{
+                .grid {{ grid-template-columns: 1fr; grid-auto-rows: 60vh; }}
+            }}
+            </style>
+            </head>
+            <body>
+            <div class="grid">
+                <div class="cell">
+                <h3>using osm algorithm</h3>
+                <iframe src="{os.path.basename(m1_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>Djikstra Algorithm</h3>
+                <iframe src="{os.path.basename(m2_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>A* Algorithm</h3>
+                <iframe src="{os.path.basename(m3_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>Genetics Algorithm</h3>
+                <iframe src="{os.path.basename(m4_path)}"></iframe>
+                </div>
+            </div>
+            </body>
+            </html>""")
+
+        webbrowser.open(f"file://{wrapper_path}")
+
+
     def __define_hospital_and_ambulance_agents(self, location_name):
         map_nodes = self.downloader.get_map_nodes(location_name)  # Use self.downloader
         hospital_df = self.downloader.get_hospital_location_dataframe(location_name)  # Use self.downloader
@@ -97,17 +183,21 @@ class simulation():
         
         pass
 
-    def __simulate_ambulance_movement(self, location_name, simulation_time_in_minute=60):
-        map_graph = self.map_graph_with_traffic
+    def __simulate_ambulance_movement(self, location_name, simulation_time_in_minute=60,algorithm="ox"):
+        map_graph = copy.deepcopy(self.map_graph_with_traffic)
+        caller_nodes = copy.deepcopy(self.caller_nodes)
+        hospital_nodes = copy.deepcopy(self.hospital_nodes)
+
         time_step_s = 1  # seconds
         max_simulation_duration_s = simulation_time_in_minute * 60  # convert minutes to seconds
         simulation_elapsed_time = 0
         
         simulation_records = []
         
+        
         # Initial snapshot
         current_positions_snapshot = {}
-        for hospital in self.hospital_nodes:
+        for hospital in hospital_nodes:
             for ambulance in hospital.get_ambulance_agents():
                 ambulance_id = ambulance.get_ambulance_id()
                 current_node = ambulance.get_current_location_node()
@@ -123,20 +213,20 @@ class simulation():
              'positions': current_positions_snapshot.copy()
             }
             )
-
+        # respon
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
             simulation_elapsed_time += time_step_s
             
-            for caller in self.caller_nodes:
+            for caller in caller_nodes:
                 if caller.is_responded():
                     continue
-                
+
                 # Find nearest available ambulance
                 nearest_ambulance = None
                 min_distance = float('inf')
             
-                for hospital in self.hospital_nodes:
+                for hospital in hospital_nodes:
                     for ambulance in hospital.get_ambulance_agents():
                         if ambulance.is_available():
                             path = ox.shortest_path(map_graph, ambulance.get_current_location_node(), 
@@ -155,15 +245,25 @@ class simulation():
             
             # Move all responding ambulances to caller
             current_positions_snapshot = {}
-            for hospital in self.hospital_nodes:
+            for hospital in hospital_nodes:
                 for ambulance in hospital.get_ambulance_agents():
                     current_node = ambulance.get_current_location_node()
                     
                     if not ambulance.is_available():
                         destination = ambulance.get_destination_node()
 
-                        path = ox.shortest_path(map_graph, current_node, destination, weight='time_s')
-                        # path = ga_routing.ga_shortest_path(map_graph, current_node, destination, weight='time_s', population_size=10,generations=10)
+                        path = None
+                        if algorithm == "ga":
+                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_s', population_size=10,generations=10)
+                        elif algorithm == "ox":
+                            path = ox.shortest_path(map_graph, current_node, destination, weight='time_s')
+                        elif algorithm == "astar":
+                            router = astar.AStarRouter()
+                            path = router.shortest_path(map_graph, current_node, destination)
+                        elif algorithm == "djikstra":
+                            router = djikstra.DijkstraRouter(map_graph, current_node, destination)
+                            path = router.shortest_path()
+
                         if path is None:
                             continue
                         if len(path) > 1 :
@@ -186,28 +286,10 @@ class simulation():
                                     }
                         
             simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
-                        # remaining_time = time_step_s
+            print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
+        return simulation_records
 
-                        # for i in range(len(path) - 1):
-                        #     u, v = path[i], path[i + 1]
-                        #     # edge_data = map_graph.get_edge_data(u, v)
-
-                        #     # if edge_data:
-                        #     #     edge = edge_data[0]
-                        #     #     travel_time = edge.get('time_s')
-                        #     #     traffic_factor = edge.get('traffic_factor', 1.0)
-                        #     #     adjusted_time = travel_time
-                                        
-                            
-                                
-                                # Check if reached destination
-            
-            
-            print("simulation_elapsed_time:", simulation_elapsed_time)
-        
-        self.simulation_records = simulation_records
-
-    def __visualize_simulation(self, location_name):
+    def __visualize_simulation(self, location_name, simulation_records):
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
         map_graph = self.downloader.get_map_nodes(location_name)
         centroid = map_edge.unary_union.centroid
@@ -250,7 +332,7 @@ class simulation():
          # Fix: Create proper timeline data structure
         timeline_features = []
         
-        for record in self.simulation_records:
+        for record in simulation_records:
             timestamp = record['time']
             time_str = (datetime(2000, 1, 1) + pd.to_timedelta(timestamp, unit='s')).isoformat()
             
@@ -306,15 +388,3 @@ class simulation():
                 time_slider_drag_update=True
             ).add_to(folium_map)
         return folium_map
-        
-    def draw_polyline_to_map(self, map_graph, ambulance_agent, caller_agent):
-        start_node = ambulance_agent.get_current_location_node()
-        end_node = caller_agent.get_node()
-        path = ox.shortest_path(map_graph, start_node, end_node, weight='length')
-        locations = []
-        for node in path:
-            node_lat = map_graph.nodes[node]["y"]
-            node_lon = map_graph.nodes[node]["x"]
-            locations.append((node_lat, node_lon))
-        return locations
-   

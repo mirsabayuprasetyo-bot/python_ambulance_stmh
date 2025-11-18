@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_a47fcbf3960507abea6966b5fbce21b5 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+
+            <style>html, body {
+                width: 100%;
+                height: 100%;
+                margin: 0;
+                padding: 0;
+            }
+            </style>
+
+            <style>#map {
+                position:absolute;
+                top:0;
+                bottom:0;
+                right:0;
+                left:0;
+                }
+            </style>
+
+            <script>
+                L_NO_TOUCH = false;
+                L_DISABLE_3D = false;
+            </script>
+
+        
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/iso8601-js-period@0.2.1/iso8601.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/default.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet-timedimension@1.1.1/dist/leaflet.timedimension.control.css"/>
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_a47fcbf3960507abea6966b5fbce21b5" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_a47fcbf3960507abea6966b5fbce21b5 = L.map(
+                "map_a47fcbf3960507abea6966b5fbce21b5",
+                {
+                    center: [-6.936778416495286, 106.92661925213794],
+                    crs: L.CRS.EPSG3857,
+                    ...{
+  "zoom": 15,
+  "zoomControl": true,
+  "preferCanvas": false,
+}
+
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_48e4f1ad248a979a403442e581b4a553 = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {
+  "minZoom": 0,
+  "maxZoom": 19,
+  "maxNativeZoom": 19,
+  "noWrap": false,
+  "attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors",
+  "subdomains": "abc",
+  "detectRetina": false,
+  "tms": false,
+  "opacity": 1,
+}
+
+            );
+        
+    
+            tile_layer_48e4f1ad248a979a403442e581b4a553.addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+        
+    
+            var feature_group_4f706d2416d84e9da05f45a6e33f2fdb = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_c2a59b72a9edf4eccd4bd452bceac72d = L.marker(
+                [-6.918664, 106.957745],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_1fef37710fa9602e822e5ec56736c343 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_5a4b4376ca611316483520b5f8734378 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_c05db3ec4293272ae8237415c0a078f2 = $(`<div id="html_c05db3ec4293272ae8237415c0a078f2" style="width: 100.0%; height: 100.0%;">Primaya Hospital Sukabumi</div>`)[0];
+                popup_5a4b4376ca611316483520b5f8734378.setContent(html_c05db3ec4293272ae8237415c0a078f2);
+            
+        
+
+        marker_c2a59b72a9edf4eccd4bd452bceac72d.bindPopup(popup_5a4b4376ca611316483520b5f8734378)
+        ;
+
+        
+    
+    
+            marker_c2a59b72a9edf4eccd4bd452bceac72d.bindTooltip(
+                `<div>
+                     Jl. RA Kosasih No. 45 Kel. Sukaraja Kec. Sukaraja
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c2a59b72a9edf4eccd4bd452bceac72d.setIcon(icon_1fef37710fa9602e822e5ec56736c343);
+            
+    
+            var marker_0d3e896b17518368d2e0f48967781b55 = L.marker(
+                [-6.915487, 106.930987],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_81cc239c5cde10aef9a3c4ac399c0aaa = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_b2ac167492a7f3695fe6ce14952f98c8 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_29069716f864c23102da057905e0a56f = $(`<div id="html_29069716f864c23102da057905e0a56f" style="width: 100.0%; height: 100.0%;">Puskesmas Selabatu</div>`)[0];
+                popup_b2ac167492a7f3695fe6ce14952f98c8.setContent(html_29069716f864c23102da057905e0a56f);
+            
+        
+
+        marker_0d3e896b17518368d2e0f48967781b55.bindPopup(popup_b2ac167492a7f3695fe6ce14952f98c8)
+        ;
+
+        
+    
+    
+            marker_0d3e896b17518368d2e0f48967781b55.bindTooltip(
+                `<div>
+                     Jl. Siliwangi No.139 -Kp. Sekarwangi RT 03/17 Kelurahan Cibadak Kecamatan Cibadak Kabupaten Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_0d3e896b17518368d2e0f48967781b55.setIcon(icon_81cc239c5cde10aef9a3c4ac399c0aaa);
+            
+    
+            var marker_d97ba7d92212c4e7d5721a6711c437ae = L.marker(
+                [-6.917681, 106.961439],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_52ef881ac1b9545c5a9259f5a3963acf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1fbea92961fa70c2e01ac24c3cebf5a7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_1e6db095e8015057d6fb2fcafaf15839 = $(`<div id="html_1e6db095e8015057d6fb2fcafaf15839" style="width: 100.0%; height: 100.0%;">RS Hermina Sukabumi</div>`)[0];
+                popup_1fbea92961fa70c2e01ac24c3cebf5a7.setContent(html_1e6db095e8015057d6fb2fcafaf15839);
+            
+        
+
+        marker_d97ba7d92212c4e7d5721a6711c437ae.bindPopup(popup_1fbea92961fa70c2e01ac24c3cebf5a7)
+        ;
+
+        
+    
+    
+            marker_d97ba7d92212c4e7d5721a6711c437ae.bindTooltip(
+                `<div>
+                     Jl. Raya Sukaraja, Kabupaten Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d97ba7d92212c4e7d5721a6711c437ae.setIcon(icon_52ef881ac1b9545c5a9259f5a3963acf);
+            
+    
+            var marker_4bd63230201c9fe589e5cbe140518864 = L.marker(
+                [-6.9124144, 106.9223035],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_ec36ee0f0e5496ffdb6d7bb62f3cc695 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_550a1f8631d5fbfafc6d9283e9434265 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_d8bebc41c28215c8d7f0f9904e5585b3 = $(`<div id="html_d8bebc41c28215c8d7f0f9904e5585b3" style="width: 100.0%; height: 100.0%;">RS Umum Daerah Al-Mulk</div>`)[0];
+                popup_550a1f8631d5fbfafc6d9283e9434265.setContent(html_d8bebc41c28215c8d7f0f9904e5585b3);
+            
+        
+
+        marker_4bd63230201c9fe589e5cbe140518864.bindPopup(popup_550a1f8631d5fbfafc6d9283e9434265)
+        ;
+
+        
+    
+    
+            marker_4bd63230201c9fe589e5cbe140518864.bindTooltip(
+                `<div>
+                     Jl. Pelabuhan 2 KM 6 Lembursitu, Kecamatan Lembursitu, Kota Sukabumi Provinsi Jawa Barat
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4bd63230201c9fe589e5cbe140518864.setIcon(icon_ec36ee0f0e5496ffdb6d7bb62f3cc695);
+            
+    
+            var marker_ae2146321b05f27c52b6f18bc8d01a9c = L.marker(
+                [-6.916110582837662, 106.934461509438],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_a1168d17a731ad63ae7dff3efef7d53b = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fd3634b2faec2dc0229e5b9cd4c4fc7e = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_941fca3636b7fb09552e5fc81e8d6adb = $(`<div id="html_941fca3636b7fb09552e5fc81e8d6adb" style="width: 100.0%; height: 100.0%;">RSUD R. Syamsudin, SH.</div>`)[0];
+                popup_fd3634b2faec2dc0229e5b9cd4c4fc7e.setContent(html_941fca3636b7fb09552e5fc81e8d6adb);
+            
+        
+
+        marker_ae2146321b05f27c52b6f18bc8d01a9c.bindPopup(popup_fd3634b2faec2dc0229e5b9cd4c4fc7e)
+        ;
+
+        
+    
+    
+            marker_ae2146321b05f27c52b6f18bc8d01a9c.bindTooltip(
+                `<div>
+                     Jalan Rumah Sakit Nomor 1, Kota Sukabumi - Jawa Barat 43113
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_ae2146321b05f27c52b6f18bc8d01a9c.setIcon(icon_a1168d17a731ad63ae7dff3efef7d53b);
+            
+    
+            var marker_a45172cb728f35e55a6428db8029b998 = L.marker(
+                [-6.922039494301925, 106.92376891729802],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_b52c6f8c682418290cc4c51a4830519e = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_f6774e64ca9d0bc46c42ab4abfa27872 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_49b95dfceff03b476caf85619df29d97 = $(`<div id="html_49b95dfceff03b476caf85619df29d97" style="width: 100.0%; height: 100.0%;">RS Kartika Kasih</div>`)[0];
+                popup_f6774e64ca9d0bc46c42ab4abfa27872.setContent(html_49b95dfceff03b476caf85619df29d97);
+            
+        
+
+        marker_a45172cb728f35e55a6428db8029b998.bindPopup(popup_f6774e64ca9d0bc46c42ab4abfa27872)
+        ;
+
+        
+    
+    
+            marker_a45172cb728f35e55a6428db8029b998.bindTooltip(
+                `<div>
+                     Jalan Jendral A. Yani Nomor 18 A, Nyomplong, Kec. Warudoyong, Kota Sukabumi, Jawa Barat 43131
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a45172cb728f35e55a6428db8029b998.setIcon(icon_b52c6f8c682418290cc4c51a4830519e);
+            
+    
+            var marker_9f52fec2a4e0032ca4247191fad6cede = L.marker(
+                [-6.921761530817802, 106.93445833324824],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_2c796ecd52bbefdfaf88139556fbdd14 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d64ee9ebd1c22fad3d3c0d1e68e3031f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_62c2f0218f9201e3d1dd3b13e8542a87 = $(`<div id="html_62c2f0218f9201e3d1dd3b13e8542a87" style="width: 100.0%; height: 100.0%;">Rumah Sakit Rido Galih</div>`)[0];
+                popup_d64ee9ebd1c22fad3d3c0d1e68e3031f.setContent(html_62c2f0218f9201e3d1dd3b13e8542a87);
+            
+        
+
+        marker_9f52fec2a4e0032ca4247191fad6cede.bindPopup(popup_d64ee9ebd1c22fad3d3c0d1e68e3031f)
+        ;
+
+        
+    
+    
+            marker_9f52fec2a4e0032ca4247191fad6cede.bindTooltip(
+                `<div>
+                     Jl. Gudang No. 24 Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_9f52fec2a4e0032ca4247191fad6cede.setIcon(icon_2c796ecd52bbefdfaf88139556fbdd14);
+            
+    
+            var marker_17ee73a3de3ff81cd7c452589b90b272 = L.marker(
+                [-6.9189760940104925, 106.91688611513167],
+                {
+}
+            ).addTo(feature_group_4f706d2416d84e9da05f45a6e33f2fdb);
+        
+    
+            var icon_6da6e4248411f5c5df719620260eeff1 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "red",
+  "iconColor": "black",
+  "icon": "hospital",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6b86eac3c58aa1349d98f642b70533d7 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ea6cb542f824bba45a2c14dd2daa0f0f = $(`<div id="html_ea6cb542f824bba45a2c14dd2daa0f0f" style="width: 100.0%; height: 100.0%;">Rumah Sakit Islam Assyifa</div>`)[0];
+                popup_6b86eac3c58aa1349d98f642b70533d7.setContent(html_ea6cb542f824bba45a2c14dd2daa0f0f);
+            
+        
+
+        marker_17ee73a3de3ff81cd7c452589b90b272.bindPopup(popup_6b86eac3c58aa1349d98f642b70533d7)
+        ;
+
+        
+    
+    
+            marker_17ee73a3de3ff81cd7c452589b90b272.bindTooltip(
+                `<div>
+                     Jl. Jend Sudirman No. 3 Kel. Gunungpuyuh Kec. Gunungpuyuh Kota Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_17ee73a3de3ff81cd7c452589b90b272.setIcon(icon_6da6e4248411f5c5df719620260eeff1);
+            
+    
+            feature_group_4f706d2416d84e9da05f45a6e33f2fdb.addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+        
+    
+            var feature_group_c37aa68246a709978fb705f1169a2617 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_c3559ccbd7cd3063b0bcb976e7c96591 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_3bad1f1398be256f6974db7268207152 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_95b9f89fd30fc674a8d534d2fdfc6eb3 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_f142c9275e68776969214b0a4cb3a97d = $(`<div id="html_f142c9275e68776969214b0a4cb3a97d" style="width: 100.0%; height: 100.0%;">ambulance_Primaya Hospital Sukabumi_76</div>`)[0];
+                popup_95b9f89fd30fc674a8d534d2fdfc6eb3.setContent(html_f142c9275e68776969214b0a4cb3a97d);
+            
+        
+
+        marker_c3559ccbd7cd3063b0bcb976e7c96591.bindPopup(popup_95b9f89fd30fc674a8d534d2fdfc6eb3)
+        ;
+
+        
+    
+    
+            marker_c3559ccbd7cd3063b0bcb976e7c96591.bindTooltip(
+                `<div>
+                     Primaya Hospital Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c3559ccbd7cd3063b0bcb976e7c96591.setIcon(icon_3bad1f1398be256f6974db7268207152);
+            
+    
+            var marker_d4bae26ae71d86ae9442dadf00c59e2f = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_9e7f741a9a622c986f451f4989faaa87 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c2b7682f643b1f8f38fcaa4ac7453f59 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_35f90a2bdf773bf90555cc52f7e56da6 = $(`<div id="html_35f90a2bdf773bf90555cc52f7e56da6" style="width: 100.0%; height: 100.0%;">ambulance_Primaya Hospital Sukabumi_43</div>`)[0];
+                popup_c2b7682f643b1f8f38fcaa4ac7453f59.setContent(html_35f90a2bdf773bf90555cc52f7e56da6);
+            
+        
+
+        marker_d4bae26ae71d86ae9442dadf00c59e2f.bindPopup(popup_c2b7682f643b1f8f38fcaa4ac7453f59)
+        ;
+
+        
+    
+    
+            marker_d4bae26ae71d86ae9442dadf00c59e2f.bindTooltip(
+                `<div>
+                     Primaya Hospital Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_d4bae26ae71d86ae9442dadf00c59e2f.setIcon(icon_9e7f741a9a622c986f451f4989faaa87);
+            
+    
+            var marker_3e654951727150b4a42188152d0c5e1a = L.marker(
+                [-6.9153728, 106.9303823],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_f4d8550936970825ca6215285299c0fc = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2913c19e7b4cc0ec28ac2847aafdb058 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_2712b06dc8a5f8190cf626eb596629e5 = $(`<div id="html_2712b06dc8a5f8190cf626eb596629e5" style="width: 100.0%; height: 100.0%;">ambulance_Puskesmas Selabatu_69</div>`)[0];
+                popup_2913c19e7b4cc0ec28ac2847aafdb058.setContent(html_2712b06dc8a5f8190cf626eb596629e5);
+            
+        
+
+        marker_3e654951727150b4a42188152d0c5e1a.bindPopup(popup_2913c19e7b4cc0ec28ac2847aafdb058)
+        ;
+
+        
+    
+    
+            marker_3e654951727150b4a42188152d0c5e1a.bindTooltip(
+                `<div>
+                     Puskesmas Selabatu
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_3e654951727150b4a42188152d0c5e1a.setIcon(icon_f4d8550936970825ca6215285299c0fc);
+            
+    
+            var marker_7755ced727ba6c18d65943c3f825ac52 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_2bdee6eb93e3c9aa4804433e402ed5a6 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_fe08a771d1b36ad330177e9ba18c6681 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_442b6fb95d2897216529bcf6ca3f4fe0 = $(`<div id="html_442b6fb95d2897216529bcf6ca3f4fe0" style="width: 100.0%; height: 100.0%;">ambulance_RS Hermina Sukabumi_49</div>`)[0];
+                popup_fe08a771d1b36ad330177e9ba18c6681.setContent(html_442b6fb95d2897216529bcf6ca3f4fe0);
+            
+        
+
+        marker_7755ced727ba6c18d65943c3f825ac52.bindPopup(popup_fe08a771d1b36ad330177e9ba18c6681)
+        ;
+
+        
+    
+    
+            marker_7755ced727ba6c18d65943c3f825ac52.bindTooltip(
+                `<div>
+                     RS Hermina Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_7755ced727ba6c18d65943c3f825ac52.setIcon(icon_2bdee6eb93e3c9aa4804433e402ed5a6);
+            
+    
+            var marker_c823b2e3f80ed9a5de84d5f1c5d108a9 = L.marker(
+                [-6.9216102, 106.9576791],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_b93c11571063804e551b1a0da08dd945 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d01e34a7a396d759de688ceb83652953 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_5b26ec0851392513c89ec0355a666bc1 = $(`<div id="html_5b26ec0851392513c89ec0355a666bc1" style="width: 100.0%; height: 100.0%;">ambulance_RS Hermina Sukabumi_77</div>`)[0];
+                popup_d01e34a7a396d759de688ceb83652953.setContent(html_5b26ec0851392513c89ec0355a666bc1);
+            
+        
+
+        marker_c823b2e3f80ed9a5de84d5f1c5d108a9.bindPopup(popup_d01e34a7a396d759de688ceb83652953)
+        ;
+
+        
+    
+    
+            marker_c823b2e3f80ed9a5de84d5f1c5d108a9.bindTooltip(
+                `<div>
+                     RS Hermina Sukabumi
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_c823b2e3f80ed9a5de84d5f1c5d108a9.setIcon(icon_b93c11571063804e551b1a0da08dd945);
+            
+    
+            var marker_2609d820cf081d682a6f07d3a24985f1 = L.marker(
+                [-6.9118314, 106.9220044],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_d598388c42d52f189588e91775660d67 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_d8133afc372bebeb9f418939f5d14b6b = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_84d187f4900b54dfad32b88fac8b17c0 = $(`<div id="html_84d187f4900b54dfad32b88fac8b17c0" style="width: 100.0%; height: 100.0%;">ambulance_RS Umum Daerah Al-Mulk_33</div>`)[0];
+                popup_d8133afc372bebeb9f418939f5d14b6b.setContent(html_84d187f4900b54dfad32b88fac8b17c0);
+            
+        
+
+        marker_2609d820cf081d682a6f07d3a24985f1.bindPopup(popup_d8133afc372bebeb9f418939f5d14b6b)
+        ;
+
+        
+    
+    
+            marker_2609d820cf081d682a6f07d3a24985f1.bindTooltip(
+                `<div>
+                     RS Umum Daerah Al-Mulk
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_2609d820cf081d682a6f07d3a24985f1.setIcon(icon_d598388c42d52f189588e91775660d67);
+            
+    
+            var marker_61a9c45450be66a44ccf5b77a40b3504 = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_ec1bfd96c4e6fba75900437e09953b5c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_402a2d768ac437cf47f7b3fcbdb08ca5 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_a75f21bd8d3df3a9d3949fb8c4e9884a = $(`<div id="html_a75f21bd8d3df3a9d3949fb8c4e9884a" style="width: 100.0%; height: 100.0%;">ambulance_RSUD R. Syamsudin, SH._44</div>`)[0];
+                popup_402a2d768ac437cf47f7b3fcbdb08ca5.setContent(html_a75f21bd8d3df3a9d3949fb8c4e9884a);
+            
+        
+
+        marker_61a9c45450be66a44ccf5b77a40b3504.bindPopup(popup_402a2d768ac437cf47f7b3fcbdb08ca5)
+        ;
+
+        
+    
+    
+            marker_61a9c45450be66a44ccf5b77a40b3504.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_61a9c45450be66a44ccf5b77a40b3504.setIcon(icon_ec1bfd96c4e6fba75900437e09953b5c);
+            
+    
+            var marker_131366fbb7d687e9d884b49015f46356 = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_4dae46b83427f2cced408cb8cb08aebf = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_e84b7ffd210f886031a19fb58c50fc4c = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e132aabef7c1328ea82a9489ac2f60e7 = $(`<div id="html_e132aabef7c1328ea82a9489ac2f60e7" style="width: 100.0%; height: 100.0%;">ambulance_RSUD R. Syamsudin, SH._35</div>`)[0];
+                popup_e84b7ffd210f886031a19fb58c50fc4c.setContent(html_e132aabef7c1328ea82a9489ac2f60e7);
+            
+        
+
+        marker_131366fbb7d687e9d884b49015f46356.bindPopup(popup_e84b7ffd210f886031a19fb58c50fc4c)
+        ;
+
+        
+    
+    
+            marker_131366fbb7d687e9d884b49015f46356.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_131366fbb7d687e9d884b49015f46356.setIcon(icon_4dae46b83427f2cced408cb8cb08aebf);
+            
+    
+            var marker_a1ad1e1467fe4a271fac9f2c3cb4cc3e = L.marker(
+                [-6.9153808, 106.9353269],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_0a760b71f7fde00e54198e42ef3d5286 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_142be32887c7fabdb028d08ab87faa18 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_be5d9238a144739cff65b5e2d79ad0e2 = $(`<div id="html_be5d9238a144739cff65b5e2d79ad0e2" style="width: 100.0%; height: 100.0%;">ambulance_RSUD R. Syamsudin, SH._9</div>`)[0];
+                popup_142be32887c7fabdb028d08ab87faa18.setContent(html_be5d9238a144739cff65b5e2d79ad0e2);
+            
+        
+
+        marker_a1ad1e1467fe4a271fac9f2c3cb4cc3e.bindPopup(popup_142be32887c7fabdb028d08ab87faa18)
+        ;
+
+        
+    
+    
+            marker_a1ad1e1467fe4a271fac9f2c3cb4cc3e.bindTooltip(
+                `<div>
+                     RSUD R. Syamsudin, SH.
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_a1ad1e1467fe4a271fac9f2c3cb4cc3e.setIcon(icon_0a760b71f7fde00e54198e42ef3d5286);
+            
+    
+            var marker_918416477d30dc96e3a75c67de7b182b = L.marker(
+                [-6.9223091, 106.9235346],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_ca3161272d48094e301a1c26c3dc31a4 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_2f1d562712042693317e7bf4e3941b5f = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_28a2d7685567f6fa11fdbfb7027162b8 = $(`<div id="html_28a2d7685567f6fa11fdbfb7027162b8" style="width: 100.0%; height: 100.0%;">ambulance_RS Kartika Kasih_33</div>`)[0];
+                popup_2f1d562712042693317e7bf4e3941b5f.setContent(html_28a2d7685567f6fa11fdbfb7027162b8);
+            
+        
+
+        marker_918416477d30dc96e3a75c67de7b182b.bindPopup(popup_2f1d562712042693317e7bf4e3941b5f)
+        ;
+
+        
+    
+    
+            marker_918416477d30dc96e3a75c67de7b182b.bindTooltip(
+                `<div>
+                     RS Kartika Kasih
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_918416477d30dc96e3a75c67de7b182b.setIcon(icon_ca3161272d48094e301a1c26c3dc31a4);
+            
+    
+            var marker_11b9f1e24a33e14519f51994e0b5850c = L.marker(
+                [-6.9220184, 106.9341499],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_c08fd9cc15911223db05e46f3ef84aa3 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_c5bee9851856e0c25c9bae78a8de9981 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_41c7efca9532ac43c5db762a6c1cf76a = $(`<div id="html_41c7efca9532ac43c5db762a6c1cf76a" style="width: 100.0%; height: 100.0%;">ambulance_Rumah Sakit Rido Galih_77</div>`)[0];
+                popup_c5bee9851856e0c25c9bae78a8de9981.setContent(html_41c7efca9532ac43c5db762a6c1cf76a);
+            
+        
+
+        marker_11b9f1e24a33e14519f51994e0b5850c.bindPopup(popup_c5bee9851856e0c25c9bae78a8de9981)
+        ;
+
+        
+    
+    
+            marker_11b9f1e24a33e14519f51994e0b5850c.bindTooltip(
+                `<div>
+                     Rumah Sakit Rido Galih
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_11b9f1e24a33e14519f51994e0b5850c.setIcon(icon_c08fd9cc15911223db05e46f3ef84aa3);
+            
+    
+            var marker_df9443ea8af9c5a13277397e35f0519f = L.marker(
+                [-6.9193023, 106.9166399],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_6390fc66ae90665fa826ce00f6b6ae7c = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_76bb05e241a4b770cb15c7189af8ec24 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ae1a41ab6d7db5253464ba4bc2d50287 = $(`<div id="html_ae1a41ab6d7db5253464ba4bc2d50287" style="width: 100.0%; height: 100.0%;">ambulance_Rumah Sakit Islam Assyifa_79</div>`)[0];
+                popup_76bb05e241a4b770cb15c7189af8ec24.setContent(html_ae1a41ab6d7db5253464ba4bc2d50287);
+            
+        
+
+        marker_df9443ea8af9c5a13277397e35f0519f.bindPopup(popup_76bb05e241a4b770cb15c7189af8ec24)
+        ;
+
+        
+    
+    
+            marker_df9443ea8af9c5a13277397e35f0519f.bindTooltip(
+                `<div>
+                     Rumah Sakit Islam Assyifa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_df9443ea8af9c5a13277397e35f0519f.setIcon(icon_6390fc66ae90665fa826ce00f6b6ae7c);
+            
+    
+            var marker_27b28e32e498d0e5587d997488da18dd = L.marker(
+                [-6.9193023, 106.9166399],
+                {
+}
+            ).addTo(feature_group_c37aa68246a709978fb705f1169a2617);
+        
+    
+            var icon_6d137ebcdfda989537c8dbf595970209 = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "blue",
+  "iconColor": "black",
+  "icon": "truck-medical",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_6d86e042d2545a2a76cd82034664c60a = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_e5d77bf09bbb830c38bbf6ad5e030228 = $(`<div id="html_e5d77bf09bbb830c38bbf6ad5e030228" style="width: 100.0%; height: 100.0%;">ambulance_Rumah Sakit Islam Assyifa_92</div>`)[0];
+                popup_6d86e042d2545a2a76cd82034664c60a.setContent(html_e5d77bf09bbb830c38bbf6ad5e030228);
+            
+        
+
+        marker_27b28e32e498d0e5587d997488da18dd.bindPopup(popup_6d86e042d2545a2a76cd82034664c60a)
+        ;
+
+        
+    
+    
+            marker_27b28e32e498d0e5587d997488da18dd.bindTooltip(
+                `<div>
+                     Rumah Sakit Islam Assyifa
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_27b28e32e498d0e5587d997488da18dd.setIcon(icon_6d137ebcdfda989537c8dbf595970209);
+            
+    
+            feature_group_c37aa68246a709978fb705f1169a2617.addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+        
+    
+            var feature_group_f883a983b9d1405ff21797a8effdcd12 = L.featureGroup(
+                {
+}
+            );
+        
+    
+            var marker_4c8f1b73cc890f6fc88b378b007e20cb = L.marker(
+                [-6.9320769, 106.9108276],
+                {
+}
+            ).addTo(feature_group_f883a983b9d1405ff21797a8effdcd12);
+        
+    
+            var icon_e4ab73a2df1a682163ac3892e71203bb = L.AwesomeMarkers.icon(
+                {
+  "markerColor": "lightred",
+  "iconColor": "white",
+  "icon": "person-falling-burst",
+  "prefix": "fa",
+  "extraClasses": "fa-rotate-0",
+}
+            );
+        
+    
+        var popup_1af3b0fff41713c220da6c5a19918298 = L.popup({
+  "maxWidth": "100%",
+});
+
+        
+            
+                var html_ee1ddd6d7e0d96bd6e2137b7e94dade8 = $(`<div id="html_ee1ddd6d7e0d96bd6e2137b7e94dade8" style="width: 100.0%; height: 100.0%;">patient_640</div>`)[0];
+                popup_1af3b0fff41713c220da6c5a19918298.setContent(html_ee1ddd6d7e0d96bd6e2137b7e94dade8);
+            
+        
+
+        marker_4c8f1b73cc890f6fc88b378b007e20cb.bindPopup(popup_1af3b0fff41713c220da6c5a19918298)
+        ;
+
+        
+    
+    
+            marker_4c8f1b73cc890f6fc88b378b007e20cb.bindTooltip(
+                `<div>
+                     high
+                 </div>`,
+                {
+  "sticky": true,
+}
+            );
+        
+    
+                marker_4c8f1b73cc890f6fc88b378b007e20cb.setIcon(icon_e4ab73a2df1a682163ac3892e71203bb);
+            
+    
+            feature_group_f883a983b9d1405ff21797a8effdcd12.addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+        
+    
+            var layer_control_671ae7e905870ea485809fd21f174038_layers = {
+                base_layers : {
+                    "openstreetmap" : tile_layer_48e4f1ad248a979a403442e581b4a553,
+                },
+                overlays :  {
+                    "Rumah Sakit" : feature_group_4f706d2416d84e9da05f45a6e33f2fdb,
+                    "ambulans" : feature_group_c37aa68246a709978fb705f1169a2617,
+                    "pasien" : feature_group_f883a983b9d1405ff21797a8effdcd12,
+                },
+            };
+            let layer_control_671ae7e905870ea485809fd21f174038 = L.control.layers(
+                layer_control_671ae7e905870ea485809fd21f174038_layers.base_layers,
+                layer_control_671ae7e905870ea485809fd21f174038_layers.overlays,
+                {
+  "position": "topright",
+  "collapsed": true,
+  "autoZIndex": true,
+}
+            ).addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+
+        
+    
+            L.Control.TimeDimensionCustom = L.Control.TimeDimension.extend({
+                _getDisplayDateFormat: function(date){
+                    var newdate = new moment(date);
+                    console.log(newdate)
+                    return newdate.format("YYYY-MM-DD HH:mm:ss");
+                }
+            });
+            map_a47fcbf3960507abea6966b5fbce21b5.timeDimension = L.timeDimension(
+                {
+                    period: "PT1S",
+                }
+            );
+            var timeDimensionControl = new L.Control.TimeDimensionCustom(
+                {
+  "position": "bottomleft",
+  "minSpeed": 0.1,
+  "maxSpeed": 5,
+  "autoPlay": false,
+  "loopButton": true,
+  "timeSliderDragUpdate": true,
+  "speedSlider": true,
+  "playerOptions": {
+  "transitionTime": 200,
+  "loop": false,
+  "startOver": true,
+},
+}
+            );
+            map_a47fcbf3960507abea6966b5fbce21b5.addControl(this.timeDimensionControl);
+
+            var geoJsonLayer = L.geoJson({"type": "FeatureCollection", "features": [{"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9576791, -6.9216102]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3202014", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9576791, -6.9216102]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3202014", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9303823, -6.9153728]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3202086", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9576791, -6.9216102]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3202084", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9576791, -6.9216102]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3202084", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9220044, -6.9118314]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272075", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9353269, -6.9153808]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272014", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9353269, -6.9153808]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272014", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9353269, -6.9153808]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272014", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272062", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9341499, -6.9220184]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272036", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9166399, -6.9193023]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272051", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9166399, -6.9193023]}, "properties": {"time": "2000-01-01T00:00:00", "popup": "Ambulance 3272051", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9221102, -6.922156]}, "properties": {"time": "2000-01-01T00:00:01", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9219534, -6.923016]}, "properties": {"time": "2000-01-01T00:00:02", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9202979, -6.9225737]}, "properties": {"time": "2000-01-01T00:00:03", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9160513, -6.9217348]}, "properties": {"time": "2000-01-01T00:00:04", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.91586, -6.9217245]}, "properties": {"time": "2000-01-01T00:00:05", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9156133, -6.922475]}, "properties": {"time": "2000-01-01T00:00:06", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9152102, -6.9241635]}, "properties": {"time": "2000-01-01T00:00:07", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151982, -6.9243967]}, "properties": {"time": "2000-01-01T00:00:08", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.915182, -6.924877]}, "properties": {"time": "2000-01-01T00:00:09", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151686, -6.9252233]}, "properties": {"time": "2000-01-01T00:00:10", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151674, -6.9253751]}, "properties": {"time": "2000-01-01T00:00:11", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151599, -6.9265653]}, "properties": {"time": "2000-01-01T00:00:12", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151529, -6.9281046]}, "properties": {"time": "2000-01-01T00:00:13", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9148416, -6.9281401]}, "properties": {"time": "2000-01-01T00:00:14", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9143354, -6.9280892]}, "properties": {"time": "2000-01-01T00:00:15", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9119313, -6.9286794]}, "properties": {"time": "2000-01-01T00:00:16", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9118524, -6.9290535]}, "properties": {"time": "2000-01-01T00:00:17", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9111676, -6.9298962]}, "properties": {"time": "2000-01-01T00:00:18", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.910717, -6.9301698]}, "properties": {"time": "2000-01-01T00:00:19", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9110409, -6.9308454]}, "properties": {"time": "2000-01-01T00:00:20", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "blue", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9108276, -6.9320769]}, "properties": {"time": "2000-01-01T00:00:21", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9110409, -6.9308454]}, "properties": {"time": "2000-01-01T00:00:22", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.910717, -6.9301698]}, "properties": {"time": "2000-01-01T00:00:23", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9111676, -6.9298962]}, "properties": {"time": "2000-01-01T00:00:24", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9118524, -6.9290535]}, "properties": {"time": "2000-01-01T00:00:25", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9119313, -6.9286794]}, "properties": {"time": "2000-01-01T00:00:26", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9143354, -6.9280892]}, "properties": {"time": "2000-01-01T00:00:27", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9148416, -6.9281401]}, "properties": {"time": "2000-01-01T00:00:28", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151529, -6.9281046]}, "properties": {"time": "2000-01-01T00:00:29", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151599, -6.9265653]}, "properties": {"time": "2000-01-01T00:00:30", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151674, -6.9253751]}, "properties": {"time": "2000-01-01T00:00:31", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151686, -6.9252233]}, "properties": {"time": "2000-01-01T00:00:32", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.915182, -6.924877]}, "properties": {"time": "2000-01-01T00:00:33", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9151982, -6.9243967]}, "properties": {"time": "2000-01-01T00:00:34", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9152102, -6.9241635]}, "properties": {"time": "2000-01-01T00:00:35", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9156133, -6.922475]}, "properties": {"time": "2000-01-01T00:00:36", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.91586, -6.9217245]}, "properties": {"time": "2000-01-01T00:00:37", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9160513, -6.9217348]}, "properties": {"time": "2000-01-01T00:00:38", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9202979, -6.9225737]}, "properties": {"time": "2000-01-01T00:00:39", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9219534, -6.923016]}, "properties": {"time": "2000-01-01T00:00:40", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9221102, -6.922156]}, "properties": {"time": "2000-01-01T00:00:41", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:42", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:43", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:44", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:45", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:46", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:47", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:48", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:49", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:50", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:51", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:52", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:53", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:54", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:55", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:56", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:57", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:58", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:00:59", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:00", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:01", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:02", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:03", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:04", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:05", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:06", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:07", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:08", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:09", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:10", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:11", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:12", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:13", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:14", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:15", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:16", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:17", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:18", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:19", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:20", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:21", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:22", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:23", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:24", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:25", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:26", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:27", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:28", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:29", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:30", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:31", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:32", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:33", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:34", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:35", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:36", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:37", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:38", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:39", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:40", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:41", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:42", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:43", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:44", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:45", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:46", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:47", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:48", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:49", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:50", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:51", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:52", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:53", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:54", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:55", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:56", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:57", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:58", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:01:59", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:00", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:01", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:02", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:03", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:04", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:05", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:06", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:07", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:08", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:09", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:10", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:11", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:12", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:13", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:14", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:15", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:16", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:17", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:18", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:19", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:20", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:21", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:22", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:23", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:24", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:25", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:26", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:27", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:28", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:29", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:30", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:31", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:32", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:33", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:34", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:35", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:36", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:37", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:38", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:39", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:40", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:41", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:42", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:43", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:44", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:45", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:46", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:47", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:48", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:49", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:50", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:51", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:52", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:53", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:54", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:55", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:56", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:57", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:58", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:02:59", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:00", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:01", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:02", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:03", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:04", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:05", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:06", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:07", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:08", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:09", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:10", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:11", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:12", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:13", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:14", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:15", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:16", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:17", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:18", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:19", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:20", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:21", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:22", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:23", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:24", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:25", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:26", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:27", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:28", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:29", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:30", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:31", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:32", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:33", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:34", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:35", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:36", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:37", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:38", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:39", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:40", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:41", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:42", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:43", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:44", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:45", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:46", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:47", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:48", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:49", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:50", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:51", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:52", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:53", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:54", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:55", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:56", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:57", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:58", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:03:59", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:00", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:01", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:02", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:03", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:04", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:05", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:06", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:07", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:08", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:09", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:10", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:11", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:12", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:13", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:14", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:15", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:16", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:17", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:18", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:19", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:20", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:21", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:22", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:23", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:24", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:25", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:26", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:27", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:28", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:29", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:30", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:31", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:32", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:33", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:34", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:35", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:36", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:37", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:38", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:39", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:40", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:41", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:42", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:43", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:44", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:45", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:46", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:47", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:48", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:49", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:50", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:51", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:52", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:53", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:54", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:55", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:56", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:57", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:58", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:04:59", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}, {"type": "Feature", "geometry": {"type": "Point", "coordinates": [106.9235346, -6.9223091]}, "properties": {"time": "2000-01-01T00:05:00", "popup": "Ambulance ambulance_RS Kartika Kasih_33", "icon": "circle", "iconstyle": {"fillColor": "red", "color": "black", "radius": 6, "fillOpacity": 0.8}}}]}, {
+                    pointToLayer: function (feature, latLng) {
+                        if (feature.properties.icon == 'marker') {
+                            if(feature.properties.iconstyle){
+                                return new L.Marker(latLng, {
+                                    icon: L.icon(feature.properties.iconstyle)});
+                            }
+                            //else
+                            return new L.Marker(latLng);
+                        }
+                        if (feature.properties.icon == 'circle') {
+                            if (feature.properties.iconstyle) {
+                                return new L.circleMarker(latLng, feature.properties.iconstyle)
+                                };
+                            //else
+                            return new L.circleMarker(latLng);
+                        }
+                        //else
+
+                        return new L.Marker(latLng);
+                    },
+                    style: function (feature) {
+                        return feature.properties.style;
+                    },
+                    onEachFeature: function(feature, layer) {
+                        if (feature.properties.popup) {
+                        layer.bindPopup(feature.properties.popup);
+                        }
+                        if (feature.properties.tooltip) {
+                        layer.bindTooltip(feature.properties.tooltip);
+                        }
+                    }
+                })
+
+            var timestamped_geo_json_2ef051ab0756531c344d2ecdcbb74649 = L.timeDimension.layer.geoJson(
+                geoJsonLayer,
+                {
+                    updateTimeDimension: true,
+                    addlastPoint: true,
+                    duration: "PT10M",
+                }
+            ).addTo(map_a47fcbf3960507abea6966b5fbce21b5);
+        
+</script>
+</html>

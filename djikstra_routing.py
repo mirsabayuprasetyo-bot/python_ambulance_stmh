@@ -39,7 +39,7 @@ class DijkstraRouter:
 
     def _load_graph(self):
         # ox.load_graphml preserves node ids/types and MultiDiGraph structure
-        G = ox.load_graphml(self.graphml)
+        G = self.graphml
         # Ensure directed MultiDiGraph for correct routing semantics
         if not G.is_directed():
             G = G.to_directed()
