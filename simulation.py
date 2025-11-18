@@ -16,6 +16,9 @@ import ga_routing as genetics
 import djikstra_routing as djikstra
 import astar_routing as astar
 import copy
+from pathlib import Path
+import matplotlib
+import matplotlib.pyplot as plt
 
 
 class simulation():
@@ -28,93 +31,40 @@ class simulation():
         pass
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,5)
+        self.__define_caller_agents(location_name,10)
         self.__define_traffic_condition(location_name)
+
+        out_dir = Path.cwd() / f"simulation_{location_name}"
+        out_dir.mkdir(parents=True, exist_ok=True)
+        map_ox_path = out_dir / f"map_ox_{location_name}.html"
+        map_djikstra_path = out_dir / f"map_djikstra_{location_name}.html"
+        map_astar_path = out_dir / f"map_astar_{location_name}.html"
+        map_ga_path = out_dir / f"map_ga_{location_name}.html"
+        plot_path = out_dir / f"mean_response_time_{location_name}.png"
         
+        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ox")
         simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="djikstra")
         simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="astar")
-        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ox")
         simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ga")
-        
+
         folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
         folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
         folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar)
         folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga)
-        
-        # # Create a single HTML page that shows the three folium maps as subplots (side-by-side)
 
-        out_dir = os.path.abspath(f"simulation_{location_name}")
-        os.makedirs(out_dir, exist_ok=True)
+        folium_map_ox.save(map_ox_path)
+        folium_map_djikstra.save(map_djikstra_path)
+        folium_map_astar.save(map_astar_path)
+        folium_map_ga.save(map_ga_path)
 
-        m1_path = os.path.join(out_dir, f"map_ox_{location_name}.html")
-        m2_path = os.path.join(out_dir, f"map_dijkstra_{location_name}.html")
-        m3_path = os.path.join(out_dir, f"map_astar_{location_name}.html")
-        m4_path = os.path.join(out_dir, f"map_ga_{location_name}.html")
+        mean_response_time_djikstra = self.__calculate_mean_ambulance_response_time(simulation_records_djikstra)
+        mean_response_time_astar = self.__calculate_mean_ambulance_response_time(simulation_records_astar)
+        mean_response_time_ox = self.__calculate_mean_ambulance_response_time(simulation_records_ox)
+        mean_response_time_ga = self.__calculate_mean_ambulance_response_time(simulation_records_ga)
 
-        folium_map_ox.save(m1_path)
-        folium_map_djikstra.save(m2_path)
-        folium_map_astar.save(m3_path)
-        folium_map_ga.save(m4_path)
+        self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
 
-        wrapper_path = os.path.join(out_dir, f"subplot_{location_name}.html")
-        with open(wrapper_path, "w", encoding="utf-8") as f:
-            f.write(f"""<!DOCTYPE html>
-            <html>
-            <head>
-            <meta charset="utf-8">
-            <title>Ambulance Simulation - {location_name}</title>
-            <style>
-            body {{ margin: 0; font-family: Arial, sans-serif; }}
-            .grid {{
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                grid-auto-rows: 50vh;
-                gap: 8px;
-                padding: 8px;
-                box-sizing: border-box;
-            }}
-            .cell {{ position: relative; border: 1px solid #ddd; }}
-            .cell h3 {{
-                position: absolute;
-                top: 6px;
-                left: 8px;
-                margin: 0;
-                z-index: 2;
-                background: rgba(255, 255, 255, 0.85);
-                padding: 2px 6px;
-                font-size: 14px;
-                border-radius: 4px;
-            }}
-            .cell iframe {{ width: 100%; height: 100%; border: 0; }}
-            @media (max-width: 1200px) {{
-                .grid {{ grid-template-columns: 1fr; grid-auto-rows: 60vh; }}
-            }}
-            </style>
-            </head>
-            <body>
-            <div class="grid">
-                <div class="cell">
-                <h3>using osm algorithm</h3>
-                <iframe src="{os.path.basename(m1_path)}"></iframe>
-                </div>
-                <div class="cell">
-                <h3>Djikstra Algorithm</h3>
-                <iframe src="{os.path.basename(m2_path)}"></iframe>
-                </div>
-                <div class="cell">
-                <h3>A* Algorithm</h3>
-                <iframe src="{os.path.basename(m3_path)}"></iframe>
-                </div>
-                <div class="cell">
-                <h3>Genetics Algorithm</h3>
-                <iframe src="{os.path.basename(m4_path)}"></iframe>
-                </div>
-            </div>
-            </body>
-            </html>""")
-
-        webbrowser.open(f"file://{wrapper_path}")
-
+        self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
 
     def __define_hospital_and_ambulance_agents(self, location_name):
         map_nodes = self.downloader.get_map_nodes(location_name)  # Use self.downloader
@@ -178,6 +128,7 @@ class simulation():
                 map_graph[u][v][k]['traffic_factor'] = traffic_factor
                 map_graph[u][v][k]['time_s'] = map_graph[u][v][k]['length'] / 50  # assuming default speed 50 m/s
                 map_graph[u][v][k]['maxspeed'] = 50  # assuming default speed 50 m/s
+                map_graph[u][v][k]['time_per_edge'] = map_graph[u][v][k]['time_s'] * traffic_factor 
 
         self.map_graph_with_traffic = map_graph
         
@@ -213,7 +164,8 @@ class simulation():
              'positions': current_positions_snapshot.copy()
             }
             )
-        # respon
+        bIsResponseRecorded = False
+        response_time = 0
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
             simulation_elapsed_time += time_step_s
@@ -254,14 +206,14 @@ class simulation():
 
                         path = None
                         if algorithm == "ga":
-                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_s', population_size=10,generations=10)
+                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_per_edge', population_size=10,generations=10)
                         elif algorithm == "ox":
-                            path = ox.shortest_path(map_graph, current_node, destination, weight='time_s')
+                            path = ox.shortest_path(map_graph, current_node, destination, weight='time_per_edge')
                         elif algorithm == "astar":
-                            router = astar.AStarRouter()
+                            router = astar.AStarRouter(default_weight='time_per_edge')
                             path = router.shortest_path(map_graph, current_node, destination)
                         elif algorithm == "djikstra":
-                            router = djikstra.DijkstraRouter(map_graph, current_node, destination)
+                            router = djikstra.DijkstraRouter(map_graph, current_node, destination, weight='time_per_edge')
                             path = router.shortest_path()
 
                         if path is None:
@@ -274,6 +226,18 @@ class simulation():
                             current_node = destination
 
                         if current_node == destination:
+                            
+                            if current_node == ambulance.get_origin_node() and not ambulance.is_available():
+                                current_positions_snapshot[ambulance.get_ambulance_id()] = {
+                                    'lat': map_graph.nodes[current_node]['y'],
+                                    'lon': map_graph.nodes[current_node]['x'],
+                                    'hospital_id': ambulance.get_ambulance_id(),
+                                    'status': ambulance.is_returned(),
+                                    'response_time': simulation_elapsed_time
+                                    }
+                                simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
+                                ambulance.set_available(True)
+
                             ambulance.set_current_location_node(destination)
                             ambulance.set_destination_node(ambulance.get_origin_node())
                             ambulance.set_take_patient_to_hospital()
@@ -284,9 +248,12 @@ class simulation():
                                     'hospital_id': ambulance.get_ambulance_id(),
                                     'status': ambulance.is_returned()
                                     }
+                            
+                        
                         
             simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
             print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
+
         return simulation_records
 
     def __visualize_simulation(self, location_name, simulation_records):
@@ -308,8 +275,8 @@ class simulation():
                 icon=Icon(color="red", icon_color="black", icon="hospital", prefix="fa")
                 ).add_to(feature_group_hospital)
             for ambulance in hospital.get_ambulance_agents():
-                amb_lat = map_graph.nodes[ambulance.get_current_location_node()]["y"] 
-                amb_lon = map_graph.nodes[ambulance.get_current_location_node()]["x"]
+                amb_lat = map_graph.nodes[ambulance.get_current_location_node()]["y"] + random.uniform(-0.0003, 0.0003) 
+                amb_lon = map_graph.nodes[ambulance.get_current_location_node()]["x"] + random.uniform(-0.0003, 0.0003)
                 folium.Marker(
                     location=[amb_lat, amb_lon], 
                     popup=Popup(ambulance.get_ambulance_id()), 
@@ -326,6 +293,8 @@ class simulation():
                 ).add_to(feature_group_caller)
             
         folium.LayerControl().add_to(folium_map)        
+
+        self.__create_polygon_to_graph_edges_traffic(self.map_graph_with_traffic, folium_map)
 
         # Create timeline and timeslider using simulation records
         
@@ -388,3 +357,144 @@ class simulation():
                 time_slider_drag_update=True
             ).add_to(folium_map)
         return folium_map
+    
+    def __create_polygon_to_graph_edges_traffic(self, map_graph_with_traffic, folium_map):
+        for u, v, k, data in map_graph_with_traffic.edges(keys=True, data=True):
+            if 'traffic_factor' in data:
+                start_lat = map_graph_with_traffic.nodes[u]['y']
+                start_lon = map_graph_with_traffic.nodes[u]['x']
+                end_lat = map_graph_with_traffic.nodes[v]['y']
+                end_lon = map_graph_with_traffic.nodes[v]['x']
+                
+                folium.PolyLine(
+                    locations=[(start_lat, start_lon), (end_lat, end_lon)],
+                    color=self.__get_color_based_on_traffic(data['traffic_factor']),
+                    weight=2,
+                    opacity=0.7
+                ).add_to(folium_map)
+        pass
+    
+    def __get_color_based_on_traffic(self, traffic_factor):
+        if traffic_factor < 0.5:
+            return 'green'  # Light traffic
+        elif 0.5 <= traffic_factor < 1.0:
+            return 'orange'  # Moderate traffic
+        else:
+            return 'red'  # Heavy traffic
+
+    def __calculate_mean_ambulance_response_time(self, simulation_records):
+        total_response_time = 0
+        response_count = 0
+
+        for record in simulation_records:
+            for ambulance_id, ambulance_value in record['positions'].items():
+                if 'response_time' in ambulance_value:
+                    total_response_time += ambulance_value['response_time']
+                    response_count += 1
+
+        if response_count == 0:
+            return 0  # Avoid division by zero
+
+        mean_response_time = total_response_time / response_count
+        return mean_response_time
+    
+    def __save_bar_plot_mean_response_time(self, plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga):
+        matplotlib.use("Agg")
+        algos = ["Dijkstra", "A*", "OSMnx", "Genetic Algorithm"]
+        means = [
+            mean_response_time_djikstra,
+            mean_response_time_astar,
+            mean_response_time_ox,
+            mean_response_time_ga,
+        ]
+
+        fig, ax = plt.subplots(figsize=(4, 2))
+        bars = ax.bar(range(len(algos)), means, color=["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"])
+
+        ax.set_title(f"Mean Response Time by Algorithm")
+        ax.set_ylabel("Time (minutes)")
+        ax.set_xticks(range(len(algos)))
+        ax.set_xticklabels(algos)
+        ax.yaxis.grid(True, linestyle="--", alpha=0.3)
+
+        for bar, val in zip(bars, means):
+            ax.annotate(f"{val:.1f}",
+                        (bar.get_x() + bar.get_width() / 2, val),
+                        textcoords="offset points",
+                        xytext=(0, 3),
+                        ha="center",
+                        fontsize=5)
+
+        plt.tight_layout()
+
+        
+        plt.savefig(str(plot_path), dpi=150)
+        plt.close(fig)
+
+    def __combine_maps_and_graph(self, location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path):
+        out_dir = os.path.abspath(f"simulation_{location_name}")
+        os.makedirs(out_dir, exist_ok=True)
+
+        wrapper_path = os.path.join(out_dir, f"subplot_{location_name}.html")
+        with open(wrapper_path, "w", encoding="utf-8") as f:
+            f.write(f"""<!DOCTYPE html>
+            <html>
+            <head>
+            <meta charset="utf-8">
+            <title>Ambulance Simulation - {location_name}</title>
+            <style>
+            body {{ margin: 0; font-family: Arial, sans-serif; }}
+            .grid {{
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                grid-auto-rows: 50vh;
+                gap: 8px;
+                padding: 8px;
+                box-sizing: border-box;
+            }}
+            .cell {{ position: relative; border: 1px solid #ddd; }}
+            .cell h3 {{
+                position: absolute;
+                top: 6px;
+                left: 8px;
+                margin: 0;
+                z-index: 2;
+                background: rgba(255, 255, 255, 0.85);
+                padding: 2px 6px;
+                font-size: 14px;
+                border-radius: 4px;
+            }}
+            .cell iframe {{ width: 100%; height: 100%; border: 0; }}
+            @media (max-width: 1200px) {{
+                .grid {{ grid-template-columns: 1fr; grid-auto-rows: 60vh; }}
+            }}
+            </style>
+            </head>
+            <body>
+            <div class="grid">
+                <div class="cell">
+                <h3>using osm algorithm</h3>
+                <iframe src="{os.path.basename(map_ox_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>Djikstra Algorithm</h3>
+                <iframe src="{os.path.basename(map_djikstra_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>A* Algorithm</h3>
+                <iframe src="{os.path.basename(map_astar_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>Genetics Algorithm</h3>
+                <iframe src="{os.path.basename(map_ga_path)}"></iframe>
+                </div>
+                <div class="cell">
+                <h3>Comparison of Mean response Time</h3>
+                <iframe src="{os.path.basename(plot_path)}"></iframe>
+                </div>
+            </div>
+            </body>
+            </html>""")
+
+        webbrowser.open(f"file://{wrapper_path}")
+        pass
