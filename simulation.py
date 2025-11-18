@@ -43,10 +43,10 @@ class simulation():
         map_ga_path = out_dir / f"map_ga_{location_name}.html"
         plot_path = out_dir / f"mean_response_time_{location_name}.png"
         
-        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ox")
-        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="djikstra")
-        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="astar")
-        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=5, algorithm="ga")
+        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
+        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
+        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
+        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
 
         folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
         folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
@@ -146,8 +146,7 @@ class simulation():
         simulation_elapsed_time = 0
         
         simulation_records = []
-        
-        
+
         # Initial snapshot
         current_positions_snapshot = {}
         for hospital in hospital_nodes:
@@ -166,37 +165,65 @@ class simulation():
              'positions': current_positions_snapshot.copy()
             }
             )
-        bIsResponseRecorded = False
-        response_time = 0
+
+        for caller in caller_nodes:
+            if caller.is_responded():
+                continue
+
+            nearest_ambulance = None
+            min_distance = float('inf')
+
+            # Find nearest available ambulance
+            for hospital in hospital_nodes:
+                for ambulance in hospital.get_ambulance_agents():
+                    if ambulance.is_available():
+                        path = ox.shortest_path(map_graph, ambulance.get_current_location_node(), 
+                        caller.get_node(), weight='length')
+
+                        distance = len(path)
+                        if distance < min_distance:
+                            min_distance = distance
+                            nearest_ambulance = ambulance
+
+            # Dispatch nearest ambulance
+            if nearest_ambulance and min_distance != float('inf'):
+                nearest_ambulance.set_available(False)
+                nearest_ambulance.set_destination_node(caller.get_node())
+                caller.set_responded(True)
+        
+        # find the best route using routing algorithm
+        for hospital in hospital_nodes:
+            for ambulance in hospital.get_ambulance_agents():
+                if not ambulance.is_available():
+                    origin_node = ambulance.get_origin_node()
+                    destination_node = ambulance.get_destination_node()
+                    path_to_caller = None
+                    path_to_hospital = None
+                    if algorithm == "ga":
+                        path_to_caller = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=2, num_generations=2, allow_revisit=True)
+                        path_to_hospital = genetics.ga_shortest_path(map_graph, destination_node, origin_node, weight='time_per_edge', population_size=2, num_generations=2,allow_revisit=True )
+                    elif algorithm == "ox":
+                        path_to_caller  = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
+                        path_to_hospital = ox.shortest_path(map_graph, destination_node, origin_node, weight='time_per_edge')
+                    elif algorithm == "astar":
+                        router = astar.AStarRouter(default_weight='time_per_edge', default_heuristic="manhattan")
+                        path_to_caller = router.shortest_path(map_graph, origin_node, destination_node)
+                        path_to_hospital = router.shortest_path(map_graph, destination_node, origin_node)
+                    elif algorithm == "djikstra":
+                        router_to_caller = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge',default_weight=5)
+                        path_to_caller = router_to_caller.shortest_path()
+                        router_to_hospital = djikstra.DijkstraRouter(map_graph, destination_node, origin_node, weight='time_per_edge',default_weight=5)
+                        path_to_hospital = router_to_hospital.shortest_path()
+
+                    if path_to_caller is not None:
+                        ambulance.set_path_to_caller(path_to_caller)
+                    if path_to_hospital is not None:
+                        ambulance.set_path_to_hospital(path_to_hospital)
+
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
             simulation_elapsed_time += time_step_s
-            
-            for caller in caller_nodes:
-                if caller.is_responded():
-                    continue
 
-                # Find nearest available ambulance
-                nearest_ambulance = None
-                min_distance = float('inf')
-            
-                for hospital in hospital_nodes:
-                    for ambulance in hospital.get_ambulance_agents():
-                        if ambulance.is_available():
-                            path = ox.shortest_path(map_graph, ambulance.get_current_location_node(), 
-                            caller.get_node(), weight='length')
-
-                            distance = len(path)
-                            if distance < min_distance:
-                                min_distance = distance
-                                nearest_ambulance = ambulance
-
-                # Dispatch nearest ambulance
-                if nearest_ambulance and min_distance != float('inf'):
-                    nearest_ambulance.set_available(False)
-                    nearest_ambulance.set_destination_node(caller.get_node())
-                    caller.set_responded(True)
-            
             # Move all responding ambulances to caller
             current_positions_snapshot = {}
             for hospital in hospital_nodes:
@@ -205,28 +232,23 @@ class simulation():
                     
                     if not ambulance.is_available():
                         destination = ambulance.get_destination_node()
-
                         path = None
-                        if algorithm == "ga":
-                            path = genetics.ga_shortest_path(map_graph, current_node, destination, weight='time_per_edge', population_size=10, num_generations=10)
-                        elif algorithm == "ox":
-                            path = ox.shortest_path(map_graph, current_node, destination, weight='time_per_edge')
-                        elif algorithm == "astar":
-                            router = astar.AStarRouter(default_weight='time_per_edge')
-                            path = router.shortest_path(map_graph, current_node, destination)
-                        elif algorithm == "djikstra":
-                            router = djikstra.DijkstraRouter(map_graph, current_node, destination, weight='time_per_edge')
-                            path = router.shortest_path()
+                        if  not ambulance.is_returned():
+                            path = self.__remaining_node_from_path(ambulance.get_path_to_caller(), current_node) 
+                        else :
+                            path = self.__remaining_node_from_path(ambulance.get_path_to_hospital(), current_node)
 
                         if path is None:
                             continue
                         if len(path) > 1 :
+                            ambulance_time = self.__get_time_from_node(path[0], path[1], map_graph)
+                            ambulance.add_time(ambulance_time)
                             ambulance.set_current_location_node(path[1])
                             current_node = path[1]
                         else : 
                             ambulance.set_current_location_node(destination)
                             current_node = destination
-
+                        
                         if current_node == destination:
                             if current_node == ambulance.get_origin_node() and not ambulance.is_available():
                                 current_positions_snapshot[ambulance.get_ambulance_id()] = {
@@ -234,7 +256,7 @@ class simulation():
                                     'lon': map_graph.nodes[current_node]['x'],
                                     'hospital_id': ambulance.get_ambulance_id(),
                                     'status': ambulance.is_returned(),
-                                    'response_time': simulation_elapsed_time/2
+                                    'response_time': ambulance.get_total_time()/2
                                     }
                                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
                                 ambulance.set_available(True)
@@ -256,6 +278,26 @@ class simulation():
             print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
 
         return simulation_records
+    
+    def __get_time_from_node(self, u, v, map_graph):
+        if map_graph.has_edge(u, v):
+            edge_data = map_graph.get_edge_data(u, v)
+            # If there are multiple edges, take the first one
+            if isinstance(edge_data, dict):
+                first_key = next(iter(edge_data))
+                return edge_data[first_key].get('time_per_edge', 0)
+            else:
+                return edge_data.get('time_per_edge', 0)
+        return 0
+    
+    def __remaining_node_from_path(self, path, current_node):
+        if path is None:
+            return None
+        try:
+            current_index = path.index(current_node)
+            return path[current_index:]
+        except ValueError:
+            return None
 
     def __visualize_simulation(self, location_name, simulation_records):
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
@@ -349,7 +391,7 @@ class simulation():
             TimestampedGeoJson(
                 geojson_data,
                 period='PT1S',  # 2 second intervals matching your time_step_s
-                duration='PT10M',
+                duration='PT20M',
                 auto_play=False,
                 loop=False,
                 max_speed=5,
@@ -387,6 +429,8 @@ class simulation():
         total_response_time = 0
         response_count = 0
 
+        if not simulation_records:
+            return 0
         for record in simulation_records:
             for ambulance_id, ambulance_value in record['positions'].items():
                 if 'response_time' in ambulance_value:
