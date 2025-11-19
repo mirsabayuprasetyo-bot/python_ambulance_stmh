@@ -30,6 +30,14 @@ class patient_caller:
         else :
             return "lightred"
         
+    def get_severity_number(self):
+        if self.get_severity_level() == "low":
+            return 1
+        elif self.get_severity_level() == "medium":
+            return 2
+        else :
+            return 3
+        
     def is_responded(self):
         return self.responded
         

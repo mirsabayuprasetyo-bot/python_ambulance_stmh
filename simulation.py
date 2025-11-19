@@ -167,8 +167,10 @@ class simulation():
              'positions': current_positions_snapshot.copy()
             }
             )
-
-        for caller in caller_nodes:
+        
+        # Dispatch ambulances to callers based on severity, where higher severity gets priority
+        caller_shortlist = sorted(caller_nodes, key=lambda x: x.get_severity_number(), reverse=True)
+        for caller in caller_shortlist:
             if caller.is_responded():
                 continue
 
