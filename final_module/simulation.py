@@ -102,7 +102,7 @@ class simulation():
         """
         map_graph = self.downloader.get_map_nodes(location_name)
         all_nodes = list(map_graph.nodes())
-        total_caller = random.randrange(1, max_caller)
+        total_caller = max_caller
         caller_nodes = []
         for i in range(total_caller):
             caller_id = "patient_"+str(random.randint(0,1000))
