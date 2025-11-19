@@ -23,17 +23,14 @@ import matplotlib.pyplot as plt
 
 class simulation():
     def __init__(self):
-        self.map_nodes = {}
         self.downloader = map.map_downloader()
         self.caller_nodes = []
         self.hospital_nodes = []
-        self.map_graph_with_traffic = {}
         pass
 
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,5)
-        self.__define_traffic_condition(location_name)
+        self.__define_caller_agents(location_name,10)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -48,10 +45,12 @@ class simulation():
         simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
         simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
 
-        folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
-        folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
-        folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar)
-        folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga)
+        map_graph_with_traffic = self.__define_traffic_condition(location_name)
+
+        folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
+        folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
+        folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar, map_graph_with_traffic=map_graph_with_traffic)
+        folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga, map_graph_with_traffic=map_graph_with_traffic)
 
         folium_map_ox.save(map_ox_path)
         folium_map_djikstra.save(map_djikstra_path)
@@ -100,7 +99,7 @@ class simulation():
     def __define_caller_agents(self, location_name, max_caller):
         map_graph = self.downloader.get_map_nodes(location_name)
         all_nodes = list(map_graph.nodes())
-        total_caller = random.randrange(1, max_caller)
+        total_caller = 5
         caller_nodes = []
         for i in range(total_caller):
             caller_id = "patient_"+str(random.randint(0,1000))
@@ -115,7 +114,7 @@ class simulation():
             caller_nodes.append(caller_inst)
         self.caller_nodes = caller_nodes
 
-    def __define_traffic_condition(self, location_name):
+    def __define_traffic_condition(self, location_name,):
         map_graph = self.downloader.get_map_nodes(location_name)  # Use self.downloader
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
 
@@ -132,12 +131,10 @@ class simulation():
                 map_graph[u][v][k]['time_s'] = map_graph[u][v][k]['length'] / 50  # assuming default speed 50 m/s
                 map_graph[u][v][k]['time_per_edge'] = map_graph[u][v][k]['time_s'] * traffic_factor 
 
-        self.map_graph_with_traffic = map_graph
-        
-        pass
+        return map_graph
 
     def __simulate_ambulance_movement(self, location_name, simulation_time_in_minute=60,algorithm="ox"):
-        map_graph = copy.deepcopy(self.map_graph_with_traffic)
+        map_graph = self.__define_traffic_condition(location_name)
         caller_nodes = copy.deepcopy(self.caller_nodes)
         hospital_nodes = copy.deepcopy(self.hospital_nodes)
 
@@ -162,7 +159,8 @@ class simulation():
 
         simulation_records.append(
             {'time': simulation_elapsed_time, 
-             'positions': current_positions_snapshot.copy()
+             'positions': current_positions_snapshot.copy(),
+             'map_graph': map_graph
             }
             )
         
@@ -193,23 +191,14 @@ class simulation():
                 nearest_ambulance.set_destination_node(caller.get_node())
                 caller.set_responded(True)
         
-        # find the best route using routing algorithm
-        for hospital in hospital_nodes:
-            for ambulance in hospital.get_ambulance_agents():
-                if not ambulance.is_available():
-                    origin_node = ambulance.get_origin_node()
-                    destination_node = ambulance.get_destination_node()
-                    path_to_caller = self.__generate_path_from_node(map_graph, origin_node, destination_node, algorithm)
-                    path_to_hospital = self.__generate_path_from_node(map_graph, destination_node, origin_node, algorithm)
-
-                    if path_to_caller is not None:
-                        ambulance.set_path_to_caller(path_to_caller)
-                    if path_to_hospital is not None:
-                        ambulance.set_path_to_hospital(path_to_hospital)
-
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
             simulation_elapsed_time += time_step_s
+
+            
+            if simulation_elapsed_time % 5 == 0:
+                map_graph = self.__define_traffic_condition(location_name)
+                simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy(), 'map_graph': map_graph})
 
             # Move all responding ambulances to caller
             current_positions_snapshot = {}
@@ -219,11 +208,7 @@ class simulation():
                     
                     if not ambulance.is_available():
                         destination = ambulance.get_destination_node()
-                        path = None
-                        if  not ambulance.is_returned():
-                            path = self.__remaining_node_from_path(ambulance.get_path_to_caller(), current_node) 
-                        else :
-                            path = self.__remaining_node_from_path(ambulance.get_path_to_hospital(), current_node)
+                        path = self.__generate_path_from_node(map_graph, current_node, destination, algorithm)
 
                         if path is None:
                             continue
@@ -300,7 +285,7 @@ class simulation():
         except ValueError:
             return None
 
-    def __visualize_simulation(self, location_name, simulation_records):
+    def __visualize_simulation(self, location_name, simulation_records, map_graph_with_traffic=None):
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
         map_graph = self.downloader.get_map_nodes(location_name)
         centroid = map_edge.unary_union.centroid
@@ -311,6 +296,7 @@ class simulation():
         feature_group_hospital = folium.FeatureGroup(name="Rumah Sakit", show=True).add_to(folium_map)
         feature_group_ambulance = folium.FeatureGroup(name="ambulans", show=True).add_to(folium_map)
         feature_group_caller = folium.FeatureGroup(name="pasien", show=True).add_to(folium_map)
+
         for hospital in self.hospital_nodes:
             folium.Marker(
                 location=[hospital.get_latitude(), hospital.get_longitude()], 
@@ -338,11 +324,8 @@ class simulation():
             
         folium.LayerControl().add_to(folium_map)        
 
-        self.__create_polygon_to_graph_edges_traffic(self.map_graph_with_traffic, folium_map)
+        self.__create_polygon_to_graph_edges_traffic(map_graph_with_traffic, folium_map)
 
-        # Create timeline and timeslider using simulation records
-        
-         # Fix: Create proper timeline data structure
         timeline_features = []
         
         for record in simulation_records:
@@ -402,22 +385,73 @@ class simulation():
             ).add_to(folium_map)
         return folium_map
     
-    def __create_polygon_to_graph_edges_traffic(self, map_graph_with_traffic, folium_map):
-        for u, v, k, data in map_graph_with_traffic.edges(keys=True, data=True):
+    def __create_polygon_to_graph_edges_traffic(self, map_graph, folium_map):
+        for u, v, k, data in map_graph.edges(keys=True, data=True):
             if 'traffic_factor' in data:
-                start_lat = map_graph_with_traffic.nodes[u]['y']
-                start_lon = map_graph_with_traffic.nodes[u]['x']
-                end_lat = map_graph_with_traffic.nodes[v]['y']
-                end_lon = map_graph_with_traffic.nodes[v]['x']
+                start_lat = map_graph.nodes[u]['y']
+                start_lon = map_graph.nodes[u]['x']
+                end_lat = map_graph.nodes[v]['y']
+                end_lon = map_graph.nodes[v]['x']
+                
+                traffic_factor = data['traffic_factor']
+                color = self.__get_color_based_on_traffic(traffic_factor)
                 
                 folium.PolyLine(
                     locations=[(start_lat, start_lon), (end_lat, end_lon)],
-                    color=self.__get_color_based_on_traffic(data['traffic_factor']),
-                    weight=2,
-                    opacity=0.7
+                    color=color,
+                    weight=3,
+                    opacity=0.7,
+                    tooltip=f"Traffic Factor: {traffic_factor:.2f}"
                 ).add_to(folium_map)
-        pass
     
+    def __create_traffic_polyline_for_timeline(self, simulation_records):
+        """Create traffic polylines that change over time"""
+        timeline_polyline_features = []
+        
+        for record in simulation_records:
+            if 'map_graph' not in record:
+                continue
+                
+            timestamp = record['time']
+            time_str = (datetime(2000, 1, 1) + pd.to_timedelta(timestamp, unit='s')).isoformat()
+            map_graph_with_traffic = record.get('map_graph')
+            
+            if map_graph_with_traffic is None:
+                continue
+
+            # Create polyline features for each edge with traffic data
+            for u, v, k, data in map_graph_with_traffic.edges(keys=True, data=True):
+                if 'traffic_factor' in data:
+                    start_lat = map_graph_with_traffic.nodes[u]['y']
+                    start_lon = map_graph_with_traffic.nodes[u]['x']
+                    end_lat = map_graph_with_traffic.nodes[v]['y']
+                    end_lon = map_graph_with_traffic.nodes[v]['x']
+                    
+                    traffic_factor = data['traffic_factor']
+                    color = self.__get_color_based_on_traffic(traffic_factor)
+                    
+                    # Create LineString feature for the edge
+                    feature = {
+                        'type': 'Feature',
+                        'geometry': {
+                            'type': 'LineString',
+                            'coordinates': [[start_lon, start_lat], [end_lon, end_lat]]
+                        },
+                        'properties': {
+                            'time': time_str,
+                            'traffic_factor': traffic_factor,
+                            'edge_id': f"{u}_{v}_{k}",
+                            'style': {
+                                'color': color,
+                                'weight': 3,
+                                'opacity': 0.7
+                            }
+                        }
+                    }
+                    timeline_polyline_features.append(feature)
+        
+        return timeline_polyline_features
+
     def __get_color_based_on_traffic(self, traffic_factor):
         if traffic_factor < 0.5:
             return 'green'  # Light traffic
