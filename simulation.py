@@ -32,7 +32,7 @@ class simulation():
 
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,3)
+        self.__define_caller_agents(location_name,5)
         self.__define_traffic_condition(location_name)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
@@ -43,12 +43,10 @@ class simulation():
         map_ga_path = out_dir / f"map_ga_{location_name}.html"
         plot_path = out_dir / f"mean_response_time_{location_name}.png"
         
-        # simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
-        # simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
-        # simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
-        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=2, algorithm="ga")
-
-        return
+        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
+        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
+        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
+        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
 
         folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
         folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
@@ -201,23 +199,8 @@ class simulation():
                 if not ambulance.is_available():
                     origin_node = ambulance.get_origin_node()
                     destination_node = ambulance.get_destination_node()
-                    path_to_caller = None
-                    path_to_hospital = None
-                    if algorithm == "ga":
-                        path_to_caller = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=2, num_generations=2, allow_revisit=True)
-                        path_to_hospital = genetics.ga_shortest_path(map_graph, destination_node, origin_node, weight='time_per_edge', population_size=2, num_generations=2,allow_revisit=True )
-                    elif algorithm == "ox":
-                        path_to_caller  = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
-                        path_to_hospital = ox.shortest_path(map_graph, destination_node, origin_node, weight='time_per_edge')
-                    elif algorithm == "astar":
-                        router = astar.AStarRouter(default_weight='time_per_edge', default_heuristic="manhattan")
-                        path_to_caller = router.shortest_path(map_graph, origin_node, destination_node)
-                        path_to_hospital = router.shortest_path(map_graph, destination_node, origin_node)
-                    elif algorithm == "djikstra":
-                        router_to_caller = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge',default_weight=5)
-                        path_to_caller = router_to_caller.shortest_path()
-                        router_to_hospital = djikstra.DijkstraRouter(map_graph, destination_node, origin_node, weight='time_per_edge',default_weight=5)
-                        path_to_hospital = router_to_hospital.shortest_path()
+                    path_to_caller = self.__generate_path_from_node(map_graph, origin_node, destination_node, algorithm)
+                    path_to_hospital = self.__generate_path_from_node(map_graph, destination_node, origin_node, algorithm)
 
                     if path_to_caller is not None:
                         ambulance.set_path_to_caller(path_to_caller)
@@ -282,6 +265,20 @@ class simulation():
             print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
 
         return simulation_records
+    
+    def __generate_path_from_node(self, map_graph, origin_node, destination_node, algorithm="ox"):
+        path = None
+        if algorithm == "ga":
+            path = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=10, num_generations=20, allow_revisit=True)
+        elif algorithm == "ox":
+            path = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
+        elif algorithm == "astar":
+            router = astar.AStarRouter(default_weight='time_per_edge', default_heuristic="manhattan")
+            path = router.shortest_path(map_graph, origin_node, destination_node)
+        elif algorithm == "djikstra":
+            router = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge',default_weight=5)
+            path = router.shortest_path()
+        return path
     
     def __get_time_from_node(self, u, v, map_graph):
         if map_graph.has_edge(u, v):
