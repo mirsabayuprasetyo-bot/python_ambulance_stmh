@@ -27,9 +27,11 @@ class simulation():
         self.downloader = map.map_downloader()
         self.caller_nodes = []
         self.hospital_nodes = []
-        self.num_caller = 10
-        self._num_ga_generation = 80
-        self._num_ga_population = 50
+        self.num_caller = 5
+        self._num_ga_generation = 5
+        self._num_ga_population = 2
+        self.simulation_time_in_minute = 5
+        self.update_map_interval = 10
         pass
 
     def run_simulation(self, location_name):
@@ -44,13 +46,13 @@ class simulation():
         map_astar_path = out_dir / f"map_astar_{location_name}.html"
         map_ga_path = out_dir / f"map_ga_{location_name}.html"
         plot_path = out_dir / f"mean_response_time_{location_name}.png"
-        
-        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
-        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
-        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
-        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
 
         map_graph_with_traffic = self.__define_traffic_condition(location_name)
+        
+        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="ox", map_graph_traffic=map_graph_with_traffic)
+        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="djikstra", map_graph_traffic=map_graph_with_traffic)
+        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="astar", map_graph_traffic=map_graph_with_traffic)
+        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="ga", map_graph_traffic=map_graph_with_traffic)
 
         folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
         folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
@@ -142,27 +144,50 @@ class simulation():
             caller_nodes.append(caller_inst)
         self.caller_nodes = caller_nodes
 
-    def __define_traffic_condition(self, location_name,):
+    def __define_traffic_condition(self, location_name):
+
+        max_sim_time = self.simulation_time_in_minute * 60
+        update_interval = self.update_map_interval
+        num_intervals = max_sim_time // update_interval
+
         map_graph = self.downloader.get_map_nodes(location_name)  # Use self.downloader
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
 
-        for idx, row in map_edge.iterrows():
+        map_graphs_with_traffic = []
+        for interval in range(num_intervals):
+            graph = self.__generate_traffic_condition_per_interval(map_graph, map_edge)
+            if interval == 0:
+                map_graphs_with_traffic = [graph]
+            else:
+                map_graphs_with_traffic.append(copy.deepcopy(graph))
+
+        return map_graphs_with_traffic
+    
+    def __generate_traffic_condition_per_interval(self, graph, edge):
+
+        maxspeed = 50  # assuming default speed 50 m/s
+        for idx, row in edge.iterrows():
             u = row['u']
             v = row['v']
             k = row['key']
             # Generate random traffic condition (0.1 = light traffic, 1.5 = heavy congestion)
             traffic_factor = random.uniform(0.1, 1.5)
             # Update the edge in map_graph with traffic factor
-            if map_graph.has_edge(u, v, k):
-                map_graph[u][v][k]['maxspeed'] = 50  # assuming default speed 50 m/s
-                map_graph[u][v][k]['traffic_factor'] = traffic_factor
-                map_graph[u][v][k]['time_s'] = map_graph[u][v][k]['length'] / 50  # assuming default speed 50 m/s
-                map_graph[u][v][k]['time_per_edge'] = map_graph[u][v][k]['time_s'] * traffic_factor 
+            if graph.has_edge(u, v, k):
+                graph[u][v][k]['traffic_factor'] = traffic_factor
+                graph[u][v][k]['maxspeed'] = maxspeed  # assuming default speed 50 m/s
+                length =  graph[u][v][k]['length']
+                time = length  / maxspeed  # assuming default speed 50 m/s
+                graph[u][v][k]['time_per_edge'] = time * traffic_factor 
 
-        return map_graph
+        return graph
 
-    def __simulate_ambulance_movement(self, location_name, simulation_time_in_minute=60,algorithm="ox"):
-        map_graph = self.__define_traffic_condition(location_name)
+    def __simulate_ambulance_movement(self, location_name, simulation_time_in_minute=60,algorithm="ox", map_graph_traffic=None):
+
+        if map_graph_traffic is None or len(map_graph_traffic) < 1:
+            return
+        
+        map_graph = map_graph_traffic[0]
         caller_nodes = copy.deepcopy(self.caller_nodes)
         hospital_nodes = copy.deepcopy(self.hospital_nodes)
 
@@ -219,14 +244,18 @@ class simulation():
                 nearest_ambulance.set_destination_node(caller.get_node())
                 caller.set_responded(True)
         
+        iteration_map_traffic = 0
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
             simulation_elapsed_time += time_step_s
 
             
-            if simulation_elapsed_time % 5 == 0:
-                map_graph = self.__define_traffic_condition(location_name)
+            if simulation_elapsed_time % self.update_map_interval == 0 and map_graph_traffic is not None and iteration_map_traffic < len(map_graph_traffic) - 1:
+                map_graph = map_graph_traffic[iteration_map_traffic]
+                iteration_map_traffic += 1
+                print(f"update map {iteration_map_traffic}")
                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy(), 'map_graph': map_graph})
+
 
             # Move all responding ambulances to caller
             current_positions_snapshot = {}
@@ -352,7 +381,8 @@ class simulation():
             
         folium.LayerControl().add_to(folium_map)        
 
-        self.__create_polygon_to_graph_edges_traffic(map_graph_with_traffic, folium_map)
+        if map_graph_with_traffic is not None and len(map_graph_with_traffic) > 0:
+            self.__create_polygon_to_graph_edges_traffic(map_graph_with_traffic[0], folium_map)
 
         timeline_features = []
         
