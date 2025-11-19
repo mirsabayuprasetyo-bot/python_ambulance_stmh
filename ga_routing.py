@@ -28,30 +28,7 @@ def _edge_weight(
                 if not data_dict:
                         # No edge between u and v.
                         return float("inf")
-                best = float("inf")
-                for _, edata in data_dict.items():
-                        if callable(weight):
-                                w = float(weight(u, v, edata))
-                        elif isinstance(weight, str):
-                                w = float(edata.get(weight, default))
-                        elif weight is None:
-                                w = default
-                        else:
-                                w = default
-                        if w < best:
-                                best = w
-                return best
-        else:
-                edata = G.get_edge_data(u, v, default=None)
-                if edata is None:
-                        return float("inf")
-                if callable(weight):
-                        return float(weight(u, v, edata))
-                elif isinstance(weight, str):
-                        return float(edata.get(weight, default))
-                elif weight is None:
-                        return default
-                return default
+                return data_dict.get(weight,default)
 
 
 def _path_length(G: nx.Graph, path: Sequence[Any], weight: WeightType) -> float:
@@ -272,7 +249,7 @@ class GeneticRouter:
                     for _ in range(min(self.population_size - 1, 9)):
                         random_chromosome = []
                         for _ in range(self.num_waypoints):
-                            if random.random() < 0.3:  # 30% chance of no waypoint
+                            if random.random() < 0.5:  # 50% chance of no waypoint
                                 random_chromosome.append(-1)
                             else:
                                 random_chromosome.append(random.randint(0, len(self._candidates) - 1))
@@ -344,6 +321,7 @@ class GeneticRouter:
                 if cost < self._best_cost:
                         self._best_cost = cost
                         self._best_solution = path
+                        print(f"New best cost: {self._best_cost:.2f} with path length {len(self._best_solution)} nodes.")
                 # Convert cost to fitness (maximize).
                 if not feasible:
                         return 1.0 / (1.0 + cost)
@@ -406,12 +384,16 @@ class GeneticRouter:
                 ga.on_generation = _on_generation
 
                 ga.run()
-
+                
+                print(f"GA completed in {time.time() - start_time:.2f} seconds over {ga.generations_completed} generations.")
+                print(f"Best cost found by GA: {self._best_cost:.2f}")
+                print(f"best path length: {len(self._best_solution) if self._best_solution else 'N/A'} nodes")
                 # If GA found something, return it; else fall back to NX shortest path.
                 if self._best_solution is not None and len(self._best_solution) >= 2:
                         return list(self._best_solution)
 
                 # Fallback
+                print("GA did not find a valid path; falling back to NetworkX shortest path.")
                 path = nx.shortest_path(self.G, self.start, self.end, weight=self.weight)
                 return list(path)
 

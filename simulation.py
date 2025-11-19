@@ -32,7 +32,7 @@ class simulation():
 
     def run_simulation(self, location_name):
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,10)
+        self.__define_caller_agents(location_name,3)
         self.__define_traffic_condition(location_name)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
@@ -43,10 +43,12 @@ class simulation():
         map_ga_path = out_dir / f"map_ga_{location_name}.html"
         plot_path = out_dir / f"mean_response_time_{location_name}.png"
         
-        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
-        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
-        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
-        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
+        # simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
+        # simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
+        # simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
+        simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=2, algorithm="ga")
+
+        return
 
         folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox)
         folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra)
