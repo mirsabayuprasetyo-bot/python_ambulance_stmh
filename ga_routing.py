@@ -5,6 +5,7 @@ from functools import lru_cache
 from typing import Any, Callable, Iterable, List, Optional, Sequence, Tuple, Union
 import networkx as nx
 import pygad
+from datetime import datetime
 
 """
 Genetic algorithm based routing using pygad with a NetworkX/OSMnx-like interface.
@@ -99,6 +100,7 @@ class GeneticRouter:
                 self.penalty_no_path = float(penalty_no_path)
                 self.random_seed = random_seed
                 self.seed_with_nx = bool(seed_with_nx)
+                self.path_routing = []
 
                 if self.random_seed is not None:
                         random.seed(self.random_seed)
@@ -184,6 +186,13 @@ class GeneticRouter:
                 if not ordered:
                         # As a fallback, include immediate neighbors or leave empty and rely on None genes.
                         ordered = list(self._G_undirected.neighbors(self.start))
+
+                self.path_routing.append(
+                       {
+                              "time" : datetime.now(),
+                              "node" : ordered,
+                       }
+                )
 
                 return ordered
 
@@ -392,6 +401,11 @@ class GeneticRouter:
                 print("GA did not find a valid path; falling back to NetworkX shortest path.")
                 path = nx.shortest_path(self.G, self.start, self.end, weight=self.weight)
                 return list(path)
+        
+        def get_simulation_records(self) -> List[dict]:
+                """Return simulation records collected during the GA run."""
+                # Placeholder: In a real implementation, this would return actual records.
+                return self.path_routing
 
 
 def ga_shortest_path(

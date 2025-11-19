@@ -27,9 +27,9 @@ class simulation():
         self.downloader = map.map_downloader()
         self.caller_nodes = []
         self.hospital_nodes = []
-        self.num_caller = 10
-        self._num_ga_generation = 80
-        self._num_ga_population = 50
+        self.num_caller = 1
+        self._num_ga_generation = 10
+        self._num_ga_population = 3
         pass
 
     def run_simulation(self, location_name):
@@ -45,32 +45,32 @@ class simulation():
         map_ga_path = out_dir / f"map_ga_{location_name}.html"
         plot_path = out_dir / f"mean_response_time_{location_name}.png"
         
-        simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
-        simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
-        simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
+        # simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ox")
+        # simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="djikstra")
+        # simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="astar")
         simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=10, algorithm="ga")
 
-        map_graph_with_traffic = self.__define_traffic_condition(location_name)
+        # map_graph_with_traffic = self.__define_traffic_condition(location_name)
 
-        folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
-        folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
-        folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar, map_graph_with_traffic=map_graph_with_traffic)
+        # folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
+        # folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
+        # folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar, map_graph_with_traffic=map_graph_with_traffic)
         folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga, map_graph_with_traffic=map_graph_with_traffic)
 
-        folium_map_ox.save(map_ox_path)
-        folium_map_djikstra.save(map_djikstra_path)
-        folium_map_astar.save(map_astar_path)
+        # folium_map_ox.save(map_ox_path)
+        # folium_map_djikstra.save(map_djikstra_path)
+        # folium_map_astar.save(map_astar_path)
         folium_map_ga.save(map_ga_path)
 
-        mean_response_time_djikstra = self.__calculate_mean_ambulance_response_time(simulation_records_djikstra)
-        mean_response_time_astar = self.__calculate_mean_ambulance_response_time(simulation_records_astar)
-        mean_response_time_ox = self.__calculate_mean_ambulance_response_time(simulation_records_ox)
-        mean_response_time_ga = self.__calculate_mean_ambulance_response_time(simulation_records_ga)
+        # mean_response_time_djikstra = self.__calculate_mean_ambulance_response_time(simulation_records_djikstra)
+        # mean_response_time_astar = self.__calculate_mean_ambulance_response_time(simulation_records_astar)
+        # mean_response_time_ox = self.__calculate_mean_ambulance_response_time(simulation_records_ox)
+        # mean_response_time_ga = self.__calculate_mean_ambulance_response_time(simulation_records_ga)
 
 
-        self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
-        self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
-        self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
+        # self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
+        # self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
+        # self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
 
     def __create_manifest_file(self, out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name):
         manifest_path = out_dir / f"manifest_{location_name}.txt"
@@ -218,71 +218,24 @@ class simulation():
                 nearest_ambulance.set_available(False)
                 nearest_ambulance.set_destination_node(caller.get_node())
                 caller.set_responded(True)
-        
-        # Simulation loop
-        while simulation_elapsed_time < max_simulation_duration_s:
-            simulation_elapsed_time += time_step_s
 
-            
-            if simulation_elapsed_time % 5 == 0:
-                map_graph = self.__define_traffic_condition(location_name)
-                simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy(), 'map_graph': map_graph})
-
-            # Move all responding ambulances to caller
-            current_positions_snapshot = {}
             for hospital in hospital_nodes:
                 for ambulance in hospital.get_ambulance_agents():
                     current_node = ambulance.get_current_location_node()
                     
                     if not ambulance.is_available():
                         destination = ambulance.get_destination_node()
-                        path = self.__generate_path_from_node(map_graph, current_node, destination, algorithm)
-
-                        if path is None:
-                            continue
-                        if len(path) > 1 :
-                            ambulance_time = self.__get_time_from_node(path[0], path[1], map_graph)
-                            ambulance.add_time(ambulance_time)
-                            ambulance.set_current_location_node(path[1])
-                            current_node = path[1]
-                        else : 
-                            ambulance.set_current_location_node(destination)
-                            current_node = destination
-                        
-                        if current_node == destination:
-                            if current_node == ambulance.get_origin_node() and not ambulance.is_available():
-                                current_positions_snapshot[ambulance.get_ambulance_id()] = {
-                                    'lat': map_graph.nodes[current_node]['y'],
-                                    'lon': map_graph.nodes[current_node]['x'],
-                                    'hospital_id': ambulance.get_ambulance_id(),
-                                    'status': ambulance.is_returned(),
-                                    'response_time': ambulance.get_total_time()/2
-                                    }
-                                simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
-                                ambulance.set_available(True)
-                            
-                            ambulance.set_current_location_node(destination)
-                            ambulance.set_destination_node(ambulance.get_origin_node())
-                            ambulance.set_take_patient_to_hospital()
-
-                        current_positions_snapshot[ambulance.get_ambulance_id()] = {
-                                    'lat': map_graph.nodes[current_node]['y'],
-                                    'lon': map_graph.nodes[current_node]['x'],
-                                    'hospital_id': ambulance.get_ambulance_id(),
-                                    'status': ambulance.is_returned()
-                                    }
-                            
-                        
-                        
-            simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
-            print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
+                        simulation_records = self.__generate_path_from_node(map_graph, current_node, destination, algorithm)
+        
 
         return simulation_records
     
     def __generate_path_from_node(self, map_graph, origin_node, destination_node, algorithm="ox"):
-        path = None
+        routing_path = None
         if algorithm == "ga":
-            path = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=self._num_ga_population, num_generations=self._num_ga_generation, allow_revisit=True)
+            router = genetics.GeneticRouter(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=self._num_ga_population, num_generations=self._num_ga_generation, allow_revisit=True)
+            path = router.solve()
+            routing_path = router.get_simulation_records()
         elif algorithm == "ox":
             path = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
         elif algorithm == "astar":
@@ -291,7 +244,7 @@ class simulation():
         elif algorithm == "djikstra":
             router = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge',default_weight=5)
             path = router.shortest_path()
-        return path
+        return routing_path
     
     def __get_time_from_node(self, u, v, map_graph):
         if map_graph.has_edge(u, v):
