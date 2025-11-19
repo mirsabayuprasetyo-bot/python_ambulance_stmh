@@ -1,0 +1,17 @@
+{
+"type": "FeatureCollection",
+"name": "hospitals_diy_ext",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "name": null, "addr:full": null, "addr:city": null, "phone": null, "emergency": null, "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.9235059, -6.9221417 ] } },
+{ "type": "Feature", "properties": { "name": null, "addr:full": null, "addr:city": null, "phone": null, "emergency": null, "healthcare": null, "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.9169318, -6.9190866 ] } },
+{ "type": "Feature", "properties": { "name": null, "addr:full": null, "addr:city": null, "phone": "+62266229207", "emergency": null, "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.9225985, -6.9120589 ] } },
+{ "type": "Feature", "properties": { "name": null, "addr:full": null, "addr:city": null, "phone": null, "emergency": null, "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.9223035, -6.9124144 ] } },
+{ "type": "Feature", "properties": { "name": "RSUD R. Syamsudin, SH.", "addr:full": "Jalan Rumah Sakit Nomor 1, Kota Sukabumi - Jawa Barat 43113", "addr:city": "Kota Sukabumi", "phone": null, "emergency": "yes", "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.934461509437995, -6.916110582837662 ] } },
+{ "type": "Feature", "properties": { "name": "RS Kartika Kasih", "addr:full": "Jalan Jendral A. Yani Nomor 18 A, Nyomplong, Kec. Warudoyong, Kota Sukabumi, Jawa Barat 43131", "addr:city": null, "phone": "+62266233315", "emergency": "yes", "healthcare": null, "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.92376891729802, -6.922039494301925 ] } },
+{ "type": "Feature", "properties": { "name": "Rumah Sakit Rido Galih", "addr:full": null, "addr:city": null, "phone": null, "emergency": "yes", "healthcare": null, "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.93445833324823, -6.921761530817802 ] } },
+{ "type": "Feature", "properties": { "name": "Puskesmas Selabatu", "addr:full": null, "addr:city": null, "phone": null, "emergency": "yes", "healthcare": null, "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.931313544722926, -6.915470693956974 ] } },
+{ "type": "Feature", "properties": { "name": "Rumah Sakit Islam Assyifa", "addr:full": null, "addr:city": null, "phone": null, "emergency": null, "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.916886115131689, -6.918976094010493 ] } },
+{ "type": "Feature", "properties": { "name": "klinik gigi", "addr:full": null, "addr:city": null, "phone": null, "emergency": null, "healthcare": "hospital", "amenity": "hospital" }, "geometry": { "type": "Point", "coordinates": [ 106.936042910550938, -6.919583780694904 ] } }
+]
+}
