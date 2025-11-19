@@ -18,6 +18,7 @@ import astar_routing as astar
 import copy
 from pathlib import Path
 import matplotlib
+import shutil
 import matplotlib.pyplot as plt
 
 
@@ -26,11 +27,15 @@ class simulation():
         self.downloader = map.map_downloader()
         self.caller_nodes = []
         self.hospital_nodes = []
+        self.num_caller = 10
+        self._num_ga_generation = 80
+        self._num_ga_population = 50
         pass
 
     def run_simulation(self, location_name):
+
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,10)
+        self.__define_caller_agents(location_name,self.num_caller)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -64,8 +69,31 @@ class simulation():
 
 
         self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
-
         self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
+        self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
+
+    def __create_manifest_file(self, out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name):
+        manifest_path = out_dir / f"manifest_{location_name}.txt"
+        with open(manifest_path, "w", encoding="utf-8") as f:
+            f.write(f"Simulation Manifest for {location_name}\n")
+            f.write(f"Generated on: {datetime.now().isoformat()}\n\n")
+            f.write("Generated Files:\n")
+            f.write(f"1. OSMnx Simulation Map: {map_ox_path.name}\n")
+            f.write(f"2. Djikstra Simulation Map: {map_djikstra_path.name}\n")
+            f.write(f"3. A* Simulation Map: {map_astar_path.name}\n")
+            f.write(f"4. Genetic Algorithm Simulation Map: {map_ga_path.name}\n")
+            f.write(f"5. Mean Response Time Plot: {plot_path.name}\n")
+            f.write(f"num_of_population_for_genetic_algorithm: {self._num_ga_population}\n")
+            f.write(f"num_of_generation_for_genetic_algorithm: {self._num_ga_generation}\n")
+            f.write(f"number_of_caller: {self.num_caller}\n")
+        
+        try:
+            archive_name = f"sim_{location_name}_pop_{self._num_ga_population}_gen_{self._num_ga_generation}_callers_{self.num_caller}_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
+            archive_path = shutil.make_archive(archive_name,'zip', out_dir)
+            print(f"Compressed to: {archive_path}")
+        except Exception as e:
+            print(f"Compression failed: {e}")
+        pass
 
     def __define_hospital_and_ambulance_agents(self, location_name):
         map_nodes = self.downloader.get_map_nodes(location_name)  # Use self.downloader
@@ -232,7 +260,7 @@ class simulation():
                                     }
                                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
                                 ambulance.set_available(True)
-
+                            
                             ambulance.set_current_location_node(destination)
                             ambulance.set_destination_node(ambulance.get_origin_node())
                             ambulance.set_take_patient_to_hospital()
@@ -254,7 +282,7 @@ class simulation():
     def __generate_path_from_node(self, map_graph, origin_node, destination_node, algorithm="ox"):
         path = None
         if algorithm == "ga":
-            path = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=10, num_generations=20, allow_revisit=True)
+            path = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=self._num_ga_population, num_generations=self._num_ga_generation, allow_revisit=True)
         elif algorithm == "ox":
             path = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
         elif algorithm == "astar":
@@ -329,6 +357,9 @@ class simulation():
         timeline_features = []
         
         for record in simulation_records:
+            if(record is None or 'positions' not in record):
+                continue
+
             timestamp = record['time']
             time_str = (datetime(2000, 1, 1) + pd.to_timedelta(timestamp, unit='s')).isoformat()
             
