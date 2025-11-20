@@ -6,6 +6,7 @@ import osmnx as ox
 from shapely.geometry import Point
 from datetime import datetime
 import re
+import traffic_data_creator as td
 
 # Map Downloader Class
 # this class handles downloading map data and hospital POIs from OpenStreetMap
@@ -187,4 +188,23 @@ class map_downloader():
         gdf_path = os.path.join(self.DIRECTORY, "roads_"+location_name+"_edges.gpkg")
         gdf_edge = gpd.read_file(gdf_path)
         return gdf_edge
+    
+    def get_caller(self):
+        patient_json_path = os.path.join(self.DIRECTORY, "patient.json")
+        with open(patient_json_path, "r") as f:
+            patient_data = json.load(f)
+        return patient_data
+    
+    def get_traffic(self):
+        traffic_json_path = os.path.join(self.DIRECTORY, "traffic.json")
+        with open(traffic_json_path, "r") as f:
+            traffic_data = json.load(f)
+        return traffic_data
+    
+    def create_traffic_data(self):
+        map_graph = self.get_map_nodes("sukabumi")
+        map_edge = self.get_gdf_edge("sukabumi")
+        path = os.path.join(self.DIRECTORY,"traffic.json")
+        traffic = td.traffic_data_creator(map_graph, map_edge, path, 120)
+        traffic.get_traffic_data()
     

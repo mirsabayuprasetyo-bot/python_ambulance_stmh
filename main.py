@@ -1,5 +1,6 @@
 import map_downloader as map
 import simulation as sim
+import traffic_data_creator as td
 
 
 class main() : 
@@ -9,6 +10,9 @@ class main() :
         self.simulation = sim.simulation()
 
     def run(self) : 
+        # self.map_downloader.create_traffic_data()
+        
+
         self.simulation.run_simulation("sukabumi")
         return
 

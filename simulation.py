@@ -20,6 +20,7 @@ from pathlib import Path
 import matplotlib
 import shutil
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
 class simulation():
@@ -30,7 +31,7 @@ class simulation():
         self.num_caller = 5
         self._num_ga_generation = 1
         self._num_ga_population = 2
-        self.simulation_time_in_minute = 5
+        self.simulation_time_in_minute = 10
         self.update_map_interval = 5
         pass
 
@@ -38,17 +39,8 @@ class simulation():
 
         self.__define_hospital_and_ambulance_agents(location_name)
 
-        map_graph = self.downloader.get_map_nodes(location_name)
-
-        caller_fix = [
-            {'id': 'patient_1', 'severity': 'high', 'node': self.__get_node_from_graph(map_graph, 100)},
-            {'id': 'patient_2', 'severity': 'medium', 'node': self.__get_node_from_graph(map_graph, 400)},
-            {'id': 'patient_3', 'severity': 'low', 'node': self.__get_node_from_graph(map_graph, 500)},
-            {'id': 'patient_4', 'severity': 'high', 'node': self.__get_node_from_graph(map_graph, 300)},
-            {'id': 'patient_5', 'severity': 'medium', 'node': self.__get_node_from_graph(map_graph, 800)},
-        ]
-
-        self.__define_total_caller_agents_fix(location_name, caller_fix)
+        caller_list = self.downloader.get_caller()
+        self.__define_total_caller_agents_fix(location_name, caller_list)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -83,7 +75,7 @@ class simulation():
 
         self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
         self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
-        self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
+        # self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
 
     def __get_node_from_graph(self, map_graph, index):
         all_nodes = list(map_graph.nodes())
@@ -153,7 +145,7 @@ class simulation():
             caller_id = caller.get('id', "patient_"+str(random.randint(0,1000)))
             severity = ["low", "medium", "high"]
             severity_caller = caller.get('severity', random.choice(severity))
-            idx_nodes = caller.get('node')
+            idx_nodes = self.__get_node_from_graph(map_graph,caller.get('node'))
             if idx_nodes not in all_nodes:
                 idx_nodes = len(all_nodes)
             caller_lat = map_graph.nodes[idx_nodes]["y"]
@@ -183,33 +175,26 @@ class simulation():
         self.caller_nodes = caller_nodes
 
     def __define_traffic_condition(self, location_name):
-
-        max_sim_time = self.simulation_time_in_minute * 60
-        update_interval = self.update_map_interval
-        num_intervals = max_sim_time // update_interval
-
         map_graph = self.downloader.get_map_nodes(location_name)  # Use self.downloader
         map_edge = self.downloader.get_gdf_edge(location_name)  # Use self.downloader
-
+        traffic_data = self.downloader.get_traffic()
         map_graphs_with_traffic = []
-        for interval in range(num_intervals):
-            graph = self.__generate_traffic_condition_per_interval(map_graph, map_edge)
-            if interval == 0:
-                map_graphs_with_traffic = [graph]
-            else:
-                map_graphs_with_traffic.append(copy.deepcopy(graph))
-
+        for interval in traffic_data:
+            graph = self.__generate_traffic_condition_per_interval(map_graph, map_edge, interval['traffic_data'])
+            map_graphs_with_traffic.append(copy.deepcopy(graph))
         return map_graphs_with_traffic
     
-    def __generate_traffic_condition_per_interval(self, graph, edge):
+    def __generate_traffic_condition_per_interval(self, graph, edge, traffic_data):
 
+        traffic_dict = {traffic['edge_id']: traffic['traffic_factor'] for traffic in traffic_data}
         maxspeed = 50  # assuming default speed 50 m/s
         for idx, row in edge.iterrows():
             u = row['u']
             v = row['v']
             k = row['key']
+
             # Generate random traffic condition (0.1 = light traffic, 1.5 = heavy congestion)
-            traffic_factor = random.uniform(0.1, 1.5)
+            traffic_factor = traffic_dict.get(idx, 0.1)
             # Update the edge in map_graph with traffic factor
             if graph.has_edge(u, v, k):
                 graph[u][v][k]['traffic_factor'] = traffic_factor
@@ -256,44 +241,38 @@ class simulation():
             )
         
         # Dispatch ambulances to callers based on severity, where higher severity gets priority
-        caller_shortlist = sorted(caller_nodes, key=lambda x: x.get_severity_number(), reverse=True)
-        for caller in caller_shortlist:
-            if caller.is_responded():
-                continue
+        hospital_nodes = self.__update_ambulance_status_based_on_caller(hospital_nodes, caller_nodes, map_graph, algorithm)
 
-            nearest_ambulance = None
-            min_distance = float('inf')
-
-            # Find nearest available ambulance
-            for hospital in hospital_nodes:
-                for ambulance in hospital.get_ambulance_agents():
-                    if ambulance.is_available():
-                        path = ox.shortest_path(map_graph, ambulance.get_current_location_node(), 
-                        caller.get_node(), weight='length')
-
-                        distance = len(path)
-                        if distance < min_distance:
-                            min_distance = distance
-                            nearest_ambulance = ambulance
-
-            # Dispatch nearest ambulance
-            if nearest_ambulance and min_distance != float('inf'):
-                nearest_ambulance.set_available(False)
-                nearest_ambulance.set_destination_node(caller.get_node())
-                caller.set_responded(True)
-        
         iteration_map_traffic = 0
+        
         # Simulation loop
         while simulation_elapsed_time < max_simulation_duration_s:
+            penalty_weight = 1
             simulation_elapsed_time += time_step_s
-
-            
             if simulation_elapsed_time % self.update_map_interval == 0 and map_graph_traffic is not None and iteration_map_traffic < len(map_graph_traffic) - 1:
                 map_graph = map_graph_traffic[iteration_map_traffic]
                 iteration_map_traffic += 1
                 print(f"update map {iteration_map_traffic}")
                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy(), 'map_graph': map_graph})
 
+            for caller in caller_nodes:
+                if not caller.is_responded():
+                    severity = caller.get_severity_number()
+                    waiting_time_per_patient = max_simulation_duration_s / severity
+                    if waiting_time_per_patient < simulation_elapsed_time:
+                        penalty_weight =  severity + 1
+
+            contains_unresponded_patient = False
+            for caller in caller_nodes:
+                if not caller.is_responded():
+                    contains_unresponded_patient = True
+                    break
+
+            if contains_unresponded_patient:
+                hospital_nodes = self.__update_ambulance_status_based_on_caller(hospital_nodes, caller_nodes, map_graph, algorithm)
+
+            if hospital_nodes is None:
+                return
 
             # Move all responding ambulances to caller
             current_positions_snapshot = {}
@@ -308,7 +287,7 @@ class simulation():
                         if path is None:
                             continue
                         if len(path) > 1 :
-                            ambulance_time = self.__get_time_from_node(path[0], path[1], map_graph)
+                            ambulance_time = self.__get_time_from_node(path[0], path[1], map_graph) * penalty_weight
                             ambulance.add_time(ambulance_time)
                             ambulance.set_current_location_node(path[1])
                             current_node = path[1]
@@ -323,7 +302,7 @@ class simulation():
                                     'lon': map_graph.nodes[current_node]['x'],
                                     'hospital_id': ambulance.get_ambulance_id(),
                                     'status': ambulance.is_returned(),
-                                    'response_time': ambulance.get_total_time()/2
+                                    'response_time': ambulance.get_total_time()
                                     }
                                 simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
                                 ambulance.set_available(True)
@@ -338,25 +317,69 @@ class simulation():
                                     'hospital_id': ambulance.get_ambulance_id(),
                                     'status': ambulance.is_returned()
                                     }
-                            
-                        
-                        
+
             simulation_records.append({'time': simulation_elapsed_time, 'positions': current_positions_snapshot.copy()})
             print(f"simulation_elapsed_time for {algorithm}: {simulation_elapsed_time}")
 
         return simulation_records
     
+    def __update_ambulance_status_based_on_caller(self, hospital_nodes, caller_nodes, map_graph, algorithm):
+
+        if algorithm == "ga":
+            return self.__calculate_ambulance_status_with_greedy(hospital_nodes, caller_nodes, map_graph)
+        else:
+             return self.__calculate_ambulance_status_with_greedy(hospital_nodes, caller_nodes, map_graph)
+        
+    
+    def __calculate_ambulance_status_with_greedy(self, hospital_nodes, caller_nodes, map_graph):
+        # Dispatch ambulances to callers based on severity, where higher severity gets priority
+        caller_sortlist = sorted(caller_nodes, key=lambda x: x.get_severity_number(), reverse=True)
+        for caller in caller_sortlist:
+            if caller.is_responded():
+                continue
+
+            nearest_ambulance = None
+            min_distance = float('inf')
+
+            # Find nearest available ambulance
+            for hospital in hospital_nodes:
+                for ambulance in hospital.get_ambulance_agents():
+                    if ambulance.is_available():
+                        # if we don't use weight the calculation for shortest path using greedy search (BFS)
+                        path = nx.shortest_path(map_graph, ambulance.get_current_location_node(), caller.get_node(),None)
+                        distance = self.__duration_on_path(path, map_graph)
+                        if distance < min_distance:
+                            nearest_ambulance = ambulance
+                            min_distance = distance
+
+            # Dispatch nearest ambulance
+            if nearest_ambulance and min_distance != float('inf'):
+                nearest_ambulance.set_available(False)
+                nearest_ambulance.set_destination_node(caller.get_node())
+                caller.set_responded(True)
+
+        return hospital_nodes
+        
+    def __duration_on_path(self, path, map_graph=None):
+        total_time = 0
+        for i in range(len(path)-1):
+            u = path[i]
+            v = path[i+1]
+            edge_time = self.__get_time_from_node(u, v, map_graph)
+            total_time += edge_time
+        return total_time
+        
     def __generate_path_from_node(self, map_graph, origin_node, destination_node, algorithm="ox"):
         path = None
         if algorithm == "ga":
             path = genetics.ga_shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge', population_size=self._num_ga_population, num_generations=self._num_ga_generation, allow_revisit=True)
         elif algorithm == "ox":
-            path = ox.shortest_path(map_graph, origin_node, destination_node, weight='time_per_edge' )
+            path = nx.shortest_path(map_graph, origin_node, destination_node, None)
         elif algorithm == "astar":
             router = astar.AStarRouter(default_weight='time_per_edge', default_heuristic="manhattan")
             path = router.shortest_path(map_graph, origin_node, destination_node)
         elif algorithm == "djikstra":
-            router = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge',default_weight=5)
+            router = djikstra.DijkstraRouter(map_graph, origin_node, destination_node, weight='time_per_edge')
             path = router.shortest_path()
         return path
     
@@ -579,7 +602,7 @@ class simulation():
     
     def __save_bar_plot_mean_response_time(self, plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga):
         matplotlib.use("Agg")
-        algos = ["Dijkstra", "A*", "OSMnx", "Genetic Algorithm"]
+        algos = ["Dijkstra", "A*", "BFS", "GA"]
         means = [
             mean_response_time_djikstra,
             mean_response_time_astar,
@@ -587,7 +610,7 @@ class simulation():
             mean_response_time_ga,
         ]
 
-        fig, ax = plt.subplots(figsize=(4, 2))
+        fig, ax = plt.subplots(figsize=(8, 6))
         bars = ax.bar(range(len(algos)), means, color=["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728"])
 
         ax.set_title(f"Mean Response Time by Algorithm")
@@ -600,7 +623,7 @@ class simulation():
             ax.annotate(f"{val:.1f}",
                         (bar.get_x() + bar.get_width() / 2, val),
                         textcoords="offset points",
-                        xytext=(0, 3),
+                        xytext=(0, 2),
                         ha="center",
                         fontsize=5)
 
