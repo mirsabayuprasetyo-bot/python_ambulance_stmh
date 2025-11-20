@@ -1,5 +1,5 @@
 Simulation Manifest for sukabumi
-Generated on: 2025-11-20T00:37:48.764213
+Generated on: 2025-11-20T11:47:18.528686
 
 Generated Files:
 1. OSMnx Simulation Map: map_ox_sukabumi.html
@@ -8,5 +8,5 @@ Generated Files:
 4. Genetic Algorithm Simulation Map: map_ga_sukabumi.html
 5. Mean Response Time Plot: mean_response_time_sukabumi.png
 num_of_population_for_genetic_algorithm: 2
-num_of_generation_for_genetic_algorithm: 5
+num_of_generation_for_genetic_algorithm: 1
 number_of_caller: 5

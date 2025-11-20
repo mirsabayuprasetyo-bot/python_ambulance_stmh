@@ -28,16 +28,27 @@ class simulation():
         self.caller_nodes = []
         self.hospital_nodes = []
         self.num_caller = 5
-        self._num_ga_generation = 5
+        self._num_ga_generation = 1
         self._num_ga_population = 2
         self.simulation_time_in_minute = 5
-        self.update_map_interval = 10
+        self.update_map_interval = 5
         pass
 
     def run_simulation(self, location_name):
 
         self.__define_hospital_and_ambulance_agents(location_name)
-        self.__define_caller_agents(location_name,self.num_caller)
+
+        map_graph = self.downloader.get_map_nodes(location_name)
+
+        caller_fix = [
+            {'id': 'patient_1', 'severity': 'high', 'node': self.__get_node_from_graph(map_graph, 100)},
+            {'id': 'patient_2', 'severity': 'medium', 'node': self.__get_node_from_graph(map_graph, 400)},
+            {'id': 'patient_3', 'severity': 'low', 'node': self.__get_node_from_graph(map_graph, 500)},
+            {'id': 'patient_4', 'severity': 'high', 'node': self.__get_node_from_graph(map_graph, 300)},
+            {'id': 'patient_5', 'severity': 'medium', 'node': self.__get_node_from_graph(map_graph, 800)},
+        ]
+
+        self.__define_total_caller_agents_fix(location_name, caller_fix)
 
         out_dir = Path.cwd() / f"simulation_{location_name}"
         out_dir.mkdir(parents=True, exist_ok=True)
@@ -73,6 +84,13 @@ class simulation():
         self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
         self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
         self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
+
+    def __get_node_from_graph(self, map_graph, index):
+        all_nodes = list(map_graph.nodes())
+        if index < len(all_nodes):
+            return all_nodes[index]
+        else:
+            return all_nodes[len(all_nodes)-1]
 
     def __create_manifest_file(self, out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name):
         manifest_path = out_dir / f"manifest_{location_name}.txt"
@@ -125,6 +143,26 @@ class simulation():
         
         self.hospital_nodes = hospital_nodes
         pass
+
+
+    def __define_total_caller_agents_fix(self, location_name, total_caller):
+        map_graph = self.downloader.get_map_nodes(location_name)
+        all_nodes = list(map_graph.nodes())
+        caller_nodes = []
+        for caller in total_caller:
+            caller_id = caller.get('id', "patient_"+str(random.randint(0,1000)))
+            severity = ["low", "medium", "high"]
+            severity_caller = caller.get('severity', random.choice(severity))
+            idx_nodes = caller.get('node')
+            if idx_nodes not in all_nodes:
+                idx_nodes = len(all_nodes)
+            caller_lat = map_graph.nodes[idx_nodes]["y"]
+            caller_lon = map_graph.nodes[idx_nodes]["x"]
+            caller_inst = patient.patient_caller(caller_id, idx_nodes, caller_lat,
+                                                 caller_lon, severity_caller)
+            caller_inst.set_responded(False)
+            caller_nodes.append(caller_inst)
+        self.caller_nodes = caller_nodes
 
     def __define_caller_agents(self, location_name, max_caller):
         map_graph = self.downloader.get_map_nodes(location_name)
