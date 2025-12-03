@@ -1,5 +1,4 @@
 import random
-import webbrowser
 import osmnx as ox
 import pandas as pd
 import os
@@ -24,16 +23,35 @@ import networkx as nx
 
 
 class simulation():
-    def __init__(self):
+    def __init__(self, ga_generation=1, 
+                 ga_population=2, 
+                 simulation_time_in_minute=10,
+                 update_traffic_interval=5):
         self.downloader = map.map_downloader()
         self.caller_nodes = []
         self.hospital_nodes = []
-        self.num_caller = 5
-        self._num_ga_generation = 1
-        self._num_ga_population = 2
-        self.simulation_time_in_minute = 10
-        self.update_map_interval = 5
+        self._num_ga_generation = ga_generation
+        self._num_ga_population = ga_population
+        self.simulation_time_in_minute = simulation_time_in_minute
+        self.update_map_interval = update_traffic_interval
+        self.is_stopped = False
+
+        self.folium_map_ox = None
+        self.folium_map_djikstra = None
+        self.folium_map_astar = None
+        self.folium_map_ga = None
         pass
+
+    def stop_simulation(self):
+        self.is_stopped = True
+    def get_map_ox(self):
+        return self.folium_map_ox
+    def get_map_djikstra(self):
+        return self.folium_map_djikstra
+    def get_map_astar(self):
+        return self.folium_map_astar
+    def get_map_ga(self):
+        return self.folium_map_ga
 
     def run_simulation(self, location_name):
 
@@ -52,20 +70,36 @@ class simulation():
 
         map_graph_with_traffic = self.__define_traffic_condition(location_name)
         
+        if self.is_stopped:
+            return
         simulation_records_ox = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="ox", map_graph_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
         simulation_records_djikstra = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="djikstra", map_graph_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
         simulation_records_astar = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="astar", map_graph_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
         simulation_records_ga = self.__simulate_ambulance_movement(location_name, simulation_time_in_minute=self.simulation_time_in_minute, algorithm="ga", map_graph_traffic=map_graph_with_traffic)
+        
+        if self.is_stopped:
+            return
+        self.folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
+        self.folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
+        self.folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar, map_graph_with_traffic=map_graph_with_traffic)
+        if self.is_stopped:
+            return
+        self.folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga, map_graph_with_traffic=map_graph_with_traffic)
 
-        folium_map_ox = self.__visualize_simulation(location_name, simulation_records_ox, map_graph_with_traffic=map_graph_with_traffic)
-        folium_map_djikstra = self.__visualize_simulation(location_name, simulation_records_djikstra, map_graph_with_traffic=map_graph_with_traffic)
-        folium_map_astar = self.__visualize_simulation(location_name, simulation_records_astar, map_graph_with_traffic=map_graph_with_traffic)
-        folium_map_ga = self.__visualize_simulation(location_name, simulation_records_ga, map_graph_with_traffic=map_graph_with_traffic)
-
-        folium_map_ox.save(map_ox_path)
-        folium_map_djikstra.save(map_djikstra_path)
-        folium_map_astar.save(map_astar_path)
-        folium_map_ga.save(map_ga_path)
+        self.folium_map_ox.save(map_ox_path)
+        self.folium_map_djikstra.save(map_djikstra_path)
+        self.folium_map_astar.save(map_astar_path)
+        self.folium_map_ga.save(map_ga_path)
 
         mean_response_time_djikstra = self.__calculate_mean_ambulance_response_time(simulation_records_djikstra)
         mean_response_time_astar = self.__calculate_mean_ambulance_response_time(simulation_records_astar)
@@ -74,7 +108,7 @@ class simulation():
 
 
         self.__save_bar_plot_mean_response_time(plot_path, mean_response_time_djikstra, mean_response_time_astar, mean_response_time_ox, mean_response_time_ga)
-        self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
+        # self.__combine_maps_and_graph(location_name, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path)
         # self.__create_manifest_file(out_dir, map_ox_path, map_djikstra_path, map_astar_path, map_ga_path, plot_path, location_name)
 
     def __get_node_from_graph(self, map_graph, index):
@@ -246,7 +280,7 @@ class simulation():
         iteration_map_traffic = 0
         
         # Simulation loop
-        while simulation_elapsed_time < max_simulation_duration_s:
+        while simulation_elapsed_time < max_simulation_duration_s and not self.is_stopped:
             penalty_weight = 1
             simulation_elapsed_time += time_step_s
             if simulation_elapsed_time % self.update_map_interval == 0 and map_graph_traffic is not None and iteration_map_traffic < len(map_graph_traffic) - 1:
@@ -498,8 +532,8 @@ class simulation():
                 geojson_data,
                 period='PT1S',  # 2 second intervals matching your time_step_s
                 duration='PT20M',
-                auto_play=False,
-                loop=False,
+                auto_play=True,
+                loop=True,
                 max_speed=5,
                 loop_button=True,
                 date_options='YYYY-MM-DD HH:mm:ss',
@@ -697,6 +731,4 @@ class simulation():
             </div>
             </body>
             </html>""")
-
-        webbrowser.open(f"file://{wrapper_path}")
         pass

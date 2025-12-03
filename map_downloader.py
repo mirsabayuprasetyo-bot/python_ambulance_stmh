@@ -7,6 +7,8 @@ from shapely.geometry import Point
 from datetime import datetime
 import re
 import traffic_data_creator as td
+from pathlib import Path
+import pyogrio
 
 # Map Downloader Class
 # this class handles downloading map data and hospital POIs from OpenStreetMap
@@ -15,8 +17,8 @@ class map_downloader():
     def __init__(self):
         ox.settings.log_console = True
         ox.settings.use_cache = True
-        self.DIRECTORY = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets", "ambulance_nav_data")
-        os.makedirs(self.DIRECTORY, exist_ok=True)
+        self.DIRECTORY = Path.cwd() / os.path.join("assets", "ambulance_nav_data")
+        self.DIRECTORY.mkdir(parents=True, exist_ok=True)
         self.map_graph = {}
 
     def download_map(self, location):
@@ -186,7 +188,7 @@ class map_downloader():
     
     def get_gdf_edge(self, location_name):
         gdf_path = os.path.join(self.DIRECTORY, "roads_"+location_name+"_edges.gpkg")
-        gdf_edge = gpd.read_file(gdf_path)
+        gdf_edge = pyogrio.read_dataframe(gdf_path)
         return gdf_edge
     
     def get_caller(self):
